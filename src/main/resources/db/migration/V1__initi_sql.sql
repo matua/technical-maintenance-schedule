@@ -8,7 +8,7 @@ create table users
     encrypted_password varchar(500) not null,
     active             boolean      not null,
     on_duty            boolean      not null,
-    field_hours        int2         not null
+    field_hours        int          not null
 );
 
 create table terminals
@@ -32,7 +32,7 @@ create table tasks
     terminal    bigint,
     priority    varchar(10),
     user_id     bigint,
-    frequency   int2         not null,
+    frequency   int          not null,
     foreign key (terminal) references terminals (id),
     foreign key (user_id) references users (id)
 );
