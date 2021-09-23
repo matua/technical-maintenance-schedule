@@ -26,8 +26,7 @@ public class User extends AbstractBaseEntity {
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?matuageorge.com",
             message = "Must be only a company email")
     private String email;
-    @Size(min = 6, max = 20, message
-            = "Password cannot be blank and must be at least 6 characters")
+    @Max(value = 500, message = "Encrypted password cannot be more than 500 characters")
     private String encryptedPassword;
     private Boolean active;
     private Boolean onDuty;
