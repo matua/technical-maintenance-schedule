@@ -21,8 +21,8 @@ import java.util.Optional;
 @Slf4j
 public class TerminalServiceImpl implements TerminalService {
 
-    TerminalRepository terminalRepository;
-    ModelMapper modelMapper;
+    private final TerminalRepository terminalRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public TerminalServiceImpl(TerminalRepository terminalRepository, ModelMapper modelMapper) {

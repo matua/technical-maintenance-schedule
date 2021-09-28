@@ -21,8 +21,8 @@ import java.util.Optional;
 @Slf4j
 public class TaskServiceImpl implements TaskService {
 
-    TaskRepository taskRepository;
-    ModelMapper modelMapper;
+    private final TaskRepository taskRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public TaskServiceImpl(TaskRepository taskRepository, ModelMapper modelMapper) {
