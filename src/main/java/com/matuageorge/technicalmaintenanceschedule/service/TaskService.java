@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 public interface TaskService {
     Task save(TaskDto taskDto) throws ValidationException, ResourceAlreadyExistsException;
 
-    Task update(Long taskId, TaskDto taskDto) throws ValidationException, NotFoundException;
+    Task update(TaskDto taskDto) throws ValidationException, NotFoundException;
 
     void delete(Long taskId) throws ValidationException, NotFoundException;
 

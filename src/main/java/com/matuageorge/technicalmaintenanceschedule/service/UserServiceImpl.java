@@ -7,9 +7,11 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ValidationExceptio
 import com.matuageorge.technicalmaintenanceschedule.model.Role;
 import com.matuageorge.technicalmaintenanceschedule.model.User;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
     @Override
     public UserDto save(UserDto userDto) throws ValidationException, NotFoundException, ResourceAlreadyExistsException {
