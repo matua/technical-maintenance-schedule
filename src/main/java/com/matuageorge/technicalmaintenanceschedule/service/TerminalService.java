@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 public interface TerminalService {
     Terminal save(TerminalDto terminalDto) throws ValidationException, ResourceAlreadyExistsException;
 
-    Terminal update(Long terminalId, TerminalDto terminalDto) throws ValidationException, NotFoundException;
+    Terminal update(TerminalDto terminalDto) throws ValidationException, NotFoundException;
 
     void delete(Long terminalId) throws ValidationException, NotFoundException;
 

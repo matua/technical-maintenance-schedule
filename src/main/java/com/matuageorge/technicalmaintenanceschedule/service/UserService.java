@@ -1,6 +1,7 @@
 package com.matuageorge.technicalmaintenanceschedule.service;
 
 import com.matuageorge.technicalmaintenanceschedule.dto.UserDto;
+import com.matuageorge.technicalmaintenanceschedule.exception.NotAuthorizedException;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
@@ -24,9 +25,9 @@ public interface UserService {
 
     UserDto findByEmail(String email) throws ValidationException, NotFoundException;
 
-    UserDto findByEmailAndPassword(String email, String password) throws ValidationException, NotFoundException;
+    UserDto findByEmailAndPassword(String email, String password) throws ValidationException, NotFoundException, NotAuthorizedException;
 
-    User createNewUserIfDoesNotExist(String email, String firstName, String lastName, String password);
+    User createNewUserIfDoesNotExist(String email, String firstName, String lastName, String password, Role role);
 
     void toggleUserStatusByUserId(Long userId) throws ValidationException, NotFoundException;
 
