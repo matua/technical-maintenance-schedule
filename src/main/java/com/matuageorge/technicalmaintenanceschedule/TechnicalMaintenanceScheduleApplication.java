@@ -9,5 +9,4 @@ public class TechnicalMaintenanceScheduleApplication {
     public static void main(String[] args) {
         SpringApplication.run(TechnicalMaintenanceScheduleApplication.class, args);
     }
-
 }
