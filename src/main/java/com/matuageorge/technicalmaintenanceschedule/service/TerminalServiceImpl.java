@@ -6,9 +6,9 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExi
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
 import com.matuageorge.technicalmaintenanceschedule.repository.TerminalRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,16 +19,10 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class TerminalServiceImpl implements TerminalService {
-
     private final TerminalRepository terminalRepository;
     private final ModelMapper modelMapper;
-
-    @Autowired
-    public TerminalServiceImpl(TerminalRepository terminalRepository, ModelMapper modelMapper) {
-        this.terminalRepository = terminalRepository;
-        this.modelMapper = modelMapper;
-    }
 
     @Override
     public Terminal save(TerminalDto terminalDto) throws ValidationException, ResourceAlreadyExistsException {
@@ -46,27 +40,16 @@ public class TerminalServiceImpl implements TerminalService {
     }
 
     @Override
-    public Terminal update(TerminalDto terminalDto) throws ValidationException, NotFoundException {
-        Optional<Terminal> terminalToUpdate = terminalRepository.findById(terminalDto.getId());
-        Terminal savedTerminal;
-        if (terminalToUpdate.isPresent()) {
-            log.info("Terminal to update is found");
-            savedTerminal = terminalRepository.save(modelMapper.map(terminalDto, Terminal.class));
-        } else {
-            log.info("Terminal to update is NOT found");
-            throw new NotFoundException("Terminal to update is NOT found");
-        }
-        return savedTerminal;
+    public Terminal update(TerminalDto terminalDto) {
+        terminalRepository.findById(terminalDto.getId());
+        log.info("Terminal to update is found");
+        return terminalRepository.save(modelMapper.map(terminalDto, Terminal.class));
     }
 
     @Override
-    public void delete(Long terminalId) throws ValidationException, NotFoundException {
+    public void delete(Long terminalId) throws NotFoundException {
         findById(terminalId);
-        try {
-            terminalRepository.deleteById(terminalId);
-        } catch (IllegalArgumentException e) {
-            throw new NotFoundException("Terminal not found");
-        }
+        terminalRepository.deleteById(terminalId);
     }
 
     @Override
@@ -83,11 +66,8 @@ public class TerminalServiceImpl implements TerminalService {
 
     @Override
     public Terminal findById(Long id) throws NotFoundException {
-        Optional<Terminal> terminalToFind = terminalRepository.findById(id);
-        if (terminalToFind.isPresent()) {
-            return terminalToFind.get();
-        } else {
-            throw new NotFoundException("Terminal is not found");
-        }
+        return terminalRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Terminal is not found")
+        );
     }
 }

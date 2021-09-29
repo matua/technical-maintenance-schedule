@@ -6,9 +6,9 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExi
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.Task;
 import com.matuageorge.technicalmaintenanceschedule.repository.TaskRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,54 +19,37 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class TaskServiceImpl implements TaskService {
-
     private final TaskRepository taskRepository;
     private final ModelMapper modelMapper;
-
-    @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository, ModelMapper modelMapper) {
-        this.taskRepository = taskRepository;
-        this.modelMapper = modelMapper;
-    }
 
     @Override
     public Task save(TaskDto taskDto) throws ValidationException, ResourceAlreadyExistsException {
         Optional<Task> taskToSave = taskRepository.findById(taskDto.getId());
-        if (taskToSave.isEmpty()) {
+        if (taskToSave.isPresent()) {
+            log.info("Task to save with such id already exists");
+            throw new ResourceAlreadyExistsException("Task with such id already exists");
+        } else {
             try {
                 return taskRepository.save(modelMapper.map(taskDto, Task.class));
             } catch (IllegalArgumentException e) {
                 throw new ValidationException("Task cannot be null");
             }
-        } else {
-            log.info("Task to save with such id already exists");
-            throw new ResourceAlreadyExistsException("Task with such id already exists");
         }
     }
 
     @Override
-    public Task update(TaskDto taskDto) throws NotFoundException {
-        Optional<Task> taskToUpdate = taskRepository.findById(taskDto.getId());
-        Task savedTask;
-        if (taskToUpdate.isPresent()) {
-            log.info("Task to update is found");
-            savedTask = taskRepository.save(modelMapper.map(taskDto, Task.class));
-        } else {
-            log.info("Task to update is NOT found");
-            throw new NotFoundException("Task to update is NOT found");
-        }
-        return savedTask;
+    public Task update(TaskDto taskDto) {
+        taskRepository.findById(taskDto.getId());
+        log.info("Task to update is found");
+        return taskRepository.save(modelMapper.map(taskDto, Task.class));
     }
 
     @Override
     public void delete(Long taskId) throws NotFoundException {
         findById(taskId);
-        try {
-            taskRepository.deleteById(taskId);
-        } catch (IllegalArgumentException e) {
-            throw new NotFoundException("Task not found");
-        }
+        taskRepository.deleteById(taskId);
     }
 
     @Override
@@ -83,11 +66,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task findById(Long id) throws NotFoundException {
-        Optional<Task> taskToFind = taskRepository.findById(id);
-        if (taskToFind.isPresent()) {
-            return taskToFind.get();
-        } else {
-            throw new NotFoundException("Task is not found");
-        }
+        return taskRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Task with id: %s not found", id)));
     }
 }

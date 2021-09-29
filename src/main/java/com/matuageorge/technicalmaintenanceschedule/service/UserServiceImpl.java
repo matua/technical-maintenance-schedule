@@ -8,9 +8,9 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ValidationExceptio
 import com.matuageorge.technicalmaintenanceschedule.model.Role;
 import com.matuageorge.technicalmaintenanceschedule.model.User;
 import com.matuageorge.technicalmaintenanceschedule.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,20 +20,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 @Slf4j
+@Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private static final String USER_NOT_FOUND = "User not found";
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public UserDto save(UserDto userDto) throws ValidationException, ResourceAlreadyExistsException {
@@ -86,18 +80,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findByEmail(String email) throws NotFoundException {
-        return modelMapper.map(userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(USER_NOT_FOUND)), UserDto.class);
+    public User findByEmail(String email) throws NotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException(USER_NOT_FOUND));
     }
 
     @Override
-    public UserDto findByEmailAndPassword(String email, String password) throws NotAuthorizedException, NotFoundException {
-        UserDto userDtoFoundByEmail = findByEmail(email);
+    public User findByEmailAndPassword(String email, String password) throws NotAuthorizedException, NotFoundException {
+        User userFoundByEmail = findByEmail(email);
 
-        if (userDtoFoundByEmail != null) {
-            if (passwordEncoder.matches(password, userDtoFoundByEmail.getPassword())) {
-                return userDtoFoundByEmail;
+        if (userFoundByEmail != null) {
+            if (passwordEncoder.matches(password, userFoundByEmail.getEncryptedPassword())) {
+                return userFoundByEmail;
             } else {
                 throw new NotAuthorizedException("Wrong credentials");
             }
@@ -107,19 +101,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createNewUserIfDoesNotExist(String email, String firstName, String lastName, String password, Role role) {
-
-        UserDto foundUser = null;
-
         try {
-            foundUser = findByEmail(email);
+            User foundUser = findByEmail(email);
+            log.error("User with email: {}, firstName: {}, lastName: {} already exists.", email, firstName, lastName);
+            return foundUser;
         } catch (NotFoundException e) {
             log.info("User does not exist. Creating new user.");
-        }
-        User user;
-        if (foundUser != null) {
-            user = modelMapper.map(foundUser, User.class);
-        } else {
-            user = User.builder()
+            return User.builder()
                     .firstName(firstName)
                     .lastName(lastName)
                     .email(email)
@@ -127,7 +115,6 @@ public class UserServiceImpl implements UserService {
                     .role(role)
                     .build();
         }
-        return user;
     }
 
     @Override

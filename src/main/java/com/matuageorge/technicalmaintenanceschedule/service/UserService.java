@@ -23,9 +23,9 @@ public interface UserService {
 
     UserDto findById(Long id) throws ValidationException, NotFoundException;
 
-    UserDto findByEmail(String email) throws ValidationException, NotFoundException;
+    User findByEmail(String email) throws ValidationException, NotFoundException;
 
-    UserDto findByEmailAndPassword(String email, String password) throws ValidationException, NotFoundException, NotAuthorizedException;
+    User findByEmailAndPassword(String email, String password) throws ValidationException, NotFoundException, NotAuthorizedException;
 
     User createNewUserIfDoesNotExist(String email, String firstName, String lastName, String password, Role role);
 
