@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(Long userId, UserDto userDto) {
+        userRepository.findById(userId);
         User userAfterUpdate = userRepository.save(modelMapper.map(userDto, User.class));
         return modelMapper.map(userAfterUpdate, UserDto.class);
     }
