@@ -1,5 +1,6 @@
 package com.matuageorge.technicalmaintenanceschedule.service;
 
+import com.matuageorge.technicalmaintenanceschedule.dto.TaskDto;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
@@ -16,8 +17,6 @@ import org.springframework.data.domain.*;
 import java.util.List;
 import java.util.Optional;
 
-import static com.matuageorge.technicalmaintenanceschedule.prototype.TaskDtoPrototype.aTaskDto;
-import static com.matuageorge.technicalmaintenanceschedule.prototype.TaskDtoPrototype.bTaskDto;
 import static com.matuageorge.technicalmaintenanceschedule.prototype.TaskPrototype.aTask;
 import static com.matuageorge.technicalmaintenanceschedule.prototype.TaskPrototype.bTask;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -42,34 +41,30 @@ class TaskServiceImplTest {
 
     @Test
     void save() throws ValidationException, ResourceAlreadyExistsException {
-        aTaskDto().setId(1L);
         aTask().setId(1L);
-        when(taskRepository.findById(aTaskDto().getId())).thenReturn(Optional.empty());
-        when(taskRepository.save(modelMapper.map(aTaskDto(), Task.class))).thenReturn(aTask());
-        Task savedTask = taskService.save(aTaskDto());
+        when(taskRepository.findById(aTask().getId())).thenReturn(Optional.empty());
+        when(taskRepository.save(aTask())).thenReturn(aTask());
+        Task savedTask = taskService.save(modelMapper.map(aTask(), TaskDto.class));
         assertThat(savedTask).isNotNull();
-        verify(taskRepository).save(modelMapper.map(aTaskDto(), Task.class));
-        assertThat(savedTask.getId()).isEqualTo(aTaskDto().getId());
-        assertThat(savedTask.getDescription()).isEqualTo(aTaskDto().getDescription());
-        assertThat(savedTask.getFrequency()).isEqualTo(aTaskDto().getFrequency());
+        assertThat(savedTask).isEqualTo(aTask());
+        verify(taskRepository).save(aTask());
     }
 
     @Test
     void saveThrowsResourceAlreadyExistsException() {
-        aTaskDto().setId(1L);
         aTask().setId(1L);
-        when(taskRepository.findById(aTaskDto().getId())).thenReturn(Optional.ofNullable(aTask()));
-        assertThrows(ResourceAlreadyExistsException.class, () -> taskService.save(aTaskDto()));
-        verify(taskRepository, never()).save(modelMapper.map(aTaskDto(), Task.class));
+        when(taskRepository.findById(aTask().getId())).thenReturn(Optional.ofNullable(aTask()));
+        assertThrows(ResourceAlreadyExistsException.class, () -> taskService.save(modelMapper.map(aTask(), TaskDto.class)));
+        verify(taskRepository, never()).save(aTask());
     }
 
     @Test
     void update() throws ValidationException, NotFoundException {
         when(taskRepository.findById(any())).thenReturn(Optional.ofNullable(aTask()));
-        when(taskRepository.save(modelMapper.map(bTaskDto(), Task.class))).thenReturn(bTask());
-        Task updatedTask = taskService.update(bTaskDto());
+        when(taskRepository.save(bTask())).thenReturn(bTask());
+        Task updatedTask = taskService.update(modelMapper.map(bTask(), TaskDto.class));
         assertThat(updatedTask).isNotNull();
-        assertThat(updatedTask.getId()).isEqualTo(bTask().getId());
+        assertThat(updatedTask).isEqualTo(bTask());
     }
 
     @Test
@@ -77,7 +72,7 @@ class TaskServiceImplTest {
         Long taskIdToDelete = 1L;
         when(taskRepository.findById(taskIdToDelete)).thenReturn(Optional.ofNullable(aTask()));
         taskService.delete(taskIdToDelete);
-        verify(taskRepository, times(1)).deleteById(1L);
+        verify(taskRepository).deleteById(1L);
     }
 
     @Test
@@ -105,7 +100,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void findByIdThrowsNotFoundExceptionWhenProductIsNotFound() {
+    void findByIdThrowsNotFoundExceptionWhenTaskIsNotFound() {
         when(taskRepository.findById(100L)).thenReturn(Optional.empty());
         assertThrows(NotFoundException.class, () -> taskService.findById(100L));
     }
