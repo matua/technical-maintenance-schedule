@@ -5,7 +5,7 @@ import com.matuageorge.technicalmaintenanceschedule.dto.TaskDto;
 public class TaskDtoPrototype {
     public static TaskDto aTaskDto() {
         return TaskDto.builder()
-                .description("General service B")
+                .description("General service A")
                 .frequency(30)
                 .build();
     }

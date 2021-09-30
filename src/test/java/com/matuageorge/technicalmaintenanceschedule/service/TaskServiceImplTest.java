@@ -1,6 +1,5 @@
 package com.matuageorge.technicalmaintenanceschedule.service;
 
-import com.matuageorge.technicalmaintenanceschedule.dto.TaskDto;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
@@ -8,6 +7,9 @@ import com.matuageorge.technicalmaintenanceschedule.model.Task;
 import com.matuageorge.technicalmaintenanceschedule.repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 
@@ -19,11 +21,14 @@ import static com.matuageorge.technicalmaintenanceschedule.prototype.TaskDtoProt
 import static com.matuageorge.technicalmaintenanceschedule.prototype.TaskPrototype.aTask;
 import static com.matuageorge.technicalmaintenanceschedule.prototype.TaskPrototype.bTask;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class TaskServiceImplTest {
+    @Mock
     private TaskRepository taskRepository;
     private TaskService taskService;
     private ModelMapper modelMapper;
@@ -31,19 +36,31 @@ class TaskServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        taskRepository = mock(TaskRepository.class);
         modelMapper = new ModelMapper();
         taskService = new TaskServiceImpl(taskRepository, modelMapper);
     }
 
     @Test
     void save() throws ValidationException, ResourceAlreadyExistsException {
+        aTaskDto().setId(1L);
+        aTask().setId(1L);
+        when(taskRepository.findById(aTaskDto().getId())).thenReturn(Optional.empty());
         when(taskRepository.save(modelMapper.map(aTaskDto(), Task.class))).thenReturn(aTask());
         Task savedTask = taskService.save(aTaskDto());
         assertThat(savedTask).isNotNull();
-        assertThat(savedTask.getId()).isEqualTo(modelMapper.map(aTask(), TaskDto.class).getId());
-        assertThat(savedTask.getDescription()).isEqualTo(modelMapper.map(aTask(), TaskDto.class).getDescription());
-        assertThat(savedTask.getFrequency()).isEqualTo(modelMapper.map(aTask(), TaskDto.class).getFrequency());
+        verify(taskRepository).save(modelMapper.map(aTaskDto(), Task.class));
+        assertThat(savedTask.getId()).isEqualTo(aTaskDto().getId());
+        assertThat(savedTask.getDescription()).isEqualTo(aTaskDto().getDescription());
+        assertThat(savedTask.getFrequency()).isEqualTo(aTaskDto().getFrequency());
+    }
+
+    @Test
+    void saveThrowsResourceAlreadyExistsException() {
+        aTaskDto().setId(1L);
+        aTask().setId(1L);
+        when(taskRepository.findById(aTaskDto().getId())).thenReturn(Optional.ofNullable(aTask()));
+        assertThrows(ResourceAlreadyExistsException.class, () -> taskService.save(aTaskDto()));
+        verify(taskRepository, never()).save(modelMapper.map(aTaskDto(), Task.class));
     }
 
     @Test
@@ -53,7 +70,6 @@ class TaskServiceImplTest {
         Task updatedTask = taskService.update(bTaskDto());
         assertThat(updatedTask).isNotNull();
         assertThat(updatedTask.getId()).isEqualTo(bTask().getId());
-
     }
 
     @Test
@@ -69,11 +85,13 @@ class TaskServiceImplTest {
         int page = 0;
         int pageSize = 1;
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by("id").descending());
-        Page<Task> pageOfTasks = new PageImpl<>(List.of(aTask(), bTask()));
+        List<Task> tasks = List.of(aTask(), bTask());
+        Page<Task> pageOfTasks = new PageImpl<>(tasks);
         when(taskRepository.findAll(pageable)).thenReturn(pageOfTasks);
         Page<Task> foundTasks = taskService.findAll(page, pageSize);
         assertThat(foundTasks).isNotNull();
-        assertThat(foundTasks.getSize()).isEqualTo(2);
+        assertThat(foundTasks.getSize()).isEqualTo(tasks.size());
+        verify(taskRepository).findAll(pageable);
     }
 
     @Test
@@ -82,6 +100,8 @@ class TaskServiceImplTest {
         when(taskRepository.findById(taskToFindId)).thenReturn(Optional.ofNullable(aTask()));
         Task foundTask = taskService.findById(taskToFindId);
         assertThat(foundTask).isNotNull();
+        assertEquals("General service A", aTask().getDescription());
+        assertEquals(30, aTask().getFrequency());
     }
 
     @Test
