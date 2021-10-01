@@ -12,16 +12,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.matuageorge.technicalmaintenanceschedule.config.Utility.ADMIN;
+import static com.matuageorge.technicalmaintenanceschedule.config.Utility.TERMINALS;
+
 @CrossOrigin
 @RestController
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/terminals")
 public class TerminalController {
 
     private final TerminalService terminalService;
 
-    @PostMapping("/admin")
+    @PostMapping(ADMIN + TERMINALS)
     public ResponseEntity<Terminal> save(@RequestBody TerminalDto terminalDto) throws ValidationException, ResourceAlreadyExistsException {
 
         log.info("Handling terminal {} to create", terminalDto);
@@ -30,7 +32,7 @@ public class TerminalController {
         return ResponseEntity.ok(savedTerminal);
     }
 
-    @PutMapping("/admin")
+    @PutMapping(ADMIN + TERMINALS)
     public ResponseEntity<Terminal> update(@RequestBody TerminalDto terminalDto) throws ValidationException,
             ResourceAlreadyExistsException, NotFoundException {
 
@@ -40,7 +42,7 @@ public class TerminalController {
         return ResponseEntity.ok(updatedTerminal);
     }
 
-    @DeleteMapping("/admin/{terminalId}")
+    @DeleteMapping(ADMIN + TERMINALS + "/{terminalId}")
     public ResponseEntity<Void> delete(@PathVariable Long terminalId) throws ValidationException, NotFoundException {
 
         log.info("Handling delete terminal with terminalId: {}", terminalId);
@@ -49,7 +51,7 @@ public class TerminalController {
         return ResponseEntity.accepted().build();
     }
 
-    @GetMapping("/{terminalId}")
+    @GetMapping(TERMINALS + "/{terminalId}")
     public ResponseEntity<Terminal> findById(@PathVariable Long terminalId) throws ValidationException,
             NotFoundException {
 
@@ -59,7 +61,7 @@ public class TerminalController {
         return ResponseEntity.ok().body(terminalResponseEntity);
     }
 
-    @GetMapping("/{page}/{pageSize}")
+    @GetMapping(TERMINALS + "/{page}/{pageSize}")
     public ResponseEntity<Page<Terminal>> findAll(
             @PathVariable Integer page,
             @PathVariable Integer pageSize) throws NotFoundException, IllegalAccessException, NoSuchFieldException {

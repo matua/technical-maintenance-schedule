@@ -10,16 +10,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.matuageorge.technicalmaintenanceschedule.config.Utility.ADMIN;
+import static com.matuageorge.technicalmaintenanceschedule.config.Utility.USERS;
+
 @CrossOrigin
 @RestController
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/admin")
+@RequestMapping(ADMIN)
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/users/{page}/{pageSize}")
+    @GetMapping(USERS + "/{page}/{pageSize}")
     public ResponseEntity<Page<User>> findAll(
             @PathVariable Integer page, @PathVariable Integer pageSize) throws NotFoundException {
 
@@ -29,7 +32,7 @@ public class UserController {
         return ResponseEntity.ok().body(usersPageResponseBody);
     }
 
-    @PutMapping("/users/{userId}/toggle")
+    @PutMapping(USERS + "/{userId}/toggle")
     public ResponseEntity<Void> toggleUserStatusByUserId(
             @PathVariable Long userId) throws ValidationException, NotFoundException {
 

@@ -12,25 +12,26 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.matuageorge.technicalmaintenanceschedule.config.Utility.ADMIN;
+import static com.matuageorge.technicalmaintenanceschedule.config.Utility.TASKS;
+
 @CrossOrigin
 @RestController
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/tasks")
 public class TaskController {
 
     private final TaskService taskService;
 
-    @PostMapping("/admin")
+    @PostMapping(ADMIN + TASKS)
     public ResponseEntity<Task> save(@RequestBody TaskDto taskDto) throws ValidationException, ResourceAlreadyExistsException {
 
         log.info("Handling task {} to create", taskDto);
 
-        Task savedTask = taskService.save(taskDto);
-        return ResponseEntity.ok(savedTask);
+        return ResponseEntity.ok(taskService.save(taskDto));
     }
 
-    @PutMapping("/admin")
+    @PutMapping(ADMIN + TASKS)
     public ResponseEntity<Task> update(@RequestBody TaskDto taskDto) throws ValidationException,
             ResourceAlreadyExistsException, NotFoundException {
 
@@ -40,7 +41,7 @@ public class TaskController {
         return ResponseEntity.ok(updatedTask);
     }
 
-    @DeleteMapping("/admin/{taskId}")
+    @DeleteMapping(ADMIN + TASKS + "/{taskId}")
     public ResponseEntity<Void> delete(@PathVariable Long taskId) throws ValidationException, NotFoundException {
 
         log.info("Handling delete task with taskId: {}", taskId);
@@ -49,7 +50,7 @@ public class TaskController {
         return ResponseEntity.accepted().build();
     }
 
-    @GetMapping("/{taskId}")
+    @GetMapping(TASKS + "/{taskId}")
     public ResponseEntity<Task> findById(@PathVariable Long taskId) throws ValidationException, NotFoundException {
 
         log.info("Handling task to find by taskId: {}", taskId);
@@ -58,7 +59,7 @@ public class TaskController {
         return ResponseEntity.ok().body(taskResponseEntity);
     }
 
-    @GetMapping("/{page}/{pageSize}")
+    @GetMapping(TASKS + "/{page}/{pageSize}")
     public ResponseEntity<Page<Task>> findAll(
             @PathVariable Integer page,
             @PathVariable Integer pageSize) throws NotFoundException, IllegalAccessException, NoSuchFieldException {
