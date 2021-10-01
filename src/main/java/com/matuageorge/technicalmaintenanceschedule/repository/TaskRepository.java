@@ -10,4 +10,3 @@ import java.util.Optional;
 public interface TaskRepository extends JpaRepository<Task, Long> {
     Optional<Task> findByDescription(String description);
 }
-

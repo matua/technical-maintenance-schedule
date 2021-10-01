@@ -40,10 +40,21 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task update(TaskDto taskDto) {
-        taskRepository.findById(taskDto.getId());
-        log.info("Task to update is found");
-        return taskRepository.save(modelMapper.map(taskDto, Task.class));
+    public Task update(TaskDto taskDto) throws NotFoundException {
+        Optional<Task> taskToUpdate = taskRepository.findByDescription(taskDto.getDescription());
+        Task savedTask;
+        if (taskToUpdate.isPresent()) {
+            Task task = taskToUpdate.get();
+            log.info("Task to update is found");
+            task.setDescription(taskDto.getDescription());
+            task.setFrequency(taskDto.getFrequency());
+            task.setPriority(taskDto.getPriority());
+            savedTask = taskRepository.save(modelMapper.map(task, Task.class));
+        } else {
+            log.info("Task to update is NOT found");
+            throw new NotFoundException("Task to update is NOT found");
+        }
+        return savedTask;
     }
 
     @Override
@@ -68,5 +79,17 @@ public class TaskServiceImpl implements TaskService {
     public Task findById(Long id) throws NotFoundException {
         return taskRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Task with id: %s not found", id)));
+    }
+
+    @Override
+    public Optional<Task> findByDescription(String taskDescription) {
+        return taskRepository.findByDescription(taskDescription);
+    }
+
+    @Override
+    public void deleteByDescription(String taskDescription) throws NotFoundException {
+        Task task = findByDescription(taskDescription).orElseThrow(
+                () -> new NotFoundException("Task to delete is not found"));
+        delete(task.getId());
     }
 }
