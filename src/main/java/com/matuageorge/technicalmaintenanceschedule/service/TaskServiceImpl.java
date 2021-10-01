@@ -26,10 +26,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task save(TaskDto taskDto) throws ValidationException, ResourceAlreadyExistsException {
-        Optional<Task> taskToSave = taskRepository.findById(taskDto.getId());
+        Optional<Task> taskToSave = taskRepository.findByDescription(taskDto.getDescription());
         if (taskToSave.isPresent()) {
-            log.info("Task to save with such id already exists");
-            throw new ResourceAlreadyExistsException("Task with such id already exists");
+            log.info("Task to save with such description already exists");
+            throw new ResourceAlreadyExistsException("Task with such description already exists");
         } else {
             try {
                 return taskRepository.save(modelMapper.map(taskDto, Task.class));
