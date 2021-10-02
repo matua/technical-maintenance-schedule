@@ -26,28 +26,28 @@ public class TerminalController {
     @PostMapping(ADMIN + TERMINALS)
     public ResponseEntity<Terminal> save(@RequestBody TerminalDto terminalDto) throws ValidationException, ResourceAlreadyExistsException {
 
-        log.info("Handling terminal {} to create", terminalDto);
+        log.info("Handling task {} to create", terminalDto);
 
-        Terminal savedTerminal = terminalService.save(terminalDto);
-        return ResponseEntity.ok(savedTerminal);
+        return ResponseEntity.ok(terminalService.save(terminalDto));
     }
 
     @PutMapping(ADMIN + TERMINALS)
     public ResponseEntity<Terminal> update(@RequestBody TerminalDto terminalDto) throws ValidationException,
             ResourceAlreadyExistsException, NotFoundException {
 
-        log.info("Handling terminal to update with terminal {}", terminalDto);
+        log.info("Handling terminal to update with task {}", terminalDto);
 
         Terminal updatedTerminal = terminalService.update(terminalDto);
         return ResponseEntity.ok(updatedTerminal);
     }
 
-    @DeleteMapping(ADMIN + TERMINALS + "/{terminalId}")
-    public ResponseEntity<Void> delete(@PathVariable Long terminalId) throws ValidationException, NotFoundException {
+    @DeleteMapping(ADMIN + TERMINALS + "/{terminalName}")
+    public ResponseEntity<Void> delete(@PathVariable String terminalName) throws ValidationException,
+            NotFoundException {
 
-        log.info("Handling delete terminal with terminalId: {}", terminalId);
+        log.info("Handling delete task with task description: {}", terminalName);
 
-        terminalService.delete(terminalId);
+        terminalService.deleteByName(terminalName);
         return ResponseEntity.accepted().build();
     }
 
@@ -55,7 +55,7 @@ public class TerminalController {
     public ResponseEntity<Terminal> findById(@PathVariable Long terminalId) throws ValidationException,
             NotFoundException {
 
-        log.info("Handling terminal to find by terminalId: {}", terminalId);
+        log.info("Handling task to find by terminalId: {}", terminalId);
 
         Terminal terminalResponseEntity = terminalService.findById(terminalId);
         return ResponseEntity.ok().body(terminalResponseEntity);
@@ -66,7 +66,7 @@ public class TerminalController {
             @PathVariable Integer page,
             @PathVariable Integer pageSize) throws NotFoundException, IllegalAccessException, NoSuchFieldException {
 
-        log.info("Handling find all terminals page: {} with size: {}", page, pageSize);
+        log.info("Handling find all temrinals page: {} with size: {}", page, pageSize);
 
         Page<Terminal> terminalsPageResponseBody = terminalService.findAll(page, pageSize);
         return ResponseEntity.ok().body(terminalsPageResponseBody);

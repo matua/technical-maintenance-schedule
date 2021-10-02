@@ -26,24 +26,37 @@ public class TerminalServiceImpl implements TerminalService {
 
     @Override
     public Terminal save(TerminalDto terminalDto) throws ValidationException, ResourceAlreadyExistsException {
-        Optional<Terminal> terminalToSave = terminalRepository.findById(terminalDto.getId());
-        if (terminalToSave.isEmpty()) {
+        Optional<Terminal> terminalToSave = terminalRepository.findByName(terminalDto.getName());
+        if (terminalToSave.isPresent()) {
+            log.info("Terminal to save with such name already exists");
+            throw new ResourceAlreadyExistsException("Terminal with such name already exists");
+        } else {
             try {
                 return terminalRepository.save(modelMapper.map(terminalDto, Terminal.class));
             } catch (IllegalArgumentException e) {
                 throw new ValidationException("Terminal cannot be null");
             }
-        } else {
-            log.info("Terminal to save with such id already exists");
-            throw new ResourceAlreadyExistsException("Terminal with such id already exists");
         }
     }
 
     @Override
-    public Terminal update(TerminalDto terminalDto) {
-        terminalRepository.findById(terminalDto.getId());
-        log.info("Terminal to update is found");
-        return terminalRepository.save(modelMapper.map(terminalDto, Terminal.class));
+    public Terminal update(TerminalDto terminalDto) throws NotFoundException {
+        Optional<Terminal> terminalToUpdate = terminalRepository.findByName(terminalDto.getName());
+        Terminal savedTerminal;
+        if (terminalToUpdate.isPresent()) {
+            Terminal terminal = terminalToUpdate.get();
+            log.info("Terminal to update is found");
+            terminal.setName(terminalDto.getName());
+            terminal.setActive(terminalDto.getActive());
+            terminal.setType(terminalDto.getType());
+            terminal.setLatitude(terminalDto.getLatitude());
+            terminal.setLongitude(terminalDto.getLongitude());
+            savedTerminal = terminalRepository.save(modelMapper.map(terminal, Terminal.class));
+        } else {
+            log.info("Terminal to update is NOT found");
+            throw new NotFoundException("Terminal to update is NOT found");
+        }
+        return savedTerminal;
     }
 
     @Override
@@ -69,5 +82,17 @@ public class TerminalServiceImpl implements TerminalService {
         return terminalRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Terminal is not found")
         );
+    }
+
+    @Override
+    public Optional<Terminal> findByName(String terminalName) {
+        return terminalRepository.findByName(terminalName);
+    }
+
+    @Override
+    public void deleteByName(String terminalName) throws NotFoundException {
+        Terminal task = findByName(terminalName).orElseThrow(
+                () -> new NotFoundException("Task to delete is not found"));
+        delete(task.getId());
     }
 }

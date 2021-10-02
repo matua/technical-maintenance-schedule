@@ -7,6 +7,8 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ValidationExceptio
 import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 public interface TerminalService {
     Terminal save(TerminalDto terminalDto) throws ValidationException, ResourceAlreadyExistsException;
 
@@ -17,4 +19,9 @@ public interface TerminalService {
     Page<Terminal> findAll(Integer page, Integer pageSize) throws NotFoundException;
 
     Terminal findById(Long id) throws ValidationException, NotFoundException;
+
+    Optional<Terminal> findByName(String terminalName);
+
+    void deleteByName(String terminalName) throws NotFoundException;
+
 }
