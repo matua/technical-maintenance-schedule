@@ -65,7 +65,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Page<Task> findAll(Integer page, Integer pageSize) throws NotFoundException {
-        Pageable pageable = PageRequest.of(page, pageSize, Sort.by("id").descending());
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by("frequency").ascending());
         Page<Task> tasksPage = taskRepository.findAll(pageable);
 
         if (tasksPage.hasContent()) {
