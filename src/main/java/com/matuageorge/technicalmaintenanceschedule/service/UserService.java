@@ -29,7 +29,7 @@ public interface UserService {
 
     User createNewUserIfDoesNotExist(String email, String firstName, String lastName, String password, Role role);
 
-    void toggleUserStatusByUserId(Long userId) throws ValidationException, NotFoundException;
+    void toggleUserStatusByUserId(Long userId) throws ValidationException, NotFoundException, ResourceAlreadyExistsException;
 
     List<User> findAllByRole(Role role);
 }

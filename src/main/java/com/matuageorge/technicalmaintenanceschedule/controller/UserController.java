@@ -1,6 +1,7 @@
 package com.matuageorge.technicalmaintenanceschedule.controller;
 
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
+import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.User;
 import com.matuageorge.technicalmaintenanceschedule.service.UserService;
@@ -34,7 +35,7 @@ public class UserController {
 
     @PutMapping(USERS + "/{userId}/toggle")
     public ResponseEntity<Void> toggleUserStatusByUserId(
-            @PathVariable Long userId) throws ValidationException, NotFoundException {
+            @PathVariable Long userId) throws ValidationException, NotFoundException, ResourceAlreadyExistsException {
 
         log.info("Toggling status of user with id {}", userId);
 

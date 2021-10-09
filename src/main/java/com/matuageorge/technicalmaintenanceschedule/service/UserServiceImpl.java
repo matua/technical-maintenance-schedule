@@ -17,12 +17,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Slf4j
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
     private static final String USER_NOT_FOUND = "User not found";
     private final UserRepository userRepository;
@@ -35,7 +37,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceAlreadyExistsException("User with such email already exists");
         }
         User savedUser;
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userDto.setEncryptedPassword(passwordEncoder.encode(userDto.getEncryptedPassword()));
         validateUserMainFields(modelMapper.map(userDto, User.class));
         try {
             savedUser = userRepository.save(modelMapper.map(userDto, User.class));
@@ -119,12 +121,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void toggleUserStatusByUserId(Long userId) throws NotFoundException {
+    public void toggleUserStatusByUserId(Long userId) throws NotFoundException, ValidationException, ResourceAlreadyExistsException {
 
-        UserDto userDtoToToggleStatus = findById(userId);
+        UserDto user = findById(userId);
 
-        userDtoToToggleStatus.setActive(!userDtoToToggleStatus.getActive());
-        userRepository.save(modelMapper.map(userDtoToToggleStatus, User.class));
+        user.setActive(!user.getActive());
+        update(user.getId(), user);
     }
 
     @Override

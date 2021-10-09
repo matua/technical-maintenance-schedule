@@ -2,6 +2,7 @@ package com.matuageorge.technicalmaintenanceschedule.config.security.jwt;
 
 import com.matuageorge.technicalmaintenanceschedule.service.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,7 +36,9 @@ public class JwtFilter extends GenericFilterBean {
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(
                     jwtProvider.getClaimsFromToken(token).get("sub")
             );
-            SecurityContextHolder.getContext().setAuthentication((Authentication) userDetails);
+            Authentication auth = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(auth);
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
