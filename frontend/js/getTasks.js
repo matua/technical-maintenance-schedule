@@ -59,3 +59,4 @@ async function getTasks(page = 0, size = 10) {
 logout_button.addEventListener('click', logout);
 
 getTasks();
+getLocation();
