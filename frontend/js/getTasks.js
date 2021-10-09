@@ -1,6 +1,7 @@
 "use strict";
 
 let tasksHtml;
+let logout_button = document.getElementById('logout_button');
 
 async function getTasks(page = 0, size = 10) {
     tasksHtml = '';
@@ -53,5 +54,7 @@ async function getTasks(page = 0, size = 10) {
         return tasksHtml;
     }
 }
+
+logout_button.addEventListener('click', logout);
 
 getTasks();

@@ -1,6 +1,7 @@
 "use strict";
 
 let login_form = document.getElementById('login_form');
+let login_button = document.getElementById('login_button');
 
 async function login(event) {
     event.preventDefault();
@@ -31,6 +32,6 @@ async function login(event) {
 }
 
 if (login_form != null) {
-    login_form.addEventListener('submit', login);
+    login_button.addEventListener('click', login);
 }
 

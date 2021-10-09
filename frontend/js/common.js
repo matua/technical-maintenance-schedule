@@ -34,6 +34,7 @@ function checkAdminRights(token) {
 
 function logout() {
     window.localStorage.removeItem('token');
+    window.location.href = 'login.html';
 }
 
 // function writePaginationForProducts(productsPage, size) {
