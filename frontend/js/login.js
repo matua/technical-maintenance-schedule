@@ -21,7 +21,7 @@ async function login(event) {
                     localStorage.setItem('token', json.token);
                     window.location.href = 'tasks.html';
                 } else {
-                    document.getElementById("user_message").innerHTML = ERRORS.USER_NOT_ACTIVATED;
+                    UIkit.notification({message: ERRORS.USER_BLOCKED_MESSAGE, pos: 'bottom-center', status: 'danger'})
                 }
             } else {
                 window.location.reload();
