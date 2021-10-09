@@ -2,11 +2,8 @@
 
 let tasksHtml;
 
-// let paginationHtml;
-
 async function getTasks(page = 0, size = 10) {
     tasksHtml = '';
-    // paginationHtml = '';
     const url = baseUrl + `/tasks/${page}/${size}`;
 
     if (checkAdminRights(parseToken(getToken()))) {
@@ -22,22 +19,9 @@ async function getTasks(page = 0, size = 10) {
             })
             .then(tasksPage => {
                 writeTasksToTable(tasksPage);
-                // writePaginationForTasks(tasksPage, size);
             });
-        // } else {
-        //     tasksHtml = ERRORS.LIMITED_ACCESS_MESSAGE;
-        // }
         document.getElementById('tasks').innerHTML = tasksHtml;
-        // document.getElementsByClassName('pagination')[0].innerHTML = paginationHtml;
     }
-
-    getTasks().then(null);
-
-// if (!checkAdminRights(parseToken(getToken()))) {
-//     document.getElementById("add_product").innerHTML = 'Add product'
-//     document.getElementById("add_product_bottom").innerHTML = 'Add product'
-//     document.getElementById("users").innerHTML = 'Users'
-// }
 
     function writeTasksToTable(page) {
         const tasksTableHeaders =
@@ -69,3 +53,5 @@ async function getTasks(page = 0, size = 10) {
         return tasksHtml;
     }
 }
+
+getTasks();
