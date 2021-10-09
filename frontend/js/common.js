@@ -29,76 +29,76 @@ function parseToken(token) {
 }
 
 function checkAdminRights(token) {
-    return token.role === 'ADMIN';
+    return token.role === 'ADMINISTRATOR';
 }
 
 function logout() {
     window.localStorage.removeItem('token');
 }
 
-function writePaginationForProducts(productsPage, size) {
-    const totalPages = productsPage.totalPages;
-    const currentPage = productsPage.number;
-
-    if (currentPage === 0) {
-        paginationHtml += `<li class="arrow unavailable"><a>&laquo;</a></li>`
-    } else {
-        paginationHtml += `<li class="arrow available"><a 
-                onclick="getProducts(${currentPage - 1}, ${size})">&laquo;
-                </a></li>`
-    }
-
-    for (let page = 1; page <= totalPages; page++) {
-        if (page - 1 === currentPage) {
-            paginationHtml += `<li class="current"><a>${page}</a></li>`;
-        } else {
-            paginationHtml += `<li><a onclick="getProducts(${page - 1}, ${size})">${page}</a></li>`;
-        }
-    }
-
-    if (currentPage === totalPages - 1) {
-        paginationHtml += `
-            <li class="arrow unavailable"><a>&#187;</a></li>`
-    } else {
-        paginationHtml += `<li class="arrow available"><a 
-                onclick="getProducts(${currentPage + 1}, ${size})">&#187;
-                </a></li>`
-    }
-
-    return paginationHtml;
-}
-
-function writePaginationForUsers(usersPage, size) {
-    const totalPages = usersPage.totalPages;
-    const currentPage = usersPage.number;
-
-    if (currentPage === 0) {
-        paginationHtml += `<li class="arrow unavailable"><a>&laquo;</a></li>`
-    } else {
-        paginationHtml += `<li class="arrow available"><a 
-                onclick="getUsers(${currentPage - 1}, ${size})">&laquo;
-                </a></li>`
-    }
-
-    for (let page = 1; page <= totalPages; page++) {
-        if (page - 1 === currentPage) {
-            paginationHtml += `<li class="current"><a>${page}</a></li>`;
-        } else {
-            paginationHtml += `<li><a onclick="getUsers(${page - 1}, ${size})">${page}</a></li>`;
-        }
-    }
-
-    if (currentPage === totalPages - 1) {
-        paginationHtml += `
-            <li class="arrow unavailable"><a>&#187;</a></li>`
-    } else {
-        paginationHtml += `<li class="arrow available"><a 
-                onclick="getUsers(${currentPage + 1}, ${size})">&#187;
-                </a></li>`
-    }
-
-    return paginationHtml;
-}
+// function writePaginationForProducts(productsPage, size) {
+//     const totalPages = productsPage.totalPages;
+//     const currentPage = productsPage.number;
+//
+//     if (currentPage === 0) {
+//         paginationHtml += `<li class="arrow unavailable"><a>&laquo;</a></li>`
+//     } else {
+//         paginationHtml += `<li class="arrow available"><a
+//                 onclick="getProducts(${currentPage - 1}, ${size})">&laquo;
+//                 </a></li>`
+//     }
+//
+//     for (let page = 1; page <= totalPages; page++) {
+//         if (page - 1 === currentPage) {
+//             paginationHtml += `<li class="current"><a>${page}</a></li>`;
+//         } else {
+//             paginationHtml += `<li><a onclick="getProducts(${page - 1}, ${size})">${page}</a></li>`;
+//         }
+//     }
+//
+//     if (currentPage === totalPages - 1) {
+//         paginationHtml += `
+//             <li class="arrow unavailable"><a>&#187;</a></li>`
+//     } else {
+//         paginationHtml += `<li class="arrow available"><a
+//                 onclick="getProducts(${currentPage + 1}, ${size})">&#187;
+//                 </a></li>`
+//     }
+//
+//     return paginationHtml;
+// }
+//
+// function writePaginationForUsers(usersPage, size) {
+//     const totalPages = usersPage.totalPages;
+//     const currentPage = usersPage.number;
+//
+//     if (currentPage === 0) {
+//         paginationHtml += `<li class="arrow unavailable"><a>&laquo;</a></li>`
+//     } else {
+//         paginationHtml += `<li class="arrow available"><a
+//                 onclick="getUsers(${currentPage - 1}, ${size})">&laquo;
+//                 </a></li>`
+//     }
+//
+//     for (let page = 1; page <= totalPages; page++) {
+//         if (page - 1 === currentPage) {
+//             paginationHtml += `<li class="current"><a>${page}</a></li>`;
+//         } else {
+//             paginationHtml += `<li><a onclick="getUsers(${page - 1}, ${size})">${page}</a></li>`;
+//         }
+//     }
+//
+//     if (currentPage === totalPages - 1) {
+//         paginationHtml += `
+//             <li class="arrow unavailable"><a>&#187;</a></li>`
+//     } else {
+//         paginationHtml += `<li class="arrow available"><a
+//                 onclick="getUsers(${currentPage + 1}, ${size})">&#187;
+//                 </a></li>`
+//     }
+//
+//     return paginationHtml;
+// }
 
 function darkenScreen() {
     let fade = document.getElementById('blockDiv');

@@ -2,6 +2,7 @@ package com.matuageorge.technicalmaintenanceschedule.controller;
 
 import com.matuageorge.technicalmaintenanceschedule.config.security.jwt.JwtProvider;
 import com.matuageorge.technicalmaintenanceschedule.dto.UserAuthRequestDto;
+import com.matuageorge.technicalmaintenanceschedule.dto.UserAuthResponseDto;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotAuthorizedException;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
@@ -25,7 +26,7 @@ public class AuthController {
     private final JwtProvider jwtProvider;
 
     @PostMapping("/auth")
-    public ResponseEntity<String> authenticateUser(
+    public ResponseEntity<UserAuthResponseDto> authenticateUser(
             @RequestBody UserAuthRequestDto request) throws ValidationException, NotFoundException, NotAuthorizedException {
 
         log.info("Handling authorization request with email: {} and password: {}",
@@ -45,6 +46,6 @@ public class AuthController {
                 foundUser.getRole().toString(),
                 foundUser.getId());
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok().body(new UserAuthResponseDto(token));
     }
 }
