@@ -41,9 +41,10 @@ async function getTasks(page = 0, size = 10) {
        </table>`
         page.content.forEach(
             task => {
+                let taskPriorityIcon = taskStatusIcon(task.priority);
                 tasksHtml +=
                     `<tr>
-                        <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.png" width="40" alt=""></td>
+                        <td><img class="uk-preserve-width uk-border-circle" src="images/${taskPriorityIcon}" width="40" alt=""></td>
                         <td class="uk-table-link">
                             <a class="uk-link-reset" href="">${task.description}</a>
                         </td>

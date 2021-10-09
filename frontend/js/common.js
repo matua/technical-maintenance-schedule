@@ -37,6 +37,19 @@ function logout() {
     window.location.href = 'login.html';
 }
 
+function taskStatusIcon(priority) {
+    switch (priority) {
+        case 'COMMON':
+            return 'common.png';
+        case 'MEDIUM':
+            return 'medium.png';
+        case 'URGENT':
+            return 'urgent.png';
+        default:
+            return 'medium.png';
+    }
+}
+
 // function writePaginationForProducts(productsPage, size) {
 //     const totalPages = productsPage.totalPages;
 //     const currentPage = productsPage.number;
