@@ -23,7 +23,7 @@ import java.util.List;
 public class PayWayApiServiceImpl implements PayWayApiService {
 
     @Value("${payway.api.kioskcash.key}")
-    private final String paywayKioskCashApiKey;
+    private String paywayKioskCashApiKey;
     private final RestTemplate restTemplate;
     private final ModelMapper modelMapper;
 
