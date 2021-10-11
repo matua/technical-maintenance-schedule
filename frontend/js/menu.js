@@ -6,7 +6,7 @@ document.write(`
         <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
             <li class="uk-active"><a href="#">Active</a></li>
             <li class="uk-parent">
-                <a href="#">Parent</a>
+                <a href="index.html">LOCATION</a>
                 <ul class="uk-nav-sub">
                     <li><a href="#">Sub item</a></li>
                     <li><a href="#">Sub item</a></li>

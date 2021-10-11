@@ -18,7 +18,7 @@ public class JwtProvider {
     private static final String ACTIVE = "active";
     private static final String ON_DUTY = "duty";
     private static final String ROLE = "role";
-    @Value("${jwt.secret}")
+    @Value("$(jwt.secret)")
     private String jwtSecret;
 
     public String generateToken(String email, String firstName, String lastName, String active,

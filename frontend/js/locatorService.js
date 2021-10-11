@@ -5,20 +5,19 @@ function getLocation() {
         maximumAge: 0
     };
 
-    function success(pos) {
-        let crd = pos.coords;
+    navigator.geolocation.getCurrentPosition(function (position) {
+        // Get the positioning coordinates.
+        document.getElementById('location').innerHTML =
+            `Your current gps location:</br>
+        Latitude: ${position.coords.latitude}</br>
+        Longitude: ${position.coords.longitude}</br>
+        More or less ${position.coords.accuracy} meters.
+        `
 
-        console.log('Your current gps location:');
-        console.log(`Latitude: ${crd.latitude}`);
-        console.log(`Longitude: ${crd.longitude}`);
-        console.log(`More or less ${crd.accuracy} meters.`);
-    }
 
-    function error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
-    }
-
-    navigator.geolocation.getCurrentPosition(success, error, options);
+    }, function () {
+        alert('Oops! An error occurred.');
+    }, options);
 }
 
 function getDistance(source, destination) {
@@ -27,3 +26,5 @@ function getDistance(source, destination) {
         new google.maps.LatLng(destination.lat, destination.lng)
     );
 }
+
+getLocation();
