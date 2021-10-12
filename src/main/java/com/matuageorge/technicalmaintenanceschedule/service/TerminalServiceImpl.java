@@ -52,6 +52,7 @@ public class TerminalServiceImpl implements TerminalService {
             Terminal terminal = terminalToUpdate.get();
             log.info("Terminal to update is found");
             terminal.setName(terminalDto.getName());
+            terminal.setLocation(terminalDto.getLocation());
             terminal.setActive(terminalDto.getActive());
             terminal.setType(terminalDto.getType());
             savedTerminal = terminalRepository.save(modelMapper.map(terminal, Terminal.class));
