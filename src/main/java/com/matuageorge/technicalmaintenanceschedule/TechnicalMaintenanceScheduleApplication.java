@@ -22,9 +22,13 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         List<Terminal> currentListOfTerminals = payWayApiService.getCurrentListOfTerminals();
 
-        log.info(String.valueOf(currentListOfTerminals));
+        currentListOfTerminals
+//                .filter(
+//                        terminal -> terminal.getType().name().equals("Hardware"))
+//                .map(Terminal::getName)
+                .forEach(t -> log.info(String.valueOf(t)));
     }
 }

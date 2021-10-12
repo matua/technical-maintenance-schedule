@@ -1,6 +1,20 @@
 package com.matuageorge.technicalmaintenanceschedule.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
+
+@Getter
 public enum TerminalType {
-    SELF_SERVICE_KIOSK,
-    MOBILE_POS
+
+    HARDWARE("Hardware"),
+    MOBILE("Mobile"),
+    SOFTWARE("Software"),
+    WEB("Web");
+
+    @JsonValue
+    private final String name;
+
+    TerminalType(String name) {
+        this.name = name;
+    }
 }
