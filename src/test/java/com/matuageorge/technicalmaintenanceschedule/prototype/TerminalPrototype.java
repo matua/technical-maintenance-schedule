@@ -7,7 +7,7 @@ public class TerminalPrototype {
     public static Terminal aTerminal() {
         return Terminal.builder()
                 .name("TERM-A")
-                .active(true)
+                .disabled(true)
                 .latitude(55.67966531329961)
                 .latitude(55.67966531329962)
                 .type(TerminalType.HARDWARE)
@@ -17,7 +17,7 @@ public class TerminalPrototype {
     public static Terminal bTerminal() {
         return Terminal.builder()
                 .name("TERM-B")
-                .active(false)
+                .disabled(false)
                 .latitude(25.12345678901231)
                 .latitude(25.12345678901232)
                 .type(TerminalType.HARDWARE)

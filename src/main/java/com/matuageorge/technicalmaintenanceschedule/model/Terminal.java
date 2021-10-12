@@ -24,7 +24,7 @@ public class Terminal extends AbstractBaseEntity {
             message = "Terminal name must be between 1 and 10 characters")
     private String name;
     private String location;
-    private Boolean active;
+    private Boolean disabled;
     private Double longitude;
     private Double latitude;
 }
