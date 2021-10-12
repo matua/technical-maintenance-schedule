@@ -6,6 +6,7 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExi
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
 import com.matuageorge.technicalmaintenanceschedule.repository.TerminalRepository;
+import com.matuageorge.technicalmaintenanceschedule.service.api.PayWayApiService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +31,7 @@ import static org.mockito.Mockito.*;
 class TerminalServiceImplTest {
 
     @Mock
+    PayWayApiService payWayApiService;
     TerminalRepository terminalRepository;
     TerminalService terminalService;
     ModelMapper modelMapper;
@@ -37,7 +39,7 @@ class TerminalServiceImplTest {
     @BeforeEach
     void setUp() {
         modelMapper = new ModelMapper();
-        terminalService = new TerminalServiceImpl(terminalRepository, modelMapper);
+        terminalService = new TerminalServiceImpl(payWayApiService, terminalRepository, modelMapper);
     }
 
     @Test
@@ -85,7 +87,7 @@ class TerminalServiceImplTest {
         List<Terminal> terminals = List.of(aTerminal(), bTerminal());
         Page<Terminal> pageOfTerminals = new PageImpl<>(terminals);
         when(terminalRepository.findAll(pageable)).thenReturn(pageOfTerminals);
-        Page<Terminal> foundTerminals = terminalService.findAll(page, pageSize);
+        Page<Terminal> foundTerminals = terminalService.findAllByPage(page, pageSize);
         assertThat(foundTerminals).isNotNull();
         assertThat(foundTerminals.getSize()).isEqualTo(terminals.size());
         verify(terminalRepository).findAll(pageable);

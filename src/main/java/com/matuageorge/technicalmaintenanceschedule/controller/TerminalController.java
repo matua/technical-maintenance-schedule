@@ -68,7 +68,7 @@ public class TerminalController {
 
         log.info("Handling find all temrinals page: {} with size: {}", page, pageSize);
 
-        Page<Terminal> terminalsPageResponseBody = terminalService.findAll(page, pageSize);
+        Page<Terminal> terminalsPageResponseBody = terminalService.findAllByPage(page, pageSize);
         return ResponseEntity.ok().body(terminalsPageResponseBody);
     }
 }
