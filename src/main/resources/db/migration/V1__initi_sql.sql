@@ -18,6 +18,7 @@ create table terminals
     name      varchar(20)  not null unique,
     location  varchar(200) not null,
     disabled  boolean      not null,
+    deleted   boolean      not null,
     longitude double precision,
     latitude  double precision
 );

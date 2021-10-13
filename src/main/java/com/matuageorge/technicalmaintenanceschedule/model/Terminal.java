@@ -25,6 +25,7 @@ public class Terminal extends AbstractBaseEntity {
     private String name;
     private String location;
     private Boolean disabled;
+    private Boolean deleted;
     private Double longitude;
     private Double latitude;
 }
