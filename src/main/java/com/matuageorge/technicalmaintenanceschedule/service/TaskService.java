@@ -7,6 +7,7 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ValidationExceptio
 import com.matuageorge.technicalmaintenanceschedule.model.Task;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface TaskService {
@@ -16,7 +17,9 @@ public interface TaskService {
 
     void delete(Long taskId) throws ValidationException, NotFoundException;
 
-    Page<Task> findAll(Integer page, Integer pageSize) throws NotFoundException;
+    Page<Task> findAllByPage(Integer page, Integer pageSize) throws NotFoundException;
+
+    List<Task> findAll();
 
     Task findById(Long id) throws ValidationException, NotFoundException;
 

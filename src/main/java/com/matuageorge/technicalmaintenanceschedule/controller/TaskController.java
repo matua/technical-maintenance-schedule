@@ -66,7 +66,7 @@ public class TaskController {
 
         log.info("Handling find all tasks page: {} with size: {}", page, pageSize);
 
-        Page<Task> tasksPageResponseBody = taskService.findAll(page, pageSize);
+        Page<Task> tasksPageResponseBody = taskService.findAllByPage(page, pageSize);
         return ResponseEntity.ok().body(tasksPageResponseBody);
     }
 }

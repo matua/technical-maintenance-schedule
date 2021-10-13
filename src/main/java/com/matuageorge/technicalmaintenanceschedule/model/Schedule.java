@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @Table(name = "schedules")
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Schedule extends AbstractBaseEntity {
     @OneToOne(optional = false)
     @JoinColumn(name = "terminal", referencedColumnName = "id")
@@ -22,7 +24,7 @@ public class Schedule extends AbstractBaseEntity {
     @OneToOne(optional = false)
     @JoinColumn(name = "task", referencedColumnName = "id")
     private Task task;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private TaskStatus status;
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -31,5 +33,5 @@ public class Schedule extends AbstractBaseEntity {
     @Column(name = "date_time_created", updatable = false)
     private LocalDateTime dateTimeCreated;
     private LocalDateTime startExecutionDateTime;
-    private LocalDateTime endExecutionTestTime;
+    private LocalDateTime endExecutionDateTime;
 }

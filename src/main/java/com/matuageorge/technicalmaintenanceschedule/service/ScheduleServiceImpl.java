@@ -4,6 +4,8 @@ import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.Schedule;
+import com.matuageorge.technicalmaintenanceschedule.model.Task;
+import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
 import com.matuageorge.technicalmaintenanceschedule.repository.ScheduleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,18 +27,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Schedule save(Schedule schedule) throws ValidationException, ResourceAlreadyExistsException {
-        Optional<Schedule> scheduleToSave = scheduleRepository.findById(schedule.getId());
-        if (scheduleToSave.isPresent()) {
-            log.info("Schedule to save with such id already exists");
-            throw new ResourceAlreadyExistsException("Schedule with such id already exists");
-        } else {
-            try {
-                return scheduleRepository.save(schedule);
-            } catch (IllegalArgumentException e) {
-                throw new ValidationException("Schedule cannot be null");
-            }
-        }
+        return scheduleRepository.save(schedule);
     }
+
 
     @Override
     public Schedule update(Schedule schedule) throws ValidationException, NotFoundException {
@@ -74,5 +68,20 @@ public class ScheduleServiceImpl implements ScheduleService {
         } else {
             throw new NotFoundException("No schedule found");
         }
+    }
+
+    @Override
+    public List<Schedule> findAll() {
+        return scheduleRepository.findAll();
+    }
+
+    @Override
+    public List<Schedule> findByEndExecutionDateTimeNotNull() {
+        return scheduleRepository.findByEndExecutionDateTimeNotNull();
+    }
+
+    @Override
+    public Optional<Schedule> findByTerminalAndTask(Terminal terminal, Task task) {
+        return scheduleRepository.findByTerminalAndTask(terminal, task);
     }
 }

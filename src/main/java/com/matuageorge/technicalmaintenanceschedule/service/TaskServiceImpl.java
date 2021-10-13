@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -64,7 +65,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Page<Task> findAll(Integer page, Integer pageSize) throws NotFoundException {
+    public Page<Task> findAllByPage(Integer page, Integer pageSize) throws NotFoundException {
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by("frequency").ascending());
         Page<Task> tasksPage = taskRepository.findAll(pageable);
 
@@ -73,6 +74,10 @@ public class TaskServiceImpl implements TaskService {
         } else {
             throw new NotFoundException("No tasks found");
         }
+    }
+
+    public List<Task> findAll() {
+        return taskRepository.findAll();
     }
 
     @Override

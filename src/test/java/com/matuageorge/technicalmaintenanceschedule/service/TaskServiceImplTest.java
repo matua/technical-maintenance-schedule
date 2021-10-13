@@ -83,7 +83,7 @@ class TaskServiceImplTest {
         List<Task> tasks = List.of(aTask(), bTask());
         Page<Task> pageOfTasks = new PageImpl<>(tasks);
         when(taskRepository.findAll(pageable)).thenReturn(pageOfTasks);
-        Page<Task> foundTasks = taskService.findAll(page, pageSize);
+        Page<Task> foundTasks = taskService.findAllByPage(page, pageSize);
         assertThat(foundTasks).isNotNull();
         assertThat(foundTasks.getSize()).isEqualTo(tasks.size());
         verify(taskRepository).findAll(pageable);

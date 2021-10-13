@@ -38,8 +38,8 @@ create table schedules
     task                      bigint not null,
     status                    varchar(20),
     user_id                   bigint,
-    start_execution_date_time timetz,
-    end_execution_date_time   timetz,
+    start_execution_date_time timestamptz,
+    end_execution_date_time   timestamptz,
     foreign key (terminal) references terminals (id),
     foreign key (task) references tasks (id),
     foreign key (user_id) references users (id)

@@ -124,7 +124,9 @@ public class TerminalServiceImpl implements TerminalService {
     private List<Terminal> filterTerminalsByType(List<Terminal> currentListOfTerminals, TerminalType terminalType) {
         return currentListOfTerminals.stream()
                 .filter(
-                        terminal -> terminal.getType() == (terminalType))
+                        terminal -> terminal.getType() == terminalType)
+                .filter(
+                        terminal -> !terminal.getDeleted())
                 .toList();
     }
 }
