@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,6 +27,9 @@ public class Schedule extends AbstractBaseEntity {
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    @CreatedDate
+    @Column(name = "date_time_created", updatable = false)
+    private LocalDateTime dateTimeCreated;
     private LocalDateTime startExecutionDateTime;
     private LocalDateTime endExecutionTestTime;
 }
