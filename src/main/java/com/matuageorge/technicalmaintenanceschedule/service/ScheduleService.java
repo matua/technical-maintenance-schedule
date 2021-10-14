@@ -27,4 +27,6 @@ public interface ScheduleService {
     List<Schedule> findByEndExecutionDateTimeNotNull();
 
     Optional<Schedule> findByTerminalAndTask(Terminal terminal, Task task);
+
+    List<Schedule> addUrgentSchedules() throws ValidationException, NotFoundException;
 }

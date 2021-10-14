@@ -21,12 +21,12 @@ public class Schedule extends AbstractBaseEntity {
     @OneToOne(optional = false)
     @JoinColumn(name = "terminal", referencedColumnName = "id")
     private Terminal terminal;
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "task", referencedColumnName = "id")
     private Task task;
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
-    @OneToOne(optional = false)
+    @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     @CreatedDate
