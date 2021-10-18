@@ -24,5 +24,3 @@ insert into tasks (description, priority, frequency) values
     ('Clean printer in the kiosks', 'COMMON', 90);
 insert into tasks (description, priority, frequency) values
     ('Check hard disks performance, windows updates and reinstallations.', 'COMMON', 90);
-insert into tasks (description, priority, frequency) values
-    ('Bill Validator problem - API error', 'URGENT', 0);
