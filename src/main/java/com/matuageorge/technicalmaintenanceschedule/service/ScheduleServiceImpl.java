@@ -1,5 +1,6 @@
 package com.matuageorge.technicalmaintenanceschedule.service;
 
+import com.matuageorge.technicalmaintenanceschedule.dto.TaskDto;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
@@ -46,7 +47,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-
     public List<Schedule> addUrgentSchedules() throws ValidationException, NotFoundException {
 
         List<Schedule> urgentSchedulesToAdd = new ArrayList<>();
@@ -67,22 +67,29 @@ public class ScheduleServiceImpl implements ScheduleService {
                         .frequency(0)
                         .priority(TaskPriority.URGENT)
                         .build();
+                try {
+                    taskService.save(modelMapper.map(task, TaskDto.class));
+                } catch (ValidationException | ResourceAlreadyExistsException e) {
+                    e.printStackTrace();
+                }
 
                 terminalService.findByName(term).ifPresent(
-                        t -> {
-                            Schedule schedule = Schedule.builder()
-                                    .status(TaskStatus.SCHEDULED)
-                                    .terminal(t)
-                                    .task(task)
-                                    .user(user)
-                                    .build();
-                            try {
-                                save(schedule);
-                                urgentSchedulesToAdd.add(schedule);
-                            } catch (ValidationException | ResourceAlreadyExistsException e) {
-                                log.error("Cannot add schedule with URGENT task. Error: {}", e.getLocalizedMessage());
-                            }
-                        }
+                        t -> taskService.findByDescription(task.getDescription()).ifPresent(
+                                newTask -> {
+                                    Schedule schedule = Schedule.builder()
+                                            .status(TaskStatus.SCHEDULED)
+                                            .terminal(t)
+                                            .task(newTask)
+                                            .user(user)
+                                            .build();
+                                    try {
+                                        save(schedule);
+                                        urgentSchedulesToAdd.add(schedule);
+                                    } catch (ValidationException | ResourceAlreadyExistsException e) {
+                                        log.error("Cannot add schedule with URGENT task. Error: {}", e.getLocalizedMessage());
+                                    }
+                                }
+                        )
                 );
             });
         }

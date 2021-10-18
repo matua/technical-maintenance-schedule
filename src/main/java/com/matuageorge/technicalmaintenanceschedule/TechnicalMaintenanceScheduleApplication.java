@@ -3,7 +3,6 @@ package com.matuageorge.technicalmaintenanceschedule;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
-import com.matuageorge.technicalmaintenanceschedule.model.TerminalType;
 import com.matuageorge.technicalmaintenanceschedule.service.*;
 import com.matuageorge.technicalmaintenanceschedule.service.api.PayWayApiService;
 import lombok.RequiredArgsConstructor;
@@ -34,10 +33,10 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
 
     @Override
     public void run(String... args) throws NotFoundException, ValidationException, ResourceAlreadyExistsException {
-        log.info("Updating the Terminals DB...");
-        terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
-        plannerService.updateSchedule();
-        plannerService.rescheduleDone();
+//        log.info("Updating the Terminals DB...");
+//        terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
+//        plannerService.updateSchedule();
+//        plannerService.rescheduleDone();
         scheduleService.addUrgentSchedules();
     }
 }

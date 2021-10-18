@@ -5,10 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -28,4 +25,7 @@ public class Task extends AbstractBaseEntity {
     @Min(message = "Frequency must be minimum every 1 day", value = 1)
     @Max(message = "Frequency must be maximum every 365 days", value = 365)
     private Integer frequency;
+    @ManyToOne
+    @JoinColumn(name = "schedule_id", referencedColumnName = "id")
+    private Schedule schedule;
 }

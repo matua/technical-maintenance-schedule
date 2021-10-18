@@ -19,16 +19,16 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class Schedule extends AbstractBaseEntity {
     @OneToOne(optional = false)
-    @JoinColumn(name = "terminal", referencedColumnName = "id")
+    @JoinColumn(name = "terminal_id", referencedColumnName = "id")
     private Terminal terminal;
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "task", referencedColumnName = "id")
+    @OneToOne
+    @JoinColumn(name = "task_id", referencedColumnName = "id")
     private Task task;
-    @Enumerated(EnumType.STRING)
-    private TaskStatus status;
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
     @CreatedDate
     @Column(name = "date_time_created", updatable = false)
     private LocalDateTime dateTimeCreated;
