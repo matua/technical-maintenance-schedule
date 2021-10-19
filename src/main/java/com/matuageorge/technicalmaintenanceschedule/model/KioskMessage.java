@@ -20,8 +20,8 @@ import java.util.Map;
 @SuperBuilder
 public class KioskMessage extends AbstractBaseEntity {
     @JsonProperty("args")
-    @JsonDeserialize(using = StringToListOfMaps.class)
-    private Map<String, Object> args;
+    @JsonDeserialize(using = StringToMap.class)
+    private Map<String, String> args;
     private String arrived;
     @JsonProperty("id")
     private Long messageId;
@@ -30,15 +30,10 @@ public class KioskMessage extends AbstractBaseEntity {
     @JsonProperty("occured")
     private String occurred;
 
-    @Data
-    public static class ErrorMessage {
-        private Map<String, String> args;
-    }
-
-    private static final class StringToListOfMaps extends JsonDeserializer<Map<String, String>> {
+    private static final class StringToMap extends JsonDeserializer<Map<String, String>> {
 
         @Override
-        public Map<String, String> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        public Map deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
             return new ObjectMapper().readValue(p.getValueAsString(), Map.class);
         }
     }
