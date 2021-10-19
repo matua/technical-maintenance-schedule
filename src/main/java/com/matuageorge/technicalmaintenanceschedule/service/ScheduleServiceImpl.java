@@ -22,7 +22,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -56,14 +55,15 @@ public class ScheduleServiceImpl implements ScheduleService {
         String endTimeStamp = getEndTimeStamp(formatter, now);
         User user = userService.findByEmail("kulmba@payway.ug");
 
-        Optional<Map<String, String>> optionalOfAllTerminalsToBeUrgentlyServiced = payWayApiService
+        final Optional<List<KioskMessage>> optionalOfAllTerminalsToBeUrgentlyServiced = payWayApiService
                 .getAllTerminalsToBeUrgentlyServiced(startTimeStamp, endTimeStamp);
 
         if (optionalOfAllTerminalsToBeUrgentlyServiced.isPresent()) {
-            final Map<String, String> allTerminalsToBeUrgentlyServiced = optionalOfAllTerminalsToBeUrgentlyServiced.get();
-            allTerminalsToBeUrgentlyServiced.forEach((term, error) -> {
+            final List<KioskMessage> allTerminalsToBeUrgentlyServiced =
+                    optionalOfAllTerminalsToBeUrgentlyServiced.get();
+            allTerminalsToBeUrgentlyServiced.forEach((kioskMessage) -> {
                 Task task = Task.builder()
-                        .description(error)
+                        .description(kioskMessage.getArgs().toString())
                         .frequency(0)
                         .priority(TaskPriority.URGENT)
                         .build();
@@ -73,7 +73,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                     e.printStackTrace();
                 }
 
-                terminalService.findByName(term).ifPresent(
+                terminalService.findByName(kioskMessage.getKiosk()).ifPresent(
                         t -> taskService.findByDescription(task.getDescription()).ifPresent(
                                 newTask -> {
                                     Schedule schedule = Schedule.builder()

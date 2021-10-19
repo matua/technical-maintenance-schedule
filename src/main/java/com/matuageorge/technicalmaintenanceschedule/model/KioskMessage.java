@@ -1,46 +1,45 @@
 package com.matuageorge.technicalmaintenanceschedule.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.io.IOException;
+import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @SuperBuilder
 public class KioskMessage extends AbstractBaseEntity {
-    private String kiosk;
-    private String args;
+    @JsonProperty("args")
+    @JsonDeserialize(using = StringToListOfMaps.class)
+    private Map<String, Object> args;
     private String arrived;
     @JsonProperty("id")
     private Long messageId;
+    private String kiosk;
     private String name;
     @JsonProperty("occured")
     private String occurred;
 
-    public static class KioskMessageWrapper {
-        private final KioskMessage kioskMessage;
+    @Data
+    public static class ErrorMessage {
+        private Map<String, String> args;
+    }
 
-        public KioskMessageWrapper(KioskMessage kioskMessage) {
-            this.kioskMessage = kioskMessage;
-        }
+    private static final class StringToListOfMaps extends JsonDeserializer<Map<String, String>> {
 
-        public KioskMessage unwrap() {
-            return kioskMessage;
-        }
-
-        public boolean equals(Object other) {
-            if (other instanceof KioskMessageWrapper kioskMessageWrapper) {
-                return kioskMessageWrapper.kioskMessage.getName().equals(kioskMessage.getName());
-            } else {
-                return false;
-            }
-        }
-
-        public int hashCode() {
-            return kioskMessage.getName().hashCode();
+        @Override
+        public Map<String, String> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+            return new ObjectMapper().readValue(p.getValueAsString(), Map.class);
         }
     }
 }

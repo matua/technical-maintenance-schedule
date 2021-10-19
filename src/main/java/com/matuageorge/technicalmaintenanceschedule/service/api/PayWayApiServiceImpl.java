@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +56,8 @@ public class PayWayApiServiceImpl implements PayWayApiService {
     }
 
     @Override
-    public Optional<Map<String, String>> getAllTerminalsToBeUrgentlyServiced(String startTimeStamp, String endTimeStamp) {
+    public Optional<List<KioskMessage>> getAllTerminalsToBeUrgentlyServiced(String startTimeStamp,
+                                                                            String endTimeStamp) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Accept", "application/json");
@@ -83,20 +83,18 @@ public class PayWayApiServiceImpl implements PayWayApiService {
                         HttpMethod.GET, requestEntity, new ParameterizedTypeReference<>() {
                         });
 
-        Map<String, String> mapOfKiosksOutOfService = getKiosksWithOutOfServiceMessage(responseEntity);
+        List<KioskMessage> listOfKiosksOutOfService = getKiosksWithOutOfServiceMessage(responseEntity);
 
-        return Optional.of(mapOfKiosksOutOfService);
+        return Optional.of(listOfKiosksOutOfService);
     }
 
-    private Map<String, String> getKiosksWithOutOfServiceMessage(ResponseEntity<List<KioskMessage>> responseEntity) {
+    private List<KioskMessage> getKiosksWithOutOfServiceMessage(ResponseEntity<List<KioskMessage>> responseEntity) {
 
         log.info("Getting kiosks and error messages with OUT_OF_SERVICE status");
 
         return Objects.requireNonNull(responseEntity.getBody())
                 .stream().filter(kioskMessage -> kioskMessage.getName().equalsIgnoreCase("OUT_OF_SERVICE"))
-                .map(KioskMessage.KioskMessageWrapper::new)
                 .distinct()
-                .map(KioskMessage.KioskMessageWrapper::unwrap)
-                .collect(Collectors.toMap(KioskMessage::getKiosk, KioskMessage::getArgs));
+                .toList();
     }
 }
