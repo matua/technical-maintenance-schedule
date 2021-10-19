@@ -70,27 +70,30 @@ public class ScheduleServiceImpl implements ScheduleService {
                 try {
                     taskService.save(modelMapper.map(task, TaskDto.class));
                 } catch (ValidationException | ResourceAlreadyExistsException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage());
                 }
 
-                terminalService.findByName(kioskMessage.getKiosk()).ifPresent(
-                        t -> taskService.findByDescription(task.getDescription()).ifPresent(
-                                newTask -> {
-                                    Schedule schedule = Schedule.builder()
-                                            .status(TaskStatus.SCHEDULED)
-                                            .terminal(t)
-                                            .task(newTask)
-                                            .user(user)
-                                            .build();
-                                    try {
-                                        save(schedule);
-                                        urgentSchedulesToAdd.add(schedule);
-                                    } catch (ValidationException | ResourceAlreadyExistsException e) {
-                                        log.error("Cannot add schedule with URGENT task. Error: {}", e.getLocalizedMessage());
-                                    }
+                final Optional<Task> taskByDescription = taskService.findByDescription(task.getDescription());
+                if (taskByDescription.isEmpty()) {
+                    terminalService.findByName(kioskMessage.getKiosk()).ifPresent(
+                            t -> {
+                                Schedule schedule = Schedule.builder()
+                                        .status(TaskStatus.SCHEDULED)
+                                        .terminal(t)
+                                        .task(task)
+                                        .user(user)
+                                        .build();
+                                try {
+                                    save(schedule);
+                                    urgentSchedulesToAdd.add(schedule);
+                                } catch (ValidationException | ResourceAlreadyExistsException e) {
+                                    log.error("Cannot add schedule with URGENT task. Error: {}", e.getLocalizedMessage());
                                 }
-                        )
-                );
+                            }
+                    );
+                } else {
+                    log.error("Task {} is already registered in schedule.", task.getDescription());
+                }
             });
         }
         if (urgentSchedulesToAdd.isEmpty()) {
