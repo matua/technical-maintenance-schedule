@@ -13,7 +13,8 @@ document.write(`
                 </ul>
             </li>
             <li class="uk-nav-header">Header</li>
-            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: table"></span>All Tasks</a></li>
+            <li><a href="../frontend/tasks.html"><span class="uk-margin-small-right" uk-icon="icon: table"></span>All Tasks</a></li>
+            <li><a href="../frontend/schedules.html"><span class="uk-margin-small-right" uk-icon="icon: table"></span>All Schedules</a></li>
             <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: location"></span>Locations</a></li>
             <li class="uk-nav-divider"></li>
             <li><a href="login.html"><span class="uk-margin-small-right" uk-icon="icon: sign-out"></span>Log out</a></li>

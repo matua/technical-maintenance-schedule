@@ -3,7 +3,7 @@
 let schedulesHtml;
 let logout_button = document.getElementById('logout_button');
 
-async function getTasks(page = 0, size = 10) {
+async function getSchedules(page = 0, size = 10) {
     schedulesHtml = '';
     const url = baseUrl + `/schedules/${page}/${size}`;
 
@@ -18,45 +18,52 @@ async function getTasks(page = 0, size = 10) {
             .then((response) => {
                 return response.json();
             })
-            .then(tasksPage => {
-                writeTasksToTable(tasksPage);
+            .then(schedulesPage => {
+                writeSchedulessToTable(schedulesPage);
             });
-        document.getElementById('tasks').innerHTML = tasksHtml;
+        document.getElementById('schedules').innerHTML = schedulesHtml;
     }
 
-    function writeTasksToTable(page) {
-        const tasksTableHeaders =
+    function writeSchedulessToTable(page) {
+        const schedulesTableHeaders =
             `<div class="uk-overflow-auto">
             <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
                 <thead>
                     <tr>
-                        <th class="uk-table-shrink">Priority</th>
-                        <th class="uk-table-expand">Description</th>
-                        <th class="uk-width-small">Frequency</th>
+<!--                        <th class="uk-table-shrink">Priority</th>-->
+                        <th class="uk-width-small">Terminal</th>
+                        <th class="uk-width-small">Task</th>
+                        <th class="uk-width-small">Status</th>
+                        <th class="uk-width-small">User</th>
+                        <th class="uk-table-expand">Started</th>
+                        <th class="uk-table-expand">Completed</th>
                     </tr>
                 </thead>
                 <tbody>`
-        const tasksTableFooter =
+        const schedulesTableFooter =
             `</tbody>
        </table>`
         page.content.forEach(
-            task => {
-                let taskPriorityIcon = taskStatusIcon(task.priority);
-                tasksHtml +=
+            schedule => {
+                // let taskPriorityIcon = taskStatusIcon(schedule.priority);
+                schedulesHtml +=
                     `<tr>
-                        <td><img class="uk-preserve-width uk-border-circle" src="images/${taskPriorityIcon}" width="40" alt=""></td>
                         <td class="uk-table-link">
-                            <a class="uk-link-reset" href="">${task.description}</a>
+                            <a class="uk-link-reset" href="">${schedule.terminal.name}</a>
                         </td>
-                        <td class="uk-text-truncate">${task.frequency}</td>
+                        <td class="uk-link-reset">${schedule.task.description}</td>
+                        <td class="uk-text-truncate">${schedule.status.toString()}</td>
+                        <td class="uk-text-truncate">${schedule.user.firstName} ${schedule.user.lastName}</td>
+                        <td class="uk-link-reset">${schedule.dateTimeCreated}</td>
+                        <td class="uk-text-truncate">${schedule.endExecutionDateTime != null ? schedule.endExecutionDateTime : "NOT YET!"}</td>
                     </tr>`
             });
-        tasksHtml = tasksTableHeaders + tasksHtml + tasksTableFooter;
-        return tasksHtml;
+        schedulesHtml = schedulesTableHeaders + schedulesHtml + schedulesTableFooter;
+        return schedulesHtml;
     }
 }
 
 logout_button.addEventListener('click', logout);
 
-getTasks();
+getSchedules();
 getLocation();
