@@ -48,8 +48,8 @@ public class GoogleMapsDirectionsServiceJavaClientApiImpl implements GoogleMapsD
 
 
     @Override
-    public Optional<int[]> getOptimalOrderOfTerminals(List<Terminal> origins, List<Terminal> destinations,
-                                                      List<Terminal> terminalLocations) {
+    public Optional<int[]> getOptimalIndicesOfOrderOfTerminals(List<Terminal> origins, List<Terminal> destinations,
+                                                               List<Terminal> terminalLocations) throws IOException, InterruptedException {
 
         log.info("Getting optimal route via Google Java Client API and returning an optimized order as an Integer " +
                 "array ");
@@ -59,7 +59,7 @@ public class GoogleMapsDirectionsServiceJavaClientApiImpl implements GoogleMapsD
             final int[] waypointOrder = result.routes[0].waypointOrder;
             geoApiContext.shutdown();
             return Optional.of(waypointOrder);
-        } catch (ApiException | InterruptedException | IOException apiException) {
+        } catch (ApiException apiException) {
             log.info("No waypoints or routes returned due to Google API error: {}", apiException.getLocalizedMessage());
         }
         return Optional.empty();

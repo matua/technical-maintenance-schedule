@@ -69,7 +69,7 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
 
 //        final Optional<List<Terminal>> optimalRoute = googleMapsDirectionsService.getOptimalRouteListOfTerminals(
 //                origin, destination, terminalLocations);
-        final Optional<int[]> optimalOrderOfTerminals = googleMapsDirectionsService.getOptimalOrderOfTerminals(
+        final Optional<int[]> optimalOrderOfTerminals = googleMapsDirectionsService.getOptimalIndicesOfOrderOfTerminals(
                 origin, destination, terminalLocations);
 
 //        log.info(String.valueOf(optimalRoute));

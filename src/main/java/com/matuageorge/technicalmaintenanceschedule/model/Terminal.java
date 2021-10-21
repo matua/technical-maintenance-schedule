@@ -31,6 +31,12 @@ public class Terminal extends AbstractBaseEntity {
     private Double latitude;
 
     public LatLng getLatLngLocation() {
+        if (latitude == null) {
+            latitude = 0.0;
+        }
+        if (longitude == null) {
+            longitude = 0.0;
+        }
         return new LatLng(this.getLatitude(), this.getLongitude());
     }
 

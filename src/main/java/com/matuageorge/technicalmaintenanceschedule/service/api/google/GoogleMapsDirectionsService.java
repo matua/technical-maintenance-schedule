@@ -10,10 +10,11 @@ import java.util.Optional;
 public interface GoogleMapsDirectionsService {
     Optional<List<Terminal>> getOptimalRouteListOfTerminals(List<Terminal> origins,
                                                             List<Terminal> destinations,
-                                                            List<Terminal> terminalLocations) throws IOException, InterruptedException,
-            ApiException;
+                                                            List<Terminal> terminalLocations)
+            throws IOException, InterruptedException, ApiException;
 
-    Optional<int[]> getOptimalOrderOfTerminals(List<Terminal> origins,
-                                               List<Terminal> destinations,
-                                               List<Terminal> terminalLocations);
+    Optional<int[]> getOptimalIndicesOfOrderOfTerminals(List<Terminal> origins,
+                                                        List<Terminal> destinations,
+                                                        List<Terminal> terminalLocations)
+            throws IOException, InterruptedException;
 }
