@@ -36,8 +36,8 @@ async function getSchedules(page = 0, size = 10) {
                         <th class="uk-width-small">Task</th>
                         <th class="uk-width-small">Status</th>
                         <th class="uk-width-small">User</th>
-                        <th class="uk-table-expand">Started</th>
-                        <th class="uk-table-expand">Completed</th>
+                        <th class="uk-width-small">Started</th>
+                        <th class="uk-width-small">Completed</th>
                     </tr>
                 </thead>
                 <tbody>`
@@ -52,11 +52,11 @@ async function getSchedules(page = 0, size = 10) {
                         <td class="uk-table-link">
                             <a class="uk-link-reset" href="">${schedule.terminal.name}</a>
                         </td>
-                        <td class="uk-link-reset">${schedule.terminal.location}</td>
-                        <td class="uk-link-reset">${schedule.task.description}</td>
+                        <td class="uk-text-truncate">${schedule.terminal.location}</td>
+                        <td class="uk-text-reset">${schedule.task.description}</td>
                         <td class="uk-text-truncate">${schedule.status.toString()}</td>
                         <td class="uk-text-truncate">${schedule.user.firstName} ${schedule.user.lastName}</td>
-                        <td class="uk-link-reset">${schedule.dateTimeCreated}</td>
+                        <td class="uk-link-truncate">${convertFromJavaToJavascriptTime(schedule.dateTimeCreated)}</td>
                         <td class="uk-text-truncate">${schedule.endExecutionDateTime != null ? schedule.endExecutionDateTime : "NOT YET!"}</td>
                     </tr>`
             });

@@ -9,8 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -36,10 +34,4 @@ public class Schedule extends AbstractBaseEntity {
     private LocalDateTime dateTimeCreated;
     private LocalDateTime startExecutionDateTime;
     private LocalDateTime endExecutionDateTime;
-
-    public String getFormattedDateTimeCreated() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM HH:mm");
-        return dateTimeCreated.atZone(ZoneId.of("UTC")).format(formatter);
-    }
-
 }

@@ -50,6 +50,15 @@ function taskStatusIcon(priority) {
     }
 }
 
+function convertFromJavaToJavascriptTime(javaTime) {
+    let date = new Date(javaTime);
+    let day = date.getDay();
+    let month = date.getMonth();
+    let hour = date.getHours();
+    let minutes = date.getMinutes();
+    return `${day}/${month} ${hour}:${minutes}`;
+}
+
 // function writePaginationForProducts(productsPage, size) {
 //     const totalPages = productsPage.totalPages;
 //     const currentPage = productsPage.number;
