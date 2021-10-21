@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,10 +67,20 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
                 terminalService.findByName("TERM-1533").get());
 
 
-        final Optional<List<Terminal>> optimalRoute = googleMapsDirectionsService.getOptimalRoute(
+//        final Optional<List<Terminal>> optimalRoute = googleMapsDirectionsService.getOptimalRouteListOfTerminals(
+//                origin, destination, terminalLocations);
+        final Optional<int[]> optimalOrderOfTerminals = googleMapsDirectionsService.getOptimalOrderOfTerminals(
                 origin, destination, terminalLocations);
 
+//        log.info(String.valueOf(optimalRoute));
+        if (optimalOrderOfTerminals.isPresent()) {
+            final int[] ints = optimalOrderOfTerminals.get();
 
-        log.info(String.valueOf(optimalRoute));
+            StringBuilder result = new StringBuilder();
+            Arrays.stream(ints)
+                    .mapToObj(String::valueOf)
+                    .forEach(s -> result.append(s).append(" "));
+            log.info(result.toString().trim());
+        }
     }
 }

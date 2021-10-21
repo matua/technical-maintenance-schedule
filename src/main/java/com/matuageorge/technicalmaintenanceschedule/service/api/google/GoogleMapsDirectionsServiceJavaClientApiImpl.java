@@ -27,22 +27,16 @@ public class GoogleMapsDirectionsServiceJavaClientApiImpl implements GoogleMapsD
     GeoApiContext geoApiContext;
 
     @Override
-    public Optional<List<Terminal>> getOptimalRoute(List<Terminal> origins,
-                                                    List<Terminal> destinations,
-                                                    List<Terminal> terminalLocations)
+    public Optional<List<Terminal>> getOptimalRouteListOfTerminals(List<Terminal> origins,
+                                                                   List<Terminal> destinations,
+                                                                   List<Terminal> terminalLocations)
             throws IOException, InterruptedException {
 
-        log.info("Getting optimal route via Google Java Client API and returning list of temrinals in an optimized " +
+        log.info("Getting optimal route via Google Java Client API and returning list of terminals in an optimized " +
                 "order");
 
         try {
-            DirectionsResult result = DirectionsApi.newRequest(geoApiContext)
-                    .origin(origins.get(0).getLatLngLocation())
-                    .destination(destinations.get(0).getLatLngLocation())
-                    .departureTime(Instant.now())
-                    .waypoints(convertListOfTerminalToArrayOfLatLngWaypoints(terminalLocations))
-                    .optimizeWaypoints(true)
-                    .await();
+            DirectionsResult result = getDirectionsResult(origins, destinations, terminalLocations);
             final List<Terminal> terminals = convertArrayOfGeocodeWayPointsToListOfTerminals(terminalLocations, result.routes);
             geoApiContext.shutdown();
             return Optional.of(terminals);
@@ -52,12 +46,33 @@ public class GoogleMapsDirectionsServiceJavaClientApiImpl implements GoogleMapsD
         return Optional.empty();
     }
 
-    private LatLng[] convertListOfTerminalToArrayOfLatLngWaypoints(List<Terminal> terminalLocations) {
 
-        log.info("Converting list of terminals to array of LatLng waypoints..");
+    @Override
+    public Optional<int[]> getOptimalOrderOfTerminals(List<Terminal> origins, List<Terminal> destinations,
+                                                      List<Terminal> terminalLocations) {
 
-        return terminalLocations.stream()
-                .map(Terminal::getLatLngLocation).toList().toArray(new LatLng[0]);
+        log.info("Getting optimal route via Google Java Client API and returning an optimized order as an Integer " +
+                "array ");
+
+        try {
+            DirectionsResult result = getDirectionsResult(origins, destinations, terminalLocations);
+            final int[] waypointOrder = result.routes[0].waypointOrder;
+            geoApiContext.shutdown();
+            return Optional.of(waypointOrder);
+        } catch (ApiException | InterruptedException | IOException apiException) {
+            log.info("No waypoints or routes returned due to Google API error: {}", apiException.getLocalizedMessage());
+        }
+        return Optional.empty();
+    }
+
+    private DirectionsResult getDirectionsResult(List<Terminal> origins, List<Terminal> destinations, List<Terminal> terminalLocations) throws ApiException, InterruptedException, IOException {
+        return DirectionsApi.newRequest(geoApiContext)
+                .origin(origins.get(0).getLatLngLocation())
+                .destination(destinations.get(0).getLatLngLocation())
+                .departureTime(Instant.now())
+                .waypoints(convertListOfTerminalToArrayOfLatLngWaypoints(terminalLocations))
+                .optimizeWaypoints(true)
+                .await();
     }
 
     private List<Terminal> convertArrayOfGeocodeWayPointsToListOfTerminals(
@@ -73,5 +88,13 @@ public class GoogleMapsDirectionsServiceJavaClientApiImpl implements GoogleMapsD
             optimizedTerminalRoute.add(terminalLocations.get(index));
         }
         return optimizedTerminalRoute;
+    }
+
+    private LatLng[] convertListOfTerminalToArrayOfLatLngWaypoints(List<Terminal> terminalLocations) {
+
+        log.info("Converting list of terminals to array of LatLng waypoints..");
+
+        return terminalLocations.stream()
+                .map(Terminal::getLatLngLocation).toList().toArray(new LatLng[0]);
     }
 }

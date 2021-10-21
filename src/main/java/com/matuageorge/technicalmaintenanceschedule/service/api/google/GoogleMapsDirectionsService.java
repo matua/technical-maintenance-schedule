@@ -8,8 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GoogleMapsDirectionsService {
-    Optional<List<Terminal>> getOptimalRoute(List<Terminal> origins,
-                                             List<Terminal> destinations,
-                                             List<Terminal> terminalLocations) throws IOException, InterruptedException,
+    Optional<List<Terminal>> getOptimalRouteListOfTerminals(List<Terminal> origins,
+                                                            List<Terminal> destinations,
+                                                            List<Terminal> terminalLocations) throws IOException, InterruptedException,
             ApiException;
+
+    Optional<int[]> getOptimalOrderOfTerminals(List<Terminal> origins,
+                                               List<Terminal> destinations,
+                                               List<Terminal> terminalLocations);
 }
