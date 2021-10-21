@@ -32,6 +32,7 @@ async function getSchedules(page = 0, size = 10) {
                     <tr>
 <!--                        <th class="uk-table-shrink">Priority</th>-->
                         <th class="uk-width-small">Terminal</th>
+                        <th class="uk-width-small">Location</th>
                         <th class="uk-width-small">Task</th>
                         <th class="uk-width-small">Status</th>
                         <th class="uk-width-small">User</th>
@@ -51,6 +52,7 @@ async function getSchedules(page = 0, size = 10) {
                         <td class="uk-table-link">
                             <a class="uk-link-reset" href="">${schedule.terminal.name}</a>
                         </td>
+                        <td class="uk-link-reset">${schedule.terminal.location}</td>
                         <td class="uk-link-reset">${schedule.task.description}</td>
                         <td class="uk-text-truncate">${schedule.status.toString()}</td>
                         <td class="uk-text-truncate">${schedule.user.firstName} ${schedule.user.lastName}</td>

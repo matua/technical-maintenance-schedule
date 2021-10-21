@@ -7,7 +7,7 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ValidationExceptio
 import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
 import com.matuageorge.technicalmaintenanceschedule.model.TerminalType;
 import com.matuageorge.technicalmaintenanceschedule.repository.TerminalRepository;
-import com.matuageorge.technicalmaintenanceschedule.service.api.PayWayApiService;
+import com.matuageorge.technicalmaintenanceschedule.service.api.payway.PayWayApiService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

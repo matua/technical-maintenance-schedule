@@ -1,4 +1,4 @@
-package com.matuageorge.technicalmaintenanceschedule.service.api;
+package com.matuageorge.technicalmaintenanceschedule.service.api.payway;
 
 import com.matuageorge.technicalmaintenanceschedule.dto.TerminalDto;
 import com.matuageorge.technicalmaintenanceschedule.model.KioskMessage;

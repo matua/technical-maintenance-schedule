@@ -6,7 +6,7 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExi
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.*;
 import com.matuageorge.technicalmaintenanceschedule.repository.ScheduleRepository;
-import com.matuageorge.technicalmaintenanceschedule.service.api.PayWayApiService;
+import com.matuageorge.technicalmaintenanceschedule.service.api.payway.PayWayApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

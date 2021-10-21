@@ -4,7 +4,7 @@ import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 
-public interface PlannerService {
+public interface MainPlannerService {
     void updateSchedule() throws NotFoundException, ValidationException, ResourceAlreadyExistsException;
 
     void rescheduleDone();

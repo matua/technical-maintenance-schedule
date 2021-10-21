@@ -6,7 +6,7 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExi
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
 import com.matuageorge.technicalmaintenanceschedule.repository.TerminalRepository;
-import com.matuageorge.technicalmaintenanceschedule.service.api.PayWayApiService;
+import com.matuageorge.technicalmaintenanceschedule.service.api.payway.PayWayApiService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

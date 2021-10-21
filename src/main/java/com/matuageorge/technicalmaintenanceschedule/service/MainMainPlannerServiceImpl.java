@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class PlannerServiceImpl implements PlannerService {
+public class MainMainPlannerServiceImpl implements MainPlannerService {
 
     //    @Value("${cron.schedule.timezone}")
 //    private String timeZone;

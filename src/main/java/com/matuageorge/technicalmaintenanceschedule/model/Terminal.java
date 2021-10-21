@@ -1,5 +1,6 @@
 package com.matuageorge.technicalmaintenanceschedule.model;
 
+import com.google.maps.model.LatLng;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -28,4 +29,9 @@ public class Terminal extends AbstractBaseEntity {
     private Boolean deleted;
     private Double longitude;
     private Double latitude;
+
+    public LatLng getLatLngLocation() {
+        return new LatLng(this.getLatitude(), this.getLongitude());
+    }
+
 }
