@@ -3,7 +3,7 @@
 let schedulesHtml;
 let logout_button = document.getElementById('logout_button');
 
-async function getSchedules(page = 0, size = 10) {
+async function getSchedules(page = 0, size = 1000) {
     schedulesHtml = '';
     const url = baseUrl + `/schedules/${page}/${size}`;
 
@@ -26,7 +26,9 @@ async function getSchedules(page = 0, size = 10) {
 
     function writeSchedulessToTable(page) {
         const schedulesTableHeaders =
-            `<div class="uk-overflow-auto">
+            `Total schedules:             
+<span class="uk-badge">${page.totalElements}</span>
+<div class="uk-overflow-auto">
             <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
                 <thead>
                     <tr>

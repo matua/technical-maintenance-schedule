@@ -7,5 +7,5 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ValidationExceptio
 public interface MainPlannerService {
     void updateSchedule() throws NotFoundException, ValidationException, ResourceAlreadyExistsException;
 
-    void rescheduleDone();
+    void rescheduleCompletedRegularSchedules();
 }
