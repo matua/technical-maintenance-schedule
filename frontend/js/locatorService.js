@@ -21,7 +21,7 @@ function getLocation() {
     navigator.geolocation.getCurrentPosition(
         position => {
             document.getElementById('gps_location').innerHTML =
-                `My GPS: ${position.coords.latitude}; ${position.coords.longitude}`
+                `My GPS: ${position.coords.latitude}, ${position.coords.longitude}`
         }, function () {
             alert('Oops! An error occurred.');
         }, options);
