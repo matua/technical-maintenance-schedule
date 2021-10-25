@@ -29,4 +29,6 @@ public interface ScheduleService {
     Optional<Schedule> findByTerminalAndTask(Terminal terminal, Task task);
 
     List<Schedule> addUrgentSchedules() throws ValidationException, NotFoundException;
+
+    void completeSchedule(Long scheduleId);
 }

@@ -45,8 +45,8 @@ public class MainMainPlannerServiceImpl implements MainPlannerService {
         googleMapsDirectionsService.getOptimalRouteListOfTerminalsWithLatLngStartAndFinishPoint(
                 new LatLng(headOfficeLatitude, headOfficeLongitude), terminals);
         List<Task> tasks = taskService.findAll();
-        List<User> availableTechnicians = userService.findAllByRoleAndActiveAndOnduty(
-                Role.TECHNICIAN, true, true);
+//        List<User> availableTechnicians = userService.findAllByRoleAndActiveAndOnduty(
+//                Role.TECHNICIAN, true, true);
         User user = userService.findByEmail("kulmba@payway.ug");
 
 

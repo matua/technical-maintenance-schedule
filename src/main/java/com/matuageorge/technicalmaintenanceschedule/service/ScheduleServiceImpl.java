@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -104,6 +105,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         urgentSchedulesToAdd.forEach(schedule -> log.info("Urgent schedule added for TERM: {} with ERROR:{}",
                 schedule.getTerminal().getName(), schedule.getTask().getDescription()));
         return urgentSchedulesToAdd;
+    }
+
+    @Override
+    @Transactional
+    public void completeSchedule(Long scheduleId) {
+        scheduleRepository.completeSchedule(scheduleId);
     }
 
 

@@ -38,10 +38,19 @@ public class ScheduleController {
     public ResponseEntity<Schedule> update(@RequestBody ScheduleDto scheduleDto) throws ValidationException,
             ResourceAlreadyExistsException, NotFoundException {
 
-        log.info("Handling task to update with task {}", scheduleDto);
+        log.info("Handling schedule to update with schedule {}", scheduleDto);
 
         Schedule updatedSchedule = scheduleService.update(modelMapper.map(scheduleDto, Schedule.class));
         return ResponseEntity.ok(updatedSchedule);
+    }
+
+    @PutMapping(ADMIN + SCHEDULES + "/{scheduleId}")
+    public ResponseEntity<Void> completeSchedule(@PathVariable Long scheduleId) {
+
+        log.info("Handling schedule with id: {} to complete..", scheduleId);
+
+        scheduleService.completeSchedule(scheduleId);
+        return ResponseEntity.accepted().build();
     }
 
     @DeleteMapping(ADMIN + SCHEDULES + "/{scheduleId}")

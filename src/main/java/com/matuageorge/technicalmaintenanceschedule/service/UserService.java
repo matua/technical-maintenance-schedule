@@ -33,5 +33,5 @@ public interface UserService {
 
     List<User> findAllByRole(Role role);
 
-    List<User> findAllByRoleAndActiveAndOnduty(Role role, Boolean active, Boolean onDuty);
+//    List<User> findAllByRoleAndActiveAndOnduty(Role role, Boolean active, Boolean onDuty);
 }
