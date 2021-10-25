@@ -134,6 +134,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByRole(role);
     }
 
+    @Override
+    public List<User> findAllByRoleAndActiveAndOnduty(Role role, Boolean active, Boolean onDuty) {
+        return userRepository.findAllByRoleAndActiveAndOnduty(role, active, onDuty);
+    }
+
 
     private void validateUserMainFields(User savedUser) throws ValidationException {
         if (savedUser.getFirstName().isBlank() || savedUser.getLastName().isEmpty()) {

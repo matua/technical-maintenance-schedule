@@ -32,4 +32,6 @@ public interface UserService {
     void toggleUserStatusByUserId(Long userId) throws ValidationException, NotFoundException, ResourceAlreadyExistsException;
 
     List<User> findAllByRole(Role role);
+
+    List<User> findAllByRoleAndActiveAndOnduty(Role role, Boolean active, Boolean onDuty);
 }

@@ -46,6 +46,34 @@ public class GoogleMapsDirectionsServiceJavaClientApiImpl implements GoogleMapsD
         return Optional.empty();
     }
 
+    @Override
+    public Optional<List<Terminal>> getOptimalRouteListOfTerminalsWithLatLngStartAndFinishPoint(LatLng startAndFinishPoint,
+                                                                                                List<Terminal> terminalLocations)
+            throws IOException, InterruptedException {
+
+        log.info("Getting optimal route via Google Java Client API and returning list of terminals in an optimized " +
+                "order");
+        try {
+            DirectionsResult result = getDirectionsResultWithLatLngStartAndFinishPoint(startAndFinishPoint, terminalLocations);
+            final List<Terminal> terminals = convertArrayOfGeocodeWayPointsToListOfTerminals(terminalLocations, result.routes);
+            geoApiContext.shutdown();
+            return Optional.of(terminals);
+        } catch (ApiException apiException) {
+            log.info("No waypoints or routes returned due to Google API error: {}", apiException.getLocalizedMessage());
+        }
+        return Optional.empty();
+    }
+
+    private DirectionsResult getDirectionsResultWithLatLngStartAndFinishPoint(LatLng startAndFinishPoint, List<Terminal> terminalLocations) throws IOException, InterruptedException, ApiException {
+        return DirectionsApi.newRequest(geoApiContext)
+                .origin(startAndFinishPoint)
+                .destination(startAndFinishPoint)
+                .departureTime(Instant.now())
+                .waypoints(convertListOfTerminalToArrayOfLatLngWaypoints(terminalLocations))
+                .optimizeWaypoints(true)
+                .await();
+    }
+
 
     @Override
     public Optional<int[]> getOptimalIndicesOfOrderOfTerminals(List<Terminal> origins, List<Terminal> destinations,

@@ -1,6 +1,7 @@
 package com.matuageorge.technicalmaintenanceschedule.service.api.google;
 
 import com.google.maps.errors.ApiException;
+import com.google.maps.model.LatLng;
 import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
 
 import java.io.IOException;
@@ -17,4 +18,7 @@ public interface GoogleMapsDirectionsService {
                                                         List<Terminal> destinations,
                                                         List<Terminal> terminalLocations)
             throws IOException, InterruptedException;
+
+    Optional<List<Terminal>> getOptimalRouteListOfTerminalsWithLatLngStartAndFinishPoint(LatLng origin,
+                                                                                         List<Terminal> terminalLocations) throws IOException, InterruptedException, ApiException;
 }

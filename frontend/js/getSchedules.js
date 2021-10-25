@@ -28,6 +28,7 @@ async function getSchedules(page = 0, size = 1000) {
         const schedulesTableHeaders =
             `Total schedules:             
 <span class="uk-badge">${page.totalElements}</span>
+<span class="uk-badge" id="gps_location"></span>
 <div class="uk-overflow-auto">
             <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
                 <thead>
