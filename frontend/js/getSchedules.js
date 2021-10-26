@@ -26,10 +26,16 @@ async function getSchedules(page = 0, size = 1000) {
 
     function writeSchedulesToTable(page) {
         const schedulesTableHeaders =
-            `Total schedules:             
-<span class="uk-badge">${page.totalElements}</span>
-
-<span class="uk-badge" uk-icon="location" id="gps_location">Getting location...</span>
+            `<div class="uk-padding-small">
+                <div class="uk-tile uk-tile-muted uk-padding-remove">
+                    <p class="uk-h4">Total tasks: ${page.totalElements}</p>
+<!--                </div>         -->
+             </div>   
+             <div class="uk-padding-small">
+                 <div class="uk-container">                  
+                    <span class="uk-label uk-label-warning" uk-icon="location" id="gps_location">Getting location...</span>
+                 </div>
+             </div>
 <div class="uk-overflow-auto">
             <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
                 <thead>
@@ -59,7 +65,7 @@ async function getSchedules(page = 0, size = 1000) {
                      <!--                         <td class="uk-text-reset">${schedule.task.description}</td>-->
                       <!--                        <td class="uk-text-truncate">${schedule.status.toString()}</td>-->
                       <!--                        <td class="uk-text-truncate">${schedule.user.firstName} ${schedule.user.lastName}</td>-->
-                        <td class="uk-link-truncate">${convertFromJavaToJavascriptTime(schedule.dateTimeCreated)}</td>
+                        <td class="uk-link-truncate">${moment(convertFromJavaToJavascriptTime(schedule.dateTimeCreated)).format('DD/MM/YY HH:MM')}</td>
                       <!--    <td class="uk-text-truncate">${schedule.endExecutionDateTime != null ? schedule.endExecutionDateTime : "NOT YET!"}</td>-->
                     </tr>`
             });

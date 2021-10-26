@@ -81,33 +81,37 @@ getSingleSchedule();
 getLocation();
 
 async function completeTask(id) {
-    const url = baseUrl + `/admin/schedules/complete/${id}`;
-    if (checkAdminRights(parseToken(getToken()))) {
-        await fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${getToken()}`
-            },
-        });
+    if (confirm("Please confirm")) {
+        const url = baseUrl + `/admin/schedules/complete/${id}`;
+        if (checkAdminRights(parseToken(getToken()))) {
+            await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                },
+            });
+        }
+        let complete_task_button = document.getElementById('complete_task_button');
+        complete_task_button.hidden = true;
     }
-    let complete_task_button = document.getElementById('complete_task_button');
-    complete_task_button.hidden = true;
 }
 
 async function startTask(id) {
-    const url = baseUrl + `/admin/schedules/start/${id}`;
-    if (checkAdminRights(parseToken(getToken()))) {
-        await fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${getToken()}`
-            },
-        });
+    if (confirm("Please confirm")) {
+        const url = baseUrl + `/admin/schedules/start/${id}`;
+        if (checkAdminRights(parseToken(getToken()))) {
+            await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                },
+            });
+        }
+        let start_task_button = document.getElementById('start_task_button');
+        start_task_button.hidden = true;
     }
-    let start_task_button = document.getElementById('start_task_button');
-    start_task_button.hidden = true;
 }
 
 function timeDifference(date1, date2) {
