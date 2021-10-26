@@ -34,7 +34,7 @@ async function getSingleSchedule() {
         } else {
             start_task_button = '';
         }
-        if (page.endExecutionDateTime == null) {
+        if (page.endExecutionDateTime == null && page.startExecutionDateTime != null) {
             complete_task_button = `<button id="complete_task_button" onclick="completeTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">COMPLETE TASK</button>`
         } else {
             complete_task_button = '';
@@ -94,6 +94,7 @@ async function completeTask(id) {
         }
         let complete_task_button = document.getElementById('complete_task_button');
         complete_task_button.hidden = true;
+        document.location.reload();
     }
 }
 
@@ -111,6 +112,7 @@ async function startTask(id) {
         }
         let start_task_button = document.getElementById('start_task_button');
         start_task_button.hidden = true;
+        document.location.reload();
     }
 }
 
