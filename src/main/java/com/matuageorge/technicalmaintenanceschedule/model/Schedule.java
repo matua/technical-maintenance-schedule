@@ -35,6 +35,6 @@ public class Schedule extends AbstractBaseEntity {
     private LocalDateTime dateTimeCreated;
     private LocalDateTime startExecutionDateTime;
     @LastModifiedDate
-    @Column(name = "end_execution_date_time", updatable = false)
+    @Column(name = "end_execution_date_time")
     private LocalDateTime endExecutionDateTime;
 }

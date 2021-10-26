@@ -27,6 +27,19 @@ async function getSingleSchedule() {
     }
 
     function writeSingleScheduleToTable(page) {
+        let start_task_button;
+        let complete_task_button;
+        if (page.startExecutionDateTime == null) {
+            start_task_button = `<button id="start_task_button" onclick="startTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">START TASK</button>`
+        } else {
+            start_task_button = '';
+        }
+        if (page.endExecutionDateTime == null) {
+            complete_task_button = `<button id="complete_task_button" onclick="completeTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">COMPLETE TASK</button>`
+        } else {
+            complete_task_button = '';
+        }
+
         const singleScheduleTableHeaders =
 
             `<span class="uk-badge" uk-icon="location" id="gps_location">Getting location...</span>
@@ -45,11 +58,15 @@ async function getSingleSchedule() {
                        <p><span uk-icon="location"></span>   ${page.terminal.location}</br></br>
                         <i>${page.task.description}</i></br></br>
                         Status: <span class="uk-badge"> ${page.status.toString()}</span></br>
-                       Time Created: <span class="uk-badge"> ${convertFromJavaToJavascriptTime(page.dateTimeCreated)}</span></br>
-                       Time Completed: <span class="uk-badge"> ${page.endExecutionDateTime != null ? schedule.endExecutionDateTime : "NOT YET!"}</span></br>
+                       Time Created: <code> ${convertFromJavaToJavascriptTime(page.dateTimeCreated)}</code></br>
+                       Time Completed: <code> ${page.endExecutionDateTime != null ? page.endExecutionDateTime : "NOT YET!"}</code></br>
                        <p uk-margin>
-                       <button onclick="completeTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">COMPLETE TASK</button>
+                       ${start_task_button}
+                       </p>  
+                           <p uk-margin>
+                       ${complete_task_button}
                        </p>
+                    Time Spent on task: <code>${timeDifference(new Date(page.endExecutionDateTime), new Date(page.startExecutionDateTime))}</code>
                         </p>
                 </div>
             `
@@ -64,7 +81,7 @@ getSingleSchedule();
 getLocation();
 
 async function completeTask(id) {
-    const url = baseUrl + `/admin/schedules/${id}`;
+    const url = baseUrl + `/admin/schedules/complete/${id}`;
     if (checkAdminRights(parseToken(getToken()))) {
         await fetch(url, {
             method: 'PUT',
@@ -74,4 +91,46 @@ async function completeTask(id) {
             },
         });
     }
+    let complete_task_button = document.getElementById('complete_task_button');
+    complete_task_button.hidden = true;
+}
+
+async function startTask(id) {
+    const url = baseUrl + `/admin/schedules/start/${id}`;
+    if (checkAdminRights(parseToken(getToken()))) {
+        await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            },
+        });
+    }
+    let start_task_button = document.getElementById('start_task_button');
+    start_task_button.hidden = true;
+}
+
+function timeDifference(date1, date2) {
+    if ((Date.now() - date1) > 3.154e10) {
+        return '';
+    }
+    let difference = date1.getTime() - date2.getTime();
+
+    const daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
+    difference -= daysDifference * 1000 * 60 * 60 * 24
+
+    const hoursDifference = Math.floor(difference / 1000 / 60 / 60);
+    difference -= hoursDifference * 1000 * 60 * 60
+
+    const minutesDifference = Math.floor(difference / 1000 / 60);
+    difference -= minutesDifference * 1000 * 60
+
+    const secondsDifference = Math.floor(difference / 1000);
+
+    return `
+        ${daysDifference === 0 ? '' : daysDifference + ' day/s'} 
+        ${hoursDifference === 0 ? '' : hoursDifference + ' hour/s'}
+        ${minutesDifference === 0 ? '' : minutesDifference + ' minute/s'}
+        ${secondsDifference === 0 ? '' : secondsDifference + ' second/s'}
+        `;
 }

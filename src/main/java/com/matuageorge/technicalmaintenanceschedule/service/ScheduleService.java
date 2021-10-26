@@ -31,4 +31,6 @@ public interface ScheduleService {
     List<Schedule> addUrgentSchedules() throws ValidationException, NotFoundException;
 
     void completeSchedule(Long scheduleId);
+
+    void startSchedule(Long scheduleId);
 }

@@ -44,12 +44,21 @@ public class ScheduleController {
         return ResponseEntity.ok(updatedSchedule);
     }
 
-    @PutMapping(ADMIN + SCHEDULES + "/{scheduleId}")
+    @PutMapping(ADMIN + SCHEDULES + "/complete/{scheduleId}")
     public ResponseEntity<Void> completeSchedule(@PathVariable Long scheduleId) {
 
         log.info("Handling schedule with id: {} to complete..", scheduleId);
 
         scheduleService.completeSchedule(scheduleId);
+        return ResponseEntity.accepted().build();
+    }
+
+    @PutMapping(ADMIN + SCHEDULES + "/start/{scheduleId}")
+    public ResponseEntity<Void> startSchedule(@PathVariable Long scheduleId) {
+
+        log.info("Handling schedule with id: {} to start..", scheduleId);
+
+        scheduleService.startSchedule(scheduleId);
         return ResponseEntity.accepted().build();
     }
 

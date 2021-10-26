@@ -110,7 +110,14 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public void completeSchedule(Long scheduleId) {
-        scheduleRepository.completeSchedule(scheduleId);
+        scheduleRepository.completeSchedule(scheduleId, LocalDateTime.now());
+    }
+
+    @Override
+    @Transactional
+    public void startSchedule(Long scheduleId) {
+        scheduleRepository.startSchedule(scheduleId, LocalDateTime.now());
+
     }
 
 
