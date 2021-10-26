@@ -6,16 +6,13 @@ document.write(`
         <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
             <li class="uk-active"><a href="#">Active</a></li>
             <li class="uk-parent">
-                <a href="index.html">LOCATION</a>
-                <ul class="uk-nav-sub">
-                    <li><a href="#">Sub item</a></li>
-                    <li><a href="#">Sub item</a></li>
-                </ul>
+<!--                <ul class="uk-nav-sub">-->
+<!--                    <li><a href="#">Sub item</a></li>-->
+<!--                    <li><a href="#">Sub item</a></li>-->
+<!--                </ul>-->
             </li>
-            <li class="uk-nav-header">Header</li>
             <li><a href="../frontend/tasks.html"><span class="uk-margin-small-right" uk-icon="icon: table"></span>All Tasks</a></li>
             <li><a href="../frontend/schedules.html"><span class="uk-margin-small-right" uk-icon="icon: table"></span>All Schedules</a></li>
-            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: location"></span>Locations</a></li>
             <li class="uk-nav-divider"></li>
             <li><a href="login.html"><span class="uk-margin-small-right" uk-icon="icon: sign-out"></span>Log out</a></li>
         </ul>
