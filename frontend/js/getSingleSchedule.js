@@ -58,8 +58,8 @@ async function getSingleSchedule() {
                        <p><span uk-icon="location"></span>   ${page.terminal.location}</br></br>
                         <i>${page.task.description}</i></br></br>
                         Status: <span class="uk-badge"> ${page.status.toString()}</span></br>
-                       Time Created: <code> ${convertFromJavaToJavascriptTime(page.dateTimeCreated)}</code></br>
-                       Time Completed: <code> ${page.endExecutionDateTime != null ? page.endExecutionDateTime : "NOT YET!"}</code></br>
+                       Time Created: <code> ${moment(convertFromJavaToJavascriptTime(page.dateTimeCreated)).format('DD/MM/YY HH:MM')}</code></br>
+                       Time Completed: <code> ${page.endExecutionDateTime != null ? moment(new Date(page.endExecutionDateTime)).format('DD/MM/YY HH:MM') : "NOT YET!"}</code></br>
                        <p uk-margin>
                        ${start_task_button}
                        </p>  

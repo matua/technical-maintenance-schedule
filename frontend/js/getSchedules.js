@@ -40,8 +40,8 @@ async function getSchedules(page = 0, size = 1000) {
 <!--                        <th class="uk-width-small">Task</th>-->
 <!--                        <th class="uk-width-small">Status</th>-->
 <!--                        <th class="uk-width-small">User</th>-->
-                        <th class="uk-width-small">Started</th>
-                        <th class="uk-width-small">Completed</th>
+                        <th class="uk-width-small">Issued</th>
+<!--                        <th class="uk-width-small">Completed</th>-->
                     </tr>
                 </thead>
                 <tbody>`
@@ -60,7 +60,7 @@ async function getSchedules(page = 0, size = 1000) {
                       <!--                        <td class="uk-text-truncate">${schedule.status.toString()}</td>-->
                       <!--                        <td class="uk-text-truncate">${schedule.user.firstName} ${schedule.user.lastName}</td>-->
                         <td class="uk-link-truncate">${convertFromJavaToJavascriptTime(schedule.dateTimeCreated)}</td>
-                        <td class="uk-text-truncate">${schedule.endExecutionDateTime != null ? schedule.endExecutionDateTime : "NOT YET!"}</td>
+                      <!--    <td class="uk-text-truncate">${schedule.endExecutionDateTime != null ? schedule.endExecutionDateTime : "NOT YET!"}</td>-->
                     </tr>`
             });
         schedulesHtml = schedulesTableHeaders + schedulesHtml + schedulesTableFooter;
