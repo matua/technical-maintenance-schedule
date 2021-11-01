@@ -74,9 +74,10 @@ function writePaginationForSchedules(schedulesPage, size) {
                 </a></li>`
     }
 
+
     if (currentPage === totalPages - 1) {
         paginationHtml += `
-            <li class="arrow unavailable"><a>NEXT/a></li>`
+            <li class="arrow unavailable"><a>NEXT</li>`
     } else {
         paginationHtml += `<li class="arrow available"><a
                 onclick="getSchedules(${currentPage + 1}, ${size})">NEXT

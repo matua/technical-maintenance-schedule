@@ -4,7 +4,7 @@ let schedulesHtml;
 let paginationHtml;
 let logout_button = document.getElementById('logout_button');
 
-async function getSchedules(page = 0, size = 5) {
+async function getSchedules(page = 0, size = 9) {
     schedulesHtml = '';
     paginationHtml = '';
     const url = baseUrl + `/schedules/notCompleted/${page}/${size}`;
@@ -34,6 +34,7 @@ async function getSchedules(page = 0, size = 5) {
             `<div class="uk-padding-small">
                 <div class="uk-tile uk-tile-muted uk-padding-remove">
                     <p class="uk-h4">Total tasks: ${page.totalElements}
+                    <span class="uk-badge .uk-position-right">${page.pageable.pageNumber + 1}|${page.totalPages}</span>
 <!--                    <input  onchange="" type="checkbox" checked>Toggle Done</input>-->
                     </p>
 <!--                </div>         -->
@@ -59,8 +60,7 @@ async function getSchedules(page = 0, size = 5) {
                 </thead>
                 <tbody>`
         const schedulesTableFooter =
-            `</tbody>
-       </table>`
+            ``
         page.content.forEach(
             schedule => {
                 schedulesHtml +=
@@ -84,4 +84,4 @@ async function getSchedules(page = 0, size = 5) {
 logout_button.addEventListener('click', logout);
 
 getSchedules();
-// getLocation();
+getLocation();
