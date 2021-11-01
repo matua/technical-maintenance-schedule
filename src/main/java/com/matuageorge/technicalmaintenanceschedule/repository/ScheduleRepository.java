@@ -31,4 +31,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     void startSchedule(Long scheduleId, LocalDateTime startExecutionDateTime);
 
     Page<Schedule> findByEndExecutionDateTimeNull(Pageable pageable);
+
+    Optional<Schedule> findByTerminalAndTaskAndEndExecutionDateTimeNull(Terminal terminal, Task task);
 }

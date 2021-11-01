@@ -41,7 +41,7 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
 //        log.info("Updating the Terminals DB...");
 //        terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
         mainPlannerService.updateSchedule();
-//        mainPlannerService.rescheduleCompletedRegularSchedules();
+        mainPlannerService.rescheduleCompletedRegularSchedules();
         scheduleService.addUrgentSchedules();
 
 //        final List<Terminal> origin = List.of(terminalService.findByName("TERM-1529").get());

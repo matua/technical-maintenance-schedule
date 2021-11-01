@@ -52,12 +52,15 @@ async function getSingleSchedule() {
             `
         singleScheduleHtml +=
             `
-                <div class="uk-card uk-card-default uk-card-body uk-width-1-2@s">                                          
-                       <span class=".uk-label-success"><a class="uk-link-muted" href="schedules.html">${page.terminal.name}</a></span></br>
+                <div class="uk-card uk-card-default uk-card-body uk-width-1-2@s">   
+                        <ul class="uk-breadcrumb">
+                            <li><a href="schedules.html">Tap to all Schedules</a></li>
+                        </ul>                                       
+                       <span class=".uk-label-success"><a class="uk-link-muted">${page.terminal.name}</a></span></br>
                        <p><span uk-icon="location"></span>   ${page.terminal.location}</br></br>
                         <i>${page.task.description}</i></br></br>
                         Status: <span class="uk-badge"> ${page.status.toString()}</span></br>
-                       Time Created: <code> ${moment(convertFromJavaToJavascriptTime(page.dateTimeCreated)).format('DD/MM/YY HH:MM')}</code></br>
+                       Time Created: <code> ${moment(page.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</code></br>
                        Time Completed: <code> ${page.endExecutionDateTime != null ? moment(new Date(page.endExecutionDateTime)).format('DD/MM/YY HH:MM') : "NOT YET!"}</code></br>
                        <p uk-margin>
                        ${start_task_button}

@@ -190,7 +190,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Optional<Schedule> findByTerminalAndTask(Terminal terminal, Task task) {
-        return scheduleRepository.findByTerminalAndTask(terminal, task);
+        return scheduleRepository.findByTerminalAndTaskAndEndExecutionDateTimeNull(terminal, task);
     }
 
     private String getEndTimeStamp(DateTimeFormatter formatter, LocalDateTime now) {

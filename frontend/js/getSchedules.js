@@ -72,7 +72,7 @@ async function getSchedules(page = 0, size = 9) {
                      <!--                         <td class="uk-text-reset">${schedule.task.description}</td>-->
                       <!--                        <td class="uk-text-truncate">${schedule.status.toString()}</td>-->
                       <!--                        <td class="uk-text-truncate">${schedule.user.firstName} ${schedule.user.lastName}</td>-->
-                        <td class="uk-link-truncate">${moment(convertFromJavaToJavascriptTime(schedule.dateTimeCreated)).format('DD/MM/YY HH:MM')}</td>
+                        <td class="uk-link-truncate">${moment(schedule.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</td>
                       <!--    <td class="uk-text-truncate">${schedule.endExecutionDateTime != null ? schedule.endExecutionDateTime : "NOT YET!"}</td>-->
                     </tr>`
             });
