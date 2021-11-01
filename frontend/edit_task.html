@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit task</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="css/uikit.min.css" rel="stylesheet"/>
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
+    <script src="js/menu.js"></script>
+</head>
+<body>
+<img alt="PayWay Logo" data-src="images/logo.png"
+     height="" id="header" uk-img uk-toggle="target: #offcanvas-nav-primary" width="100">
+<div id="tasks">
+</div>
+<div>
+    <form class="uk-position-center" id="edit_task_form">
+        <label for="task_description">Task description:</label><br>
+        <input class="uk-input uk-form-width-medium uk-form-large" id="task_description" name="title" required
+               type="text"><br>
+        <label for="task_frequency">Task frequency:</label><br>
+        <input class="uk-input uk-form-width-medium uk-form-large" id="task_frequency" min="0" name="price" required
+               type="number"><br>
+        <label for="task_priority">Task priority:</label><br>
+        <div id="task_priority">
+            <select>
+                <option>COMMON</option>
+                <option>MEDIUM</option>
+                <option>URGENT</option>
+            </select>
+        </div>
+        <div class="uk-padding-small">
+            <input class="uk-button uk-button-secondary uk-width-1-1" onclick="editTask()" type="submit"
+                   value=" Confirm">
+        </div>
+    </form>
+</div>
+</body>
+</html>
+
+<script src="js/const.js"></script>
+<script src="js/common.js"></script>
+<script src="js/editTask.js"></script>

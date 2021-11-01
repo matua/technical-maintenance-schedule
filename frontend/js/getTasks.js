@@ -33,6 +33,7 @@ async function getTasks(page = 0, size = 10) {
                         <th class="uk-table-shrink">Priority</th>
                         <th class="uk-table-expand">Description</th>
                         <th class="uk-width-small">Frequency</th>
+                        <th class="uk-width-small"></th>
                     </tr>
                 </thead>
                 <tbody>`
@@ -46,9 +47,12 @@ async function getTasks(page = 0, size = 10) {
                     `<tr>
                         <td><img class="uk-preserve-width uk-border-circle" src="images/${taskPriorityIcon}" width="40" alt=""></td>
                         <td class="uk-table-link">
-                            <a class="uk-link-reset" href="">${task.description}</a>
+                            <a class="uk-link-reset">${task.description}</a>
                         </td>
                         <td class="uk-text-truncate">${task.frequency}</td>
+                        <td class="uk-text-truncate">
+                        <a href="edit_task.html?${task.description}|${task.priority}|${task.frequency}"
+                         class="uk-icon-link" uk-icon="pencil"></a></td>
                     </tr>`
             });
         tasksHtml = tasksTableHeaders + tasksHtml + tasksTableFooter;

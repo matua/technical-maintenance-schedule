@@ -52,8 +52,7 @@ async function getSingleSchedule() {
             `
         singleScheduleHtml +=
             `
-                <div class="uk-card uk-card-default uk-card-body uk-width-1-2@s">
-                    
+                <div class="uk-card uk-card-default uk-card-body uk-width-1-2@s">                                          
                        <span class=".uk-label-success"><a class="uk-link-muted" href="schedules.html">${page.terminal.name}</a></span></br>
                        <p><span uk-icon="location"></span>   ${page.terminal.location}</br></br>
                         <i>${page.task.description}</i></br></br>

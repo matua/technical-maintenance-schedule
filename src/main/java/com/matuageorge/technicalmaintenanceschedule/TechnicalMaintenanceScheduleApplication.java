@@ -40,9 +40,9 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
     public void run(String... args) throws NotFoundException, ValidationException, ResourceAlreadyExistsException, IOException, InterruptedException, ApiException {
 //        log.info("Updating the Terminals DB...");
 //        terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
-//        mainPlannerService.updateSchedule();
+        mainPlannerService.updateSchedule();
 //        mainPlannerService.rescheduleCompletedRegularSchedules();
-//        scheduleService.addUrgentSchedules();
+        scheduleService.addUrgentSchedules();
 
 //        final List<Terminal> origin = List.of(terminalService.findByName("TERM-1529").get());
 //        final List<Terminal> destination = List.of(

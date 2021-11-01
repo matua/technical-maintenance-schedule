@@ -85,6 +85,10 @@ public class PayWayApiServiceImpl implements PayWayApiService {
 
         List<KioskMessage> listOfKiosksOutOfService = getKiosksWithOutOfServiceMessage(responseEntity);
 
+        log.info("Quantity of kiosks to be urgently serviced: {}", listOfKiosksOutOfService.size());
+        log.info("Kiosks to be urgently serviced:");
+        listOfKiosksOutOfService.forEach(kioskMessage -> log.info(kioskMessage.getKiosk()));
+
         return Optional.of(listOfKiosksOutOfService);
     }
 

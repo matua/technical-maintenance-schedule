@@ -54,6 +54,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd+HH:mm");
         LocalDateTime now = LocalDateTime.now(ZoneId.of(timeZone));
         String startTimeStamp = getStartTimeStamp(formatter, now, errorMessagesReportWindow);
+//        String startTimeStamp = getStartTimeStamp(formatter, now, "100");
+//        String endTimeStamp = getStartTimeStamp(formatter, now, "91");
         String endTimeStamp = getEndTimeStamp(formatter, now);
         User user = userService.findByEmail("kulmba@payway.ug");
 
@@ -63,6 +65,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (optionalOfAllTerminalsToBeUrgentlyServiced.isPresent()) {
             final List<KioskMessage> allTerminalsToBeUrgentlyServiced =
                     optionalOfAllTerminalsToBeUrgentlyServiced.get();
+            var savedTaskReference = new Object() {
+                Task savedTask;
+            };
             allTerminalsToBeUrgentlyServiced.forEach(
                     kioskMessage -> {
                         Task task = Task.builder()
@@ -71,32 +76,33 @@ public class ScheduleServiceImpl implements ScheduleService {
                                 .priority(TaskPriority.URGENT)
                                 .build();
                         try {
-                            taskService.save(modelMapper.map(task, TaskDto.class));
+                            savedTaskReference.savedTask = taskService.save(modelMapper.map(task, TaskDto.class));
+                            log.info("Saved new task:\n {}", savedTaskReference.savedTask.getDescription());
                         } catch (ValidationException | ResourceAlreadyExistsException e) {
                             log.error(e.getMessage());
                         }
 
-                        final Optional<Task> taskByDescription = taskService.findByDescription(task.getDescription());
-                        if (taskByDescription.isEmpty()) {
-                            terminalService.findByName(kioskMessage.getKiosk()).ifPresent(
-                                    t -> {
-                                        Schedule schedule = Schedule.builder()
-                                                .status(TaskStatus.SCHEDULED)
-                                                .terminal(t)
-                                                .task(task)
-                                                .user(user)
-                                                .build();
-                                        try {
-                                            save(schedule);
-                                            urgentSchedulesToAdd.add(schedule);
-                                        } catch (ValidationException | ResourceAlreadyExistsException e) {
-                                            log.error("Cannot add schedule with URGENT task. Error: {}", e.getLocalizedMessage());
-                                        }
+//                        final Optional<Task> taskByDescription = taskService.findByDescription(task.getDescription());
+//                        if (taskByDescription.isEmpty()) {
+                        terminalService.findByName(kioskMessage.getKiosk()).ifPresent(
+                                t -> {
+                                    Schedule schedule = Schedule.builder()
+                                            .status(TaskStatus.SCHEDULED)
+                                            .terminal(t)
+                                            .task(savedTaskReference.savedTask)
+                                            .user(user)
+                                            .build();
+                                    try {
+                                        save(schedule);
+                                        urgentSchedulesToAdd.add(schedule);
+                                    } catch (ValidationException | ResourceAlreadyExistsException e) {
+                                        log.error("Cannot add schedule with URGENT task. Error: {}", e.getLocalizedMessage());
                                     }
-                            );
-                        } else {
-                            log.error("Task {} is already registered in schedule.", task.getDescription());
-                        }
+                                }
+                        );
+//                        } else {
+//                            log.error("Task {} is already registered in schedule.", task.getDescription());
+//                        }
                     });
         }
         if (urgentSchedulesToAdd.isEmpty()) {
