@@ -33,4 +33,6 @@ public interface ScheduleService {
     void completeSchedule(Long scheduleId);
 
     void startSchedule(Long scheduleId);
+
+    Page<Schedule> findByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException;
 }

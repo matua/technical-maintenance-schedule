@@ -167,6 +167,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    public Page<Schedule> findByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException {
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by("dateTimeCreated").descending());
+        Page<Schedule> tasksPage = scheduleRepository.findByEndExecutionDateTimeNull(pageable);
+
+        if (tasksPage.hasContent()) {
+            return tasksPage;
+        } else {
+            throw new NotFoundException("No schedule found");
+        }
+    }
+
+    @Override
     public List<Schedule> findAll() {
         return scheduleRepository.findAll();
     }

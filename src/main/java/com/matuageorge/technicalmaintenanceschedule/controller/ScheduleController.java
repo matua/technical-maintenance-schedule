@@ -90,4 +90,15 @@ public class ScheduleController {
         Page<Schedule> schedulesPageResponseBody = scheduleService.findAll(page, pageSize);
         return ResponseEntity.ok().body(schedulesPageResponseBody);
     }
+
+    @GetMapping(SCHEDULES + "/notCompleted/{page}/{pageSize}")
+    public ResponseEntity<Page<Schedule>> findAllNotCompleted(
+            @PathVariable Integer page,
+            @PathVariable Integer pageSize) throws NotFoundException {
+
+        log.info("Handling find all NOT COMPLETED schedules page: {} with size: {}", page, pageSize);
+
+        Page<Schedule> schedulesPageResponseBody = scheduleService.findByEndExecutionDateTimeNull(page, pageSize);
+        return ResponseEntity.ok().body(schedulesPageResponseBody);
+    }
 }

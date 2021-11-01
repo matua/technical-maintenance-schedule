@@ -5,7 +5,7 @@ let logout_button = document.getElementById('logout_button');
 
 async function getSchedules(page = 0, size = 1000) {
     schedulesHtml = '';
-    const url = baseUrl + `/schedules/${page}/${size}`;
+    const url = baseUrl + `/schedules/notCompleted/${page}/${size}`;
 
     if (checkAdminRights(parseToken(getToken()))) {
         await fetch(url, {
@@ -28,7 +28,9 @@ async function getSchedules(page = 0, size = 1000) {
         const schedulesTableHeaders =
             `<div class="uk-padding-small">
                 <div class="uk-tile uk-tile-muted uk-padding-remove">
-                    <p class="uk-h4">Total tasks: ${page.totalElements}</p>
+                    <p class="uk-h4">Total tasks: ${page.totalElements}
+<!--                    <input  onchange="" type="checkbox" checked>Toggle Done</input>-->
+                    </p>
 <!--                </div>         -->
              </div>   
              <div class="uk-padding-small">
