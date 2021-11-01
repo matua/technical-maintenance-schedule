@@ -1,10 +1,12 @@
 "use strict";
 
 let schedulesHtml;
+let paginationHtml;
 let logout_button = document.getElementById('logout_button');
 
-async function getSchedules(page = 0, size = 1000) {
+async function getSchedules(page = 0, size = 5) {
     schedulesHtml = '';
+    paginationHtml = '';
     const url = baseUrl + `/schedules/notCompleted/${page}/${size}`;
 
     if (checkAdminRights(parseToken(getToken()))) {
@@ -20,8 +22,11 @@ async function getSchedules(page = 0, size = 1000) {
             })
             .then(schedulesPage => {
                 writeSchedulesToTable(schedulesPage);
+                writePaginationForSchedules(schedulesPage, size);
             });
         document.getElementById('schedules').innerHTML = schedulesHtml;
+        document.getElementsByClassName('pagination')[0].innerHTML = paginationHtml;
+
     }
 
     function writeSchedulesToTable(page) {

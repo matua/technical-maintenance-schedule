@@ -59,93 +59,29 @@ function convertFromJavaToJavascriptTime(javaTime) {
     return `${day}/${month} ${hour}:${minutes}`;
 }
 
-// function writePaginationForProducts(productsPage, size) {
-//     const totalPages = productsPage.totalPages;
-//     const currentPage = productsPage.number;
-//
-//     if (currentPage === 0) {
-//         paginationHtml += `<li class="arrow unavailable"><a>&laquo;</a></li>`
-//     } else {
-//         paginationHtml += `<li class="arrow available"><a
-//                 onclick="getProducts(${currentPage - 1}, ${size})">&laquo;
-//                 </a></li>`
-//     }
-//
-//     for (let page = 1; page <= totalPages; page++) {
-//         if (page - 1 === currentPage) {
-//             paginationHtml += `<li class="current"><a>${page}</a></li>`;
-//         } else {
-//             paginationHtml += `<li><a onclick="getProducts(${page - 1}, ${size})">${page}</a></li>`;
-//         }
-//     }
-//
-//     if (currentPage === totalPages - 1) {
-//         paginationHtml += `
-//             <li class="arrow unavailable"><a>&#187;</a></li>`
-//     } else {
-//         paginationHtml += `<li class="arrow available"><a
-//                 onclick="getProducts(${currentPage + 1}, ${size})">&#187;
-//                 </a></li>`
-//     }
-//
-//     return paginationHtml;
-// }
-//
-// function writePaginationForUsers(usersPage, size) {
-//     const totalPages = usersPage.totalPages;
-//     const currentPage = usersPage.number;
-//
-//     if (currentPage === 0) {
-//         paginationHtml += `<li class="arrow unavailable"><a>&laquo;</a></li>`
-//     } else {
-//         paginationHtml += `<li class="arrow available"><a
-//                 onclick="getUsers(${currentPage - 1}, ${size})">&laquo;
-//                 </a></li>`
-//     }
-//
-//     for (let page = 1; page <= totalPages; page++) {
-//         if (page - 1 === currentPage) {
-//             paginationHtml += `<li class="current"><a>${page}</a></li>`;
-//         } else {
-//             paginationHtml += `<li><a onclick="getUsers(${page - 1}, ${size})">${page}</a></li>`;
-//         }
-//     }
-//
-//     if (currentPage === totalPages - 1) {
-//         paginationHtml += `
-//             <li class="arrow unavailable"><a>&#187;</a></li>`
-//     } else {
-//         paginationHtml += `<li class="arrow available"><a
-//                 onclick="getUsers(${currentPage + 1}, ${size})">&#187;
-//                 </a></li>`
-//     }
-//
-//     return paginationHtml;
-// }
+/* Pagination */
 
-function darkenScreen() {
-    let fade = document.getElementById('blockDiv');
-    fade.classList.remove('hide');
-}
 
-function clearScreen() {
-    let fade = document.getElementById('blockDiv');
-    fade.classList.add('hide');
-}
+function writePaginationForSchedules(schedulesPage, size) {
+    const totalPages = schedulesPage.totalPages;
+    const currentPage = schedulesPage.number;
 
-function getBrowserLanguage() {
-    return navigator.language || navigator.userLanguage;
-}
+    if (currentPage === 0) {
+        paginationHtml += `<li class="arrow unavailable"><a>PREV.</a></li>`
+    } else {
+        paginationHtml += `<li class="arrow available"><a
+                onclick="getSchedules(${currentPage - 1}, ${size})">PREV.
+                </a></li>`
+    }
 
-async function getCurrentUsername() {
-    await fetch(baseUrl + `/username`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${getToken()}`
-        },
-    })
-        .then((response) => {
-            return response.json();
-        })
+    if (currentPage === totalPages - 1) {
+        paginationHtml += `
+            <li class="arrow unavailable"><a>NEXT/a></li>`
+    } else {
+        paginationHtml += `<li class="arrow available"><a
+                onclick="getSchedules(${currentPage + 1}, ${size})">NEXT
+                </a></li>`
+    }
+
+    return paginationHtml;
 }
