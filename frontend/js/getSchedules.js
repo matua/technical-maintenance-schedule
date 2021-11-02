@@ -3,8 +3,11 @@
 let schedulesHtml;
 let paginationHtml;
 let logout_button = document.getElementById('logout_button');
+let urgentClass = 'uk-text-danger';
 
 async function getSchedules(page = 0, size = 9) {
+    loadAnimation('schedules');
+
     schedulesHtml = '';
     paginationHtml = '';
     const url = baseUrl + `/schedules/notCompleted/${page}/${size}`;
@@ -24,6 +27,7 @@ async function getSchedules(page = 0, size = 9) {
                 writeSchedulesToTable(schedulesPage);
                 writePaginationForSchedules(schedulesPage, size);
             });
+        unloadAnimation('schedules');
         document.getElementById('schedules').innerHTML = schedulesHtml;
         document.getElementsByClassName('pagination')[0].innerHTML = paginationHtml;
 
@@ -39,12 +43,12 @@ async function getSchedules(page = 0, size = 9) {
                     </p>
 <!--                </div>         -->
              </div>   
-             <div class="uk-padding-small">
+             <div>
                  <div class="uk-container">                  
                     <span class="uk-label uk-label-warning" uk-icon="location" id="gps_location">Getting location...</span>
                  </div>
              </div>
-<div class="uk-overflow-auto">
+            <div class="uk-overflow-auto">
             <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
                 <thead>
                     <tr>
@@ -61,18 +65,19 @@ async function getSchedules(page = 0, size = 9) {
                 <tbody>`
         const schedulesTableFooter =
             ``
+
         page.content.forEach(
             schedule => {
                 schedulesHtml +=
                     `<tr>
-                        <td class="uk-table-link">
+                        <td class="uk-table-link ${schedule.task.priority == 'URGENT' ? urgentClass : ''}">
                             <a class="uk-link-reset" href="single_schedule.html#${schedule.id}">${schedule.terminal.name}</a>
                         </td>
-                        <td class="uk-table-shrink">${schedule.terminal.location}</td>
+                        <td class="uk-table-shrink ${schedule.task.priority == 'URGENT' ? urgentClass : ''}">${schedule.terminal.location}</td>
                      <!--                         <td class="uk-text-reset">${schedule.task.description}</td>-->
                       <!--                        <td class="uk-text-truncate">${schedule.status.toString()}</td>-->
                       <!--                        <td class="uk-text-truncate">${schedule.user.firstName} ${schedule.user.lastName}</td>-->
-                        <td class="uk-link-truncate">${moment(schedule.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</td>
+                        <td class="uk-link-truncate ${schedule.task.priority == 'URGENT' ? urgentClass : ''}">${moment(schedule.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</td>
                       <!--    <td class="uk-text-truncate">${schedule.endExecutionDateTime != null ? schedule.endExecutionDateTime : "NOT YET!"}</td>-->
                     </tr>`
             });

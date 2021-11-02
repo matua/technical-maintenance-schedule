@@ -6,7 +6,7 @@ ul.pagination {
 
 ul.pagination li {
     height: 1.5rem;
-    color: #222222;
+    color: #ffffff;
     font-size: 0.875rem;
     margin-left: 0.3125rem;
 }
@@ -57,4 +57,17 @@ ul.pagination li {
 .pagination-centered ul.pagination li {
     float: none;
     display: inline-block;
+}
+
+
+.outer {
+    position: relative;
+    height: 5em;
+    border: 1px solid blue;
+}
+
+.inner {
+    position: absolute;
+    top: 50%;
+    border: 1px solid red;
 }

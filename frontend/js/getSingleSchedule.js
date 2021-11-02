@@ -4,6 +4,7 @@ let singleScheduleHtml;
 let logout_button = document.getElementById('logout_button');
 
 async function getSingleSchedule() {
+    loadAnimation('schedule');
     let currentUrl = window.location.href;
     let scheduleId = currentUrl.substr(currentUrl.indexOf('#') + 1);
     singleScheduleHtml = '';
@@ -23,6 +24,7 @@ async function getSingleSchedule() {
             .then(singleSchedulePage => {
                 writeSingleScheduleToTable(singleSchedulePage);
             });
+        unloadAnimation('schedule');
         document.getElementById('schedule').innerHTML = singleScheduleHtml;
     }
 

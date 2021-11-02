@@ -12,33 +12,30 @@
 <body>
 <img alt="PayWay Logo" data-src="images/logo.png"
      height="" id="header" uk-img uk-toggle="target: #offcanvas-nav-primary" width="100">
-<div id="tasks">
-</div>
+<div id="tasks"></div>
 <div>
     <form class="uk-position-center" id="edit_task_form">
-        <label for="task_description">Task description:</label><br>
-        <input class="uk-input uk-form-width-medium uk-form-large" id="task_description" name="title" required
+        <label for="description">Task description:</label><br>
+        <input class="uk-input uk-form-width-medium uk-form-large" id="description" name="description" required
                type="text"><br>
-        <label for="task_frequency">Task frequency:</label><br>
-        <input class="uk-input uk-form-width-medium uk-form-large" id="task_frequency" min="0" name="price" required
+        <label for="frequency">Task frequency:</label><br>
+        <input class="uk-input uk-form-width-medium uk-form-large" id="frequency" min="0" name="frequency" required
                type="number"><br>
-        <label for="task_priority">Task priority:</label><br>
-        <div id="task_priority">
-            <select>
+        <label>Task priority:</label><br>
+        <label for="priority">
+            <select id="priority" name="priority">
                 <option>COMMON</option>
                 <option>MEDIUM</option>
                 <option>URGENT</option>
             </select>
-        </div>
+        </label>
         <div class="uk-padding-small">
-            <input class="uk-button uk-button-secondary uk-width-1-1" onclick="editTask()" type="submit"
-                   value=" Confirm">
+            <input class="uk-button uk-button-secondary uk-width-1-1" type="submit" value="Confirm">
         </div>
     </form>
 </div>
 </body>
 </html>
-
 <script src="js/const.js"></script>
 <script src="js/common.js"></script>
 <script src="js/editTask.js"></script>

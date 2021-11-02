@@ -52,7 +52,6 @@ function taskStatusIcon(priority) {
 
 /* Pagination */
 
-
 function writePaginationForSchedules(schedulesPage, size) {
     const totalPages = schedulesPage.totalPages;
     const currentPage = schedulesPage.number;
@@ -76,4 +75,20 @@ function writePaginationForSchedules(schedulesPage, size) {
     }
 
     return paginationHtml;
+}
+
+/* Loader */
+
+
+function loadAnimation(element) {
+    document.getElementById(element).hidden = true;
+    document.getElementById('loader').innerHTML =
+        `<div class="circle one"></div>
+         <div class="circle two"></div>
+         <div class="circle three"></div>`;
+}
+
+function unloadAnimation(element) {
+    document.getElementById('loader').innerHTML = '';
+    document.getElementById(element).hidden = false;
 }
