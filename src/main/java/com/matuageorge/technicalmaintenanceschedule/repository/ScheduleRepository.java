@@ -26,8 +26,13 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
 
     @Modifying
-    @Query("update Schedule s set s.startExecutionDateTime = :startExecutionDateTime where s.id = " +
-            ":scheduleId")
+    @Query(
+            """
+                    update Schedule s
+                    set s.startExecutionDateTime = :startExecutionDateTime,
+                    s.status = 'IN_PROGRESS' where s.id = :scheduleId
+                    """
+    )
     void startSchedule(Long scheduleId, LocalDateTime startExecutionDateTime);
 
     Page<Schedule> findByEndExecutionDateTimeNull(Pageable pageable);

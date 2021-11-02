@@ -61,7 +61,7 @@ async function getSingleSchedule() {
                        <span class=".uk-label-success"><a class="uk-link-muted">${page.terminal.name}</a></span></br>
                        <p><span uk-icon="location"></span>   ${page.terminal.location}</br></br>
                         <i>${page.task.description}</i></br></br>
-                        Status: <span class="uk-badge"> ${page.status.toString()}</span></br>
+                        Status: <span class="uk-badge"> ${page.status}</span></br>
                        Time Created: <code> ${moment(page.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</code></br>
                        Time Completed: <code> ${page.endExecutionDateTime != null ? moment(new Date(page.endExecutionDateTime)).format('DD/MM/YY HH:MM') : "NOT YET!"}</code></br>
                        <p uk-margin>
@@ -78,11 +78,6 @@ async function getSingleSchedule() {
         return singleScheduleHtml;
     }
 }
-
-logout_button.addEventListener('click', logout);
-
-getSingleSchedule();
-getLocation();
 
 async function completeTask(id) {
     if (confirm("Please confirm")) {
@@ -144,3 +139,8 @@ function timeDifference(date1, date2) {
         ${secondsDifference === 0 ? '' : secondsDifference + ' second/s'}
         `;
 }
+
+logout_button.addEventListener('click', logout);
+
+getSingleSchedule();
+getLocation();

@@ -1,7 +1,16 @@
 package com.matuageorge.technicalmaintenanceschedule.model;
 
+import lombok.Getter;
+
+@Getter
 public enum TaskStatus {
-    SCHEDULED,
-    IN_PROGRESS,
-    DONE
+    SCHEDULED("Scheduled"),
+    IN_PROGRESS("In Progress"),
+    DONE("Done");
+
+    private final String name;
+
+    TaskStatus(String name) {
+        this.name = name;
+    }
 }

@@ -1,7 +1,16 @@
 package com.matuageorge.technicalmaintenanceschedule.model;
 
+import lombok.Getter;
+
+@Getter
 public enum TaskPriority {
-    COMMON,
-    MEDIUM,
-    URGENT
+    COMMON("Common"),
+    MEDIUM("Medium"),
+    URGENT("Urgent");
+
+    private final String name;
+
+    TaskPriority(String name) {
+        this.name = name;
+    }
 }
