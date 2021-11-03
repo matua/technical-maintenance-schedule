@@ -43,7 +43,6 @@ async function getSingleSchedule() {
         }
 
         const singleScheduleTableHeaders =
-
             `<span class="uk-badge" uk-icon="location" id="gps_location">Getting location...</span>
         <div class="uk-overflow-auto">
                 <thead>
@@ -53,26 +52,25 @@ async function getSingleSchedule() {
             `
             `
         singleScheduleHtml +=
-            `
-                <div class="uk-card uk-card-default uk-card-body uk-width-1-2@s">   
-                        <ul class="uk-breadcrumb">
-                            <li><a href="schedules.html">Tap to all Schedules</a></li>
-                        </ul>                                       
-                       <span class=".uk-label-success"><a class="uk-link-muted">${page.terminal.name}</a></span></br>
-                       <p><span uk-icon="location"></span>   ${page.terminal.location}</br></br>
-                        <i>${page.task.description}</i></br></br>
-                        Status: <span class="uk-badge"> ${page.status}</span></br>
-                       Time Created: <code> ${moment(page.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</code></br>
-                       Time Completed: <code> ${page.endExecutionDateTime != null ? moment(new Date(page.endExecutionDateTime)).format('DD/MM/YY HH:MM') : "NOT YET!"}</code></br>
-                       <p uk-margin>
-                       ${start_task_button}
-                       </p>  
-                           <p uk-margin>
-                       ${complete_task_button}
-                       </p>
-                    Time Spent on task: <code>${timeDifference(new Date(page.endExecutionDateTime), new Date(page.startExecutionDateTime))}</code>
-                        </p>
-                </div>
+            `<div class="uk-card uk-card-default uk-card-body uk-width-1-2@s">   
+                <ul class="uk-breadcrumb">
+                    <li><a href="schedules.html">Tap to all Schedules</a></li>
+                </ul>                                       
+                <span class=".uk-label-success"><a class="uk-link-muted">${page.terminal.name}</a></span></br>
+                <p><span uk-icon="location"></span>   ${page.terminal.location}</br></br>
+                <i>${page.task.description}</i></br></br>
+                Status: <span class="uk-badge"> ${page.status}</span></br>
+                Time Created: <code> ${moment(page.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</code></br>
+                Time Completed: <code> ${page.endExecutionDateTime != null ? moment(new Date(page.endExecutionDateTime)).format('DD/MM/YY HH:MM') : "NOT YET!"}</code></br>
+                <p uk-margin>
+                ${start_task_button}
+                </p>  
+                <p uk-margin>
+                ${complete_task_button}
+                </p>
+                Time Spent on task: <code>${timeDifference(new Date(page.endExecutionDateTime), new Date(page.startExecutionDateTime))}</code>
+                </p>
+            </div>
             `
         singleScheduleHtml = singleScheduleTableHeaders + singleScheduleHtml + singleScheduleTableFooter;
         return singleScheduleHtml;

@@ -28,4 +28,5 @@ public class Task extends AbstractBaseEntity {
     @Min(message = "Frequency must be minimum every 1 day", value = 1)
     @Max(message = "Frequency must be maximum every 365 days", value = 365)
     private Integer frequency;
+    private Long messageId;
 }

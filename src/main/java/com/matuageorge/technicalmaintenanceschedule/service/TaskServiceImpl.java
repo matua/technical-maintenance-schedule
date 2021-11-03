@@ -27,10 +27,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task save(TaskDto taskDto) throws ValidationException, ResourceAlreadyExistsException {
-        Optional<Task> taskToSave = taskRepository.findByDescription(taskDto.getDescription());
+
+        Optional<Task> taskToSave = taskRepository.findByDescriptionArgsSince(getSinceArgs(taskDto.getDescription()));
         if (taskToSave.isPresent()) {
-            log.info("Task to save with such description already exists");
-            throw new ResourceAlreadyExistsException("Task with such description already exists");
+            log.info("Task with such description: {} or kiosk message id: {} already " +
+                    "exists", taskDto.getDescription(), taskDto.getMessageId());
+            throw new ResourceAlreadyExistsException("Task with such description or message id already exists");
         } else {
             try {
                 return taskRepository.save(modelMapper.map(taskDto, Task.class));
@@ -38,6 +40,10 @@ public class TaskServiceImpl implements TaskService {
                 throw new ValidationException("Task cannot be null");
             }
         }
+    }
+
+    private String getSinceArgs(String description) {
+        return description.substring(description.indexOf("Since"), description.indexOf("Duration") - 7);
     }
 
     @Override
