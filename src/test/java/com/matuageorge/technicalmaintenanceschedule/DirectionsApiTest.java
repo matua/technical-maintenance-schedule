@@ -19,9 +19,9 @@ import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.LatLng;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -30,15 +30,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Slf4j
-public class DirectionsApiTest {
+class DirectionsApiTest {
 
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(DirectionsApiTest.class);
     GeoApiContext sc;
 
     @BeforeEach
     void before() {
         sc = new GeoApiContext.Builder()
-                .apiKey("AIzaSyBqySQ7-r5e7RBH5f9G0vXTDFWbvW-6XgY").build();
+                .apiKey("AIzaSyBQr228WvDZtZ3ttcUs7Zn1_lxCkn1847U").build();
     }
 
 

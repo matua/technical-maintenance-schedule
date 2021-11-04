@@ -77,41 +77,58 @@ async function getSingleSchedule() {
     }
 }
 
-async function completeTask(id) {
-    if (confirm("Please confirm")) {
-        const url = baseUrl + `/admin/schedules/complete/${id}`;
-        if (checkAdminRights(parseToken(getToken()))) {
-            await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
-                },
-            });
+function startTask(id) {
+    duDialog(null, 'This action cannot be undone, proceed?', {
+        buttons: duDialog.OK_CANCEL,
+        okText: 'Start Task',
+        callbacks: {
+            okClick: async function () {
+                const url = baseUrl + `/admin/schedules/start/${id}`;
+                if (checkAdminRights(parseToken(getToken()))) {
+                    await fetch(url, {
+                        method: 'PUT',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${getToken()}`
+                        },
+                    });
+                }
+                this.hide();
+                let start_task_button = document.getElementById('start_task_button');
+                start_task_button.hidden = true;
+                document.location.reload();
+                // hides the dialog
+            }
         }
-        let complete_task_button = document.getElementById('complete_task_button');
-        complete_task_button.hidden = true;
-        document.location.reload();
-    }
+    });
 }
 
-async function startTask(id) {
-    if (confirm("Please confirm")) {
-        const url = baseUrl + `/admin/schedules/start/${id}`;
-        if (checkAdminRights(parseToken(getToken()))) {
-            await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
-                },
-            });
+async function completeTask(id) {
+    duDialog(null, 'This action cannot be undone, proceed?', {
+        buttons: duDialog.OK_CANCEL,
+        okText: 'Complete Task',
+        callbacks: {
+            okClick: async function () {
+                const url = baseUrl + `/admin/schedules/complete/${id}`;
+                if (checkAdminRights(parseToken(getToken()))) {
+                    await fetch(url, {
+                        method: 'PUT',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${getToken()}`
+                        },
+                    });
+                }
+                this.hide();
+                let complete_task_button = document.getElementById('complete_task_button');
+                complete_task_button.hidden = true;
+                document.location.reload();
+                // hides the dialog
+            }
         }
-        let start_task_button = document.getElementById('start_task_button');
-        start_task_button.hidden = true;
-        document.location.reload();
-    }
+    });
 }
+
 
 function timeDifference(date1, date2) {
     if ((Date.now() - date1) > 3.154e10) {
