@@ -4,6 +4,7 @@ import com.google.maps.errors.ApiException;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
+import com.matuageorge.technicalmaintenanceschedule.model.TerminalType;
 import com.matuageorge.technicalmaintenanceschedule.service.*;
 import com.matuageorge.technicalmaintenanceschedule.service.api.payway.PayWayApiService;
 import com.matuageorge.technicalmaintenanceschedule.service.api.routing.DirectionsService;
@@ -40,11 +41,11 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
 
     @Override
     public void run(String... args) throws NotFoundException, ValidationException, ResourceAlreadyExistsException, IOException, InterruptedException, ApiException {
-//        log.info("Updating the Terminals DB...");
-//        terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
-//        mainPlannerService.updateSchedule();
-//        mainPlannerService.rescheduleCompletedRegularSchedules();
-//        scheduleService.addUrgentSchedules();
+        log.info("Updating the Terminals DB...");
+        terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
+        mainPlannerService.addNewCommonTaskSchedulesIfExist();
+        mainPlannerService.createNewSchedulesForCommonTasksDueAgain();
+        mainPlannerService.addUrgentSchedules();
 
 //        final List<Terminal> origin = List.of(terminalService.findByName("TERM-1529").get());
 //        final List<Terminal> destination = List.of(

@@ -1,6 +1,5 @@
 package com.matuageorge.technicalmaintenanceschedule.service;
 
-import com.google.maps.errors.ApiException;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -38,33 +36,33 @@ public class MainMainPlannerServiceImpl implements MainPlannerService {
     private Double headOfficeLongitude;
 
     @Scheduled(cron = "${cron.schedule}", zone = "${cron.schedule.timezone}")
-    public void updateSchedule() throws NotFoundException, ValidationException, ResourceAlreadyExistsException, IOException, InterruptedException, ApiException {
+    public void addNewCommonTaskSchedulesIfExist() {
 
-        List<Terminal> terminals = terminalService.updateListOfTerminalsInDb(TerminalType.valueOf(terminalType));
+        List<Terminal> terminals = terminalService.findAll();
 
         List<Task> allCommonTasks = taskService.findAllCommon(TaskPriority.COMMON);
-//        List<User> availableTechnicians = userService.findAllByRoleAndActiveAndOnduty(
-//                Role.TECHNICIAN, true, true);
-//        User user = userService.findByEmail("kulmba@payway.ug");
 
-
-        for (Terminal terminal : terminals) {
-            for (Task task : allCommonTasks) {
-                Optional<Schedule> scheduleByTerminalAndTask = scheduleService.findByTerminalAndTask(terminal, task);
-                if (scheduleByTerminalAndTask.isEmpty()) {
-                    Schedule schedule = Schedule.builder()
-                            .status(TaskStatus.SCHEDULED)
-                            .terminal(terminal)
-                            .task(task)
-                            .user(user)
-                            .build();
-                    scheduleService.save(schedule);
-                }
-            }
-        }
+        terminals.forEach(
+                terminal -> allCommonTasks.forEach(
+                        task -> {
+                            Optional<Schedule> scheduleByTerminalAndTask = scheduleService.findByTerminalAndTask(terminal, task);
+                            if (scheduleByTerminalAndTask.isEmpty()) {
+                                Schedule schedule = Schedule.builder()
+                                        .status(TaskStatus.SCHEDULED)
+                                        .terminal(terminal)
+                                        .task(task)
+                                        .build();
+                                try {
+                                    scheduleService.save(schedule);
+                                } catch (ValidationException | ResourceAlreadyExistsException e) {
+                                    log.error(e.getLocalizedMessage());
+                                }
+                            }
+                        }
+                ));
     }
 
-    public void rescheduleCompletedRegularSchedules() {
+    public void createNewSchedulesForCommonTasksDueAgain() {
         LocalDateTime now = LocalDateTime.now(ZoneId.of(timeZone));
         List<Schedule> finishedSchedules = scheduleService.findByEndExecutionDateTimeNotNull();
         finishedSchedules.forEach(
@@ -76,15 +74,24 @@ public class MainMainPlannerServiceImpl implements MainPlannerService {
                                 .status(TaskStatus.SCHEDULED)
                                 .terminal(schedule.getTerminal())
                                 .task(schedule.getTask())
-                                .user(schedule.getUser())
                                 .build();
                         try {
                             scheduleService.save(newSchedule);
                         } catch (ValidationException | ResourceAlreadyExistsException e) {
-                            log.error(e.getMessage());
+                            log.error(e.getLocalizedMessage());
                         }
                     }
                 }
         );
+    }
+
+    @Override
+    public List<Schedule> addUrgentSchedules() throws ValidationException, NotFoundException {
+        return scheduleService.addUrgentSchedules();
+    }
+
+    @Override
+    public void allocateSchedulesBetweenUsers(int numberOfSchedules, int numberOfUsers) {
+
     }
 }

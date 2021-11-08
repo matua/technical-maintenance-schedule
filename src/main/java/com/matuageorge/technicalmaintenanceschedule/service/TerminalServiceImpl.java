@@ -121,6 +121,11 @@ public class TerminalServiceImpl implements TerminalService {
         return terminalRepository.findAll();
     }
 
+    @Override
+    public List<Terminal> findAll() {
+        return terminalRepository.findAll();
+    }
+
     private List<Terminal> filterTerminalsByType(List<Terminal> currentListOfTerminals, TerminalType terminalType) {
         return currentListOfTerminals.stream()
                 .filter(

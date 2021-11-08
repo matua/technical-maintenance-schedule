@@ -57,7 +57,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         String endTimeStamp = getEndTimeStamp(formatter, now);
 //        startTimeStamp = getStartTimeStamp(formatter, now, "1440");
 //        endTimeStamp = getStartTimeStamp(formatter, now, "0");
-        User user = userService.findByEmail("kulmba@payway.ug");
 
         final Optional<List<KioskMessage>> optionalOfAllTerminalsToBeUrgentlyServiced = payWayApiService
                 .getAllTerminalsToBeUrgentlyServiced(startTimeStamp, endTimeStamp);
@@ -91,7 +90,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                                                 .status(TaskStatus.SCHEDULED)
                                                 .terminal(t)
                                                 .task(savedTaskReference.savedTask)
-                                                .user(user)
                                                 .build();
                                         try {
                                             save(schedule);

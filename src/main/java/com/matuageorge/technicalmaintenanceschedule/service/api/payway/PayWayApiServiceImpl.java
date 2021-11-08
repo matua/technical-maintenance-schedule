@@ -28,6 +28,8 @@ public class PayWayApiServiceImpl implements PayWayApiService {
 
     @Value("${payway.api.kioskcash.key}")
     private String paywayKioskCashApiKey;
+    @Value("${payway.api.messages.key}")
+    private String paywayMessagesApiKey;
     private final RestTemplate restTemplate;
     private final ModelMapper modelMapper;
 
@@ -35,7 +37,7 @@ public class PayWayApiServiceImpl implements PayWayApiService {
     public List<Terminal> getCurrentListOfTerminals() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", "application/json");
-        headers.add("X-Api-Key", "de762450-f0bf-4b74-9801-feaa179c83ad");
+        headers.add("X-Api-Key", paywayKioskCashApiKey);
 
         UriComponents uri = UriComponentsBuilder.newInstance()
                 .scheme("https")
@@ -61,7 +63,7 @@ public class PayWayApiServiceImpl implements PayWayApiService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Accept", "application/json");
-        headers.add("X-Api-Key", "xKgai68ZgPI2wtpuT4pItd7uTOUc0Z1s");
+        headers.add("X-Api-Key", paywayMessagesApiKey);
 
         UriComponents build = UriComponentsBuilder.newInstance()
                 .scheme("https")

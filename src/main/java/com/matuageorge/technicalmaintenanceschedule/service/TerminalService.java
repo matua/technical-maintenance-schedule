@@ -28,4 +28,5 @@ public interface TerminalService {
 
     List<Terminal> updateListOfTerminalsInDb(TerminalType terminalType) throws NotFoundException;
 
+    List<Terminal> findAll();
 }
