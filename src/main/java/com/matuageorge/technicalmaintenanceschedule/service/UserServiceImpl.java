@@ -136,7 +136,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAllByRoleAndActiveAndOnduty(Role technician, boolean active, boolean onDuty) {
-        return userRepository.findAllByRoleAndActiveAndOnDuty(technician, active, onDuty);
+//        return userRepository.findAllByRoleAndActiveAndOnDuty(technician, active, onDuty);
+        return null;
     }
 
 //    @Override

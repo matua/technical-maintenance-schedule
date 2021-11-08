@@ -35,4 +35,6 @@ public interface ScheduleService {
     void startSchedule(Long scheduleId);
 
     Page<Schedule> findByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException;
+
+    Page<Schedule> findAllSortedByTaskPriority(Integer page, Integer pageSize) throws NotFoundException;
 }

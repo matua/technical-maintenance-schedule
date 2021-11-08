@@ -87,7 +87,7 @@ public class ScheduleController {
 
         log.info("Handling find all schedules page: {} with size: {}", page, pageSize);
 
-        Page<Schedule> schedulesPageResponseBody = scheduleService.findAll(page, pageSize);
+        Page<Schedule> schedulesPageResponseBody = scheduleService.findAllSortedByTaskPriority(page, pageSize);
         return ResponseEntity.ok().body(schedulesPageResponseBody);
     }
 

@@ -37,6 +37,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final TerminalService terminalService;
     private final TaskService taskService;
     private final ModelMapper modelMapper;
+    private static final String NO_SCHEDULE_FOUND = "No schedule found";
     @Value("${errorMessagesReportWindow}")
     String errorMessagesReportWindow;
     @Value("${cron.schedule.timezone}")
@@ -159,7 +160,20 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (tasksPage.hasContent()) {
             return tasksPage;
         } else {
-            throw new NotFoundException("No schedule found");
+            throw new NotFoundException(NO_SCHEDULE_FOUND);
+        }
+    }
+
+    @Override
+    public Page<Schedule> findAllSortedByTaskPriority(Integer page, Integer pageSize) throws NotFoundException {
+
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Schedule> tasksPage = scheduleRepository.findAllByOrderByTaskPriorityDesc(pageable);
+
+        if (tasksPage.hasContent()) {
+            return tasksPage;
+        } else {
+            throw new NotFoundException(NO_SCHEDULE_FOUND);
         }
     }
 
@@ -171,7 +185,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (tasksPage.hasContent()) {
             return tasksPage;
         } else {
-            throw new NotFoundException("No schedule found");
+            throw new NotFoundException(NO_SCHEDULE_FOUND);
         }
     }
 
