@@ -48,14 +48,6 @@ public class ScheduleController {
         return ResponseEntity.ok(updatedSchedule);
     }
 
-    @PutMapping(SCHEDULES + "/complete/{scheduleId}")
-    public ResponseEntity<Void> completeSchedule(@PathVariable Long scheduleId) {
-
-        log.info("Handling schedule with id: {} to complete..", scheduleId);
-
-        scheduleService.completeSchedule(scheduleId);
-        return ResponseEntity.accepted().build();
-    }
 
     @PutMapping(SCHEDULES + "/start/{scheduleId}")
     public ResponseEntity<Void> startSchedule(@PathVariable Long scheduleId) {
@@ -63,6 +55,39 @@ public class ScheduleController {
         log.info("Handling schedule with id: {} to start..", scheduleId);
 
         scheduleService.startSchedule(scheduleId);
+        return ResponseEntity.accepted().build();
+    }
+
+    @PutMapping(SCHEDULES + "/grab/{scheduleId}")
+    public ResponseEntity<Void> grabSchedule(@PathVariable Long scheduleId,
+                                             @AuthenticationPrincipal UserDetails userDetails) {
+
+        log.info("Handling schedule grab with id: {} by user: {}",
+                scheduleId,
+                userDetails.getUsername());
+
+        scheduleService.grabSchedule(scheduleId);
+        return ResponseEntity.accepted().build();
+    }
+
+    @PutMapping(SCHEDULES + "/release/{scheduleId}")
+    public ResponseEntity<Void> releaseSchedule(@PathVariable Long scheduleId,
+                                                @AuthenticationPrincipal UserDetails userDetails) {
+
+        log.info("Handling schedule release with id: {} by user: {}",
+                scheduleId,
+                userDetails.getUsername());
+
+        scheduleService.releaseSchedule(scheduleId);
+        return ResponseEntity.accepted().build();
+    }
+
+    @PutMapping(SCHEDULES + "/complete/{scheduleId}")
+    public ResponseEntity<Void> completeSchedule(@PathVariable Long scheduleId) {
+
+        log.info("Handling schedule with id: {} to complete..", scheduleId);
+
+        scheduleService.completeSchedule(scheduleId);
         return ResponseEntity.accepted().build();
     }
 

@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum TaskStatus {
     SCHEDULED("Scheduled"),
+    GRABBED("Grabbed"),
     IN_PROGRESS("In Progress"),
     DONE("Done");
 

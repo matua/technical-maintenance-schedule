@@ -58,4 +58,26 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             " and schedule0_.user.email = :email " +
             " order by task1_.priority desc")
     Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByEmail(Pageable pageable, String email);
+
+    @Modifying
+    @Query(
+            """
+                    update Schedule s
+                    set s.grabbedExecutionDateTime = :grabbedExecutionDateTime,
+                    s.releasedExecutionDateTime = null,
+                    s.status = 'GRABBED' where s.id = :scheduleId
+                    """
+    )
+    void grabSchedule(Long scheduleId, LocalDateTime grabbedExecutionDateTime);
+
+    @Modifying
+    @Query(
+            """
+                    update Schedule s
+                    set s.releasedExecutionDateTime = :releasedExecutionDateTime,
+                    s.grabbedExecutionDateTime = null,
+                    s.status = 'SCHEDULED' where s.id = :scheduleId
+                    """
+    )
+    void releaseSchedule(Long scheduleId, LocalDateTime releasedExecutionDateTime);
 }

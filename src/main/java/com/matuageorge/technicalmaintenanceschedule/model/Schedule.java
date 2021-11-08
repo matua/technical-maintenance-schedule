@@ -34,4 +34,6 @@ public class Schedule extends AbstractBaseEntity {
     private LocalDateTime dateTimeCreated;
     private LocalDateTime startExecutionDateTime;
     private LocalDateTime endExecutionDateTime;
+    private LocalDateTime grabbedExecutionDateTime;
+    private LocalDateTime releasedExecutionDateTime;
 }

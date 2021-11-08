@@ -10,7 +10,7 @@ async function getSingleSchedule() {
     singleScheduleHtml = '';
     const url = baseUrl + `/schedules/${scheduleId}`;
 
-    if (checkAdminRights(parseToken(getToken()))) {
+    if (checkTechRights(parseToken(getToken()))) {
         await fetch(url, {
             method: 'GET',
             headers: {
@@ -31,7 +31,9 @@ async function getSingleSchedule() {
     function writeSingleScheduleToTable(page) {
         let start_task_button;
         let complete_task_button;
-        if (page.startExecutionDateTime == null) {
+        let grab_task_button;
+        let release_task_button;
+        if (page.startExecutionDateTime == null && page.grabbedExecutionDateTime != null) {
             start_task_button = `<button id="start_task_button" onclick="startTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">START TASK</button>`
         } else {
             start_task_button = '';
@@ -41,6 +43,17 @@ async function getSingleSchedule() {
         } else {
             complete_task_button = '';
         }
+        if (page.grabbedExecutionDateTime == null && page.startExecutionDateTime == null) {
+            grab_task_button = `<button id="grab_task_button" onclick="grabTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">GRAB TASK</button>`
+        } else {
+            grab_task_button = '';
+        }
+        if (page.releasedExecutionDateTime == null && page.startExecutionDateTime == null) {
+            release_task_button = `<button id="release_task_button" onclick="releaseTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">RELEASE TASK</button>`
+        } else {
+            release_task_button = '';
+        }
+
 
         const singleScheduleTableHeaders =
             `<span class="uk-badge" uk-icon="location" id="gps_location">Getting location...</span>
@@ -61,9 +74,17 @@ async function getSingleSchedule() {
                 <i>${page.task.description}</i></br></br>
                 Status: <span class="uk-badge"> ${page.status}</span></br>
                 Time Issued: <code> ${moment(page.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</code></br>
+                Time Grabbed: <code> ${page.grabbedExecutionDateTime != null ? moment(new Date(page.grabbedExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
+                Time Released: <code> ${page.releasedExecutionDateTime != null ? moment(new Date(page.releasedExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
                 Time Started: <code> ${page.startExecutionDateTime != null ? moment(new Date(page.startExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
                 Time Completed: <code> ${page.endExecutionDateTime != null ? moment(new Date(page.endExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
                 <p uk-margin>
+                ${grab_task_button}
+                </p>  
+                <p uk-margin>
+                ${release_task_button}
+                </p>
+                 <p uk-margin>
                 ${start_task_button}
                 </p>  
                 <p uk-margin>
@@ -78,6 +99,56 @@ async function getSingleSchedule() {
     }
 }
 
+function grabTask(id) {
+    duDialog(null, `Let's grab it?`, {
+        buttons: duDialog.OK_CANCEL,
+        okText: 'Grab Task',
+        callbacks: {
+            okClick: async function () {
+                const url = baseUrl + `/schedules/grab/${id}`;
+                if (checkTechRights(parseToken(getToken()))) {
+                    await fetch(url, {
+                        method: 'PUT',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${getToken()}`
+                        },
+                    });
+                }
+                this.hide();
+                let grab_task_button = document.getElementById('grab_task_button');
+                grab_task_button.hidden = true;
+                document.location.reload();
+            }
+        }
+    });
+}
+
+function releaseTask(id) {
+    duDialog(null, `Release the task?`, {
+        buttons: duDialog.OK_CANCEL,
+        okText: 'Release Task',
+        callbacks: {
+            okClick: async function () {
+                const url = baseUrl + `/schedules/release/${id}`;
+                if (checkTechRights(parseToken(getToken()))) {
+                    await fetch(url, {
+                        method: 'PUT',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${getToken()}`
+                        },
+                    });
+                }
+                this.hide();
+                let release_task_button = document.getElementById('release_task_button');
+                release_task_button.hidden = true;
+                document.location.reload();
+            }
+        }
+    });
+}
+
 function startTask(id) {
     duDialog(null, 'This action cannot be undone, proceed?', {
         buttons: duDialog.OK_CANCEL,
@@ -85,7 +156,7 @@ function startTask(id) {
         callbacks: {
             okClick: async function () {
                 const url = baseUrl + `/schedules/start/${id}`;
-                if (checkAdminRights(parseToken(getToken()))) {
+                if (checkTechRights(parseToken(getToken()))) {
                     await fetch(url, {
                         method: 'PUT',
                         headers: {
@@ -110,7 +181,7 @@ async function completeTask(id) {
         callbacks: {
             okClick: async function () {
                 const url = baseUrl + `/schedules/complete/${id}`;
-                if (checkAdminRights(parseToken(getToken()))) {
+                if (checkTechRights(parseToken(getToken()))) {
                     await fetch(url, {
                         method: 'PUT',
                         headers: {

@@ -74,7 +74,6 @@ async function getSchedules(page = 0, size = 5) {
 
         page.content.forEach(
             schedule => {
-                console.log(schedule);
                 schedulesHtml +=
                     `<tr> 
                         <td class="uk-table-link ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">

@@ -45,4 +45,8 @@ public interface ScheduleService {
             , String email) throws NotFoundException;
 
     List<Schedule> findAllByTaskPriority(TaskPriority urgent);
+
+    void grabSchedule(Long scheduleId);
+
+    void releaseSchedule(Long scheduleId);
 }
