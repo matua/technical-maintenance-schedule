@@ -71,7 +71,7 @@ async function getSchedules(page = 0, size = 10) {
                 schedulesHtml +=
                     `<tr>
                         <td class="uk-table-link ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">
-                            <a class="uk-link-reset" href="single_schedule.html#${schedule.id}">${schedule[0].terminal.name}</a>
+                            <a class="uk-link-reset" href="single_schedule.html#${schedule[0].id}">${schedule[0].terminal.name}</a>
                         </td>
                         <td class="uk-table-shrink ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">${schedule[0].terminal.location}</td>
                      <!--                         <td class="uk-text-reset">${schedule[0].task.description}</td>-->
