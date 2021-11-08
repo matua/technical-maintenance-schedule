@@ -54,9 +54,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd+HH:mm");
         LocalDateTime now = LocalDateTime.now(ZoneId.of(timeZone));
         String startTimeStamp = getStartTimeStamp(formatter, now, errorMessagesReportWindow);
-//        String startTimeStamp = getStartTimeStamp(formatter, now, "1440");
-//        String endTimeStamp = getStartTimeStamp(formatter, now, "0");
         String endTimeStamp = getEndTimeStamp(formatter, now);
+//        startTimeStamp = getStartTimeStamp(formatter, now, "1440");
+//        endTimeStamp = getStartTimeStamp(formatter, now, "0");
         User user = userService.findByEmail("kulmba@payway.ug");
 
         final Optional<List<KioskMessage>> optionalOfAllTerminalsToBeUrgentlyServiced = payWayApiService
@@ -189,7 +189,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Optional<Schedule> findByTerminalAndTask(Terminal terminal, Task task) {
-        return scheduleRepository.findByTerminalAndTaskAndEndExecutionDateTimeNull(terminal, task);
+        final Optional<Schedule> byTerminalAndTask = scheduleRepository.findByTerminalAndTask(terminal, task);
+        byTerminalAndTask.ifPresent(s -> log.info("error: {},{}",
+                s.getTerminal().getName(),
+                s.getTask().getDescription()));
+        return byTerminalAndTask;
     }
 
     private String getEndTimeStamp(DateTimeFormatter formatter, LocalDateTime now) {

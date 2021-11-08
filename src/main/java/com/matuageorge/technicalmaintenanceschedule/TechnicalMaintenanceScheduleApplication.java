@@ -5,11 +5,12 @@ import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.service.*;
-import com.matuageorge.technicalmaintenanceschedule.service.api.google.GoogleMapsDirectionsService;
 import com.matuageorge.technicalmaintenanceschedule.service.api.payway.PayWayApiService;
+import com.matuageorge.technicalmaintenanceschedule.service.api.routing.DirectionsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,7 +31,8 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
     private final ScheduleService scheduleService;
     private final MainPlannerService mainPlannerService;
     private final ModelMapper modelMapper;
-    private final GoogleMapsDirectionsService googleMapsDirectionsService;
+    @Qualifier("grasshopper")
+    private final DirectionsService directionsService;
 
     public static void main(String[] args) {
         SpringApplication.run(TechnicalMaintenanceScheduleApplication.class, args);
@@ -40,35 +42,54 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
     public void run(String... args) throws NotFoundException, ValidationException, ResourceAlreadyExistsException, IOException, InterruptedException, ApiException {
 //        log.info("Updating the Terminals DB...");
 //        terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
-        mainPlannerService.updateSchedule();
-        mainPlannerService.rescheduleCompletedRegularSchedules();
-        scheduleService.addUrgentSchedules();
+//        mainPlannerService.updateSchedule();
+//        mainPlannerService.rescheduleCompletedRegularSchedules();
+//        scheduleService.addUrgentSchedules();
 
 //        final List<Terminal> origin = List.of(terminalService.findByName("TERM-1529").get());
 //        final List<Terminal> destination = List.of(
 //                terminalService.findByName("TERM-1529").get());
 //        final List<Terminal> terminalLocations = List.of(
-//                terminalService.findByName("TERM-1531").get(),
-//                terminalService.findByName("TERM-1505").get(),
-//                terminalService.findByName("TERM-0139").get(),
-//                terminalService.findByName("TERM-0211").get(),
-//                terminalService.findByName("TERM-1500").get(),
-//                terminalService.findByName("TERM-6706").get(),
-//                terminalService.findByName("TERM-0109").get(),
-//                terminalService.findByName("TERM-1506").get(),
-//                terminalService.findByName("TERM-6707").get(),
-//                terminalService.findByName("TERM-6701").get(),
-//                terminalService.findByName("TERM-1501").get(),
+//                terminalService.findByName("TERM-1525").get(),
+//                terminalService.findByName("TERM-3149").get(),
+//                terminalService.findByName("TERM-7829").get(),
+//                terminalService.findByName("TERM-1502").get(),
 //                terminalService.findByName("TERM-0206").get(),
-//                terminalService.findByName("TERM-1533").get());
-
-
-//        final Optional<List<Terminal>> optimalRoute = googleMapsDirectionsService.getOptimalRouteListOfTerminals(
+//                terminalService.findByName("TERM-1533").get(),
+//                terminalService.findByName("TERM-0244").get(),
+//                terminalService.findByName("TERM-0210").get(),
+//                terminalService.findByName("TERM-6706").get(),
+//                terminalService.findByName("TERM-6708").get(),
+//                terminalService.findByName("TERM-1524").get(),
+//                terminalService.findByName("TERM-7833").get(),
+//                terminalService.findByName("TERM-1509").get(),
+//                terminalService.findByName("TERM-0211").get(),
+//                terminalService.findByName("TERM-6704").get(),
+//                terminalService.findByName("TERM-7832").get(),
+//                terminalService.findByName("TERM-1526").get(),
+//                terminalService.findByName("TERM-001").get(),
+//                terminalService.findByName("TERM-3151").get(),
+//                terminalService.findByName("TERM-7834").get(),
+//                terminalService.findByName("TERM-1500").get(),
+//                terminalService.findByName("TERM-1531").get(),
+//                terminalService.findByName("TERM-005").get(),
+//                terminalService.findByName("TERM-6705").get(),
+//                terminalService.findByName("TERM-1507").get(),
+//                terminalService.findByName("TERM-1503").get(),
+//                terminalService.findByName("TERM-0208").get(),
+//                terminalService.findByName("TERM-3145").get(),
+//                terminalService.findByName("TERM-7835").get(),
+//                terminalService.findByName("TERM-0207").get(),
+//                terminalService.findByName("TERM-0139").get(),
+//                terminalService.findByName("TERM-6702").get());
+//
+//
+//        final Optional<List<Terminal>> optimalRoute = directionsService.getOptimalRouteListOfTerminals(
 //                origin, destination, terminalLocations);
 //        final Optional<int[]> optimalOrderOfTerminals = googleMapsDirectionsService.getOptimalIndicesOfOrderOfTerminals(
 //                origin, destination, terminalLocations);
 
-//        log.info(String.valueOf(optimalRoute));
+        optimalRoute.get().forEach(terminal -> log.info(terminal.getName()));
 //        if (optimalOrderOfTerminals.isPresent()) {
 //            final int[] ints = optimalOrderOfTerminals.get();
 //

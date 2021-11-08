@@ -1,4 +1,4 @@
-package com.matuageorge.technicalmaintenanceschedule.service.api.google;
+package com.matuageorge.technicalmaintenanceschedule.service.api.routing;
 
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.LatLng;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public interface GoogleMapsDirectionsService {
+public interface DirectionsService {
     Optional<List<Terminal>> getOptimalRouteListOfTerminals(List<Terminal> origins,
                                                             List<Terminal> destinations,
                                                             List<Terminal> terminalLocations)

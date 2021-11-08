@@ -60,8 +60,9 @@ async function getSingleSchedule() {
                 <p><span uk-icon="location"></span>   ${page.terminal.location}</br></br>
                 <i>${page.task.description}</i></br></br>
                 Status: <span class="uk-badge"> ${page.status}</span></br>
-                Time Created: <code> ${moment(page.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</code></br>
-                Time Completed: <code> ${page.endExecutionDateTime != null ? moment(new Date(page.endExecutionDateTime)).format('DD/MM/YY HH:MM') : "NOT YET!"}</code></br>
+                Time Issued: <code> ${moment(page.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</code></br>
+                Time Started: <code> ${page.startExecutionDateTime != null ? moment(new Date(page.startExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
+                Time Completed: <code> ${page.endExecutionDateTime != null ? moment(new Date(page.endExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
                 <p uk-margin>
                 ${start_task_button}
                 </p>  
@@ -97,7 +98,6 @@ function startTask(id) {
                 let start_task_button = document.getElementById('start_task_button');
                 start_task_button.hidden = true;
                 document.location.reload();
-                // hides the dialog
             }
         }
     });
@@ -123,7 +123,6 @@ async function completeTask(id) {
                 let complete_task_button = document.getElementById('complete_task_button');
                 complete_task_button.hidden = true;
                 document.location.reload();
-                // hides the dialog
             }
         }
     });

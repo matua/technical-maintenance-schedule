@@ -17,14 +17,14 @@ insert into tasks (description, priority, frequency)
 values ('Clean top and main screens of kiosks', 'COMMON', 30);
 insert into tasks (description, priority, frequency)
 values ('Clean the touch screen and check mas-touch', 'COMMON', 30);
+-- insert into tasks (description, priority, frequency)
+-- values ('Analysing kiosk monthly performance identifying common faults and problems.', 'COMMON', 30);
+-- insert into tasks (description, priority, frequency)
+-- values
+--     ('Change validator balls', 'COMMON', 90);
+-- insert into tasks (description, priority, frequency) values
+--     ('Change CMOS battery', 'COMMON', 90);
 insert into tasks (description, priority, frequency)
-values ('Analysing kiosk monthly performance identifying common faults and problems.', 'COMMON', 30);
-insert into tasks (description, priority, frequency)
-values
-    ('Change validator balls', 'COMMON', 90);
-insert into tasks (description, priority, frequency) values
-    ('Change CMOS battery', 'COMMON', 90);
-insert into tasks (description, priority, frequency) values
-    ('Clean printer in the kiosks', 'COMMON', 90);
-insert into tasks (description, priority, frequency) values
-    ('Check hard disks performance, windows updates and reinstallations.', 'COMMON', 90);
+values ('Clean printer in the kiosks', 'COMMON', 90);
+-- insert into tasks (description, priority, frequency) values
+--     ('Check hard disks performance, windows updates and reinstallations.', 'COMMON', 90);

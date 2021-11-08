@@ -21,11 +21,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     List<Schedule> findByEndExecutionDateTimeNotNull();
 
     @Modifying
-    @Query("update Schedule s set s.status = 'DONE', s.endExecutionDateTime = :endExecutionDateTime where s.id = :scheduleId")
-    void completeSchedule(Long scheduleId, LocalDateTime endExecutionDateTime);
-
-
-    @Modifying
     @Query(
             """
                     update Schedule s
@@ -34,6 +29,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
                     """
     )
     void startSchedule(Long scheduleId, LocalDateTime startExecutionDateTime);
+
+    @Modifying
+    @Query("update Schedule s set s.status = 'DONE', s.endExecutionDateTime = :endExecutionDateTime where s.id = :scheduleId")
+    void completeSchedule(Long scheduleId, LocalDateTime endExecutionDateTime);
+
 
     Page<Schedule> findByEndExecutionDateTimeNull(Pageable pageable);
 

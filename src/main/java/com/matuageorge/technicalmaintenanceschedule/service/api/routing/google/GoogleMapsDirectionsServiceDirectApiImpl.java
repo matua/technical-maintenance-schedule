@@ -1,4 +1,4 @@
-//package com.matuageorge.technicalmaintenanceschedule.service.api.google;
+//package com.matuageorge.technicalmaintenanceschedule.service.api.routing.google;
 //
 //import lombok.AllArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
@@ -42,6 +42,7 @@
 //
 //        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(headers);
 //
+
 //        log.info("Trying to get the best route for kiosks via Google API...\n{}", uri.toUriString());
 //
 //        ResponseEntity<List<Map<Double, Double>>> responseEntity = restTemplate

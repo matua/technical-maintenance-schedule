@@ -1,12 +1,11 @@
 package com.matuageorge.technicalmaintenanceschedule.service;
 
 import com.google.maps.errors.ApiException;
-import com.google.maps.model.LatLng;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.*;
-import com.matuageorge.technicalmaintenanceschedule.service.api.google.GoogleMapsDirectionsService;
+import com.matuageorge.technicalmaintenanceschedule.service.api.routing.DirectionsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +27,7 @@ public class MainMainPlannerServiceImpl implements MainPlannerService {
     private String timeZone;
     @Value("${terminalType}")
     private String terminalType;
-    private final GoogleMapsDirectionsService googleMapsDirectionsService;
+    private final DirectionsService googleMapsDirectionsService;
     @Value("${payway.location.lat.headoffice}")
     private Double headOfficeLatitude;
     private final TerminalService terminalService;
@@ -42,24 +41,23 @@ public class MainMainPlannerServiceImpl implements MainPlannerService {
     public void updateSchedule() throws NotFoundException, ValidationException, ResourceAlreadyExistsException, IOException, InterruptedException, ApiException {
 
         List<Terminal> terminals = terminalService.updateListOfTerminalsInDb(TerminalType.valueOf(terminalType));
-        googleMapsDirectionsService.getOptimalRouteListOfTerminalsWithLatLngStartAndFinishPoint(
-                new LatLng(headOfficeLatitude, headOfficeLongitude), terminals);
-        List<Task> tasks = taskService.findAll();
+
+        List<Task> allCommonTasks = taskService.findAllCommon(TaskPriority.COMMON);
 //        List<User> availableTechnicians = userService.findAllByRoleAndActiveAndOnduty(
 //                Role.TECHNICIAN, true, true);
-        User user = userService.findByEmail("kulmba@payway.ug");
+//        User user = userService.findByEmail("kulmba@payway.ug");
 
 
         for (Terminal terminal : terminals) {
-            for (Task task : tasks) {
-                Schedule schedule = Schedule.builder()
-                        .status(TaskStatus.SCHEDULED)
-                        .terminal(terminal)
-                        .task(task)
-                        .user(user)
-                        .build();
+            for (Task task : allCommonTasks) {
                 Optional<Schedule> scheduleByTerminalAndTask = scheduleService.findByTerminalAndTask(terminal, task);
                 if (scheduleByTerminalAndTask.isEmpty()) {
+                    Schedule schedule = Schedule.builder()
+                            .status(TaskStatus.SCHEDULED)
+                            .terminal(terminal)
+                            .task(task)
+                            .user(user)
+                            .build();
                     scheduleService.save(schedule);
                 }
             }

@@ -5,6 +5,7 @@ import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.Task;
+import com.matuageorge.technicalmaintenanceschedule.model.TaskPriority;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface TaskService {
     Optional<Task> findByDescription(String taskDescription);
 
     void deleteByDescription(String taskDescription) throws NotFoundException;
+
+    List<Task> findAllCommon(TaskPriority priority);
 }

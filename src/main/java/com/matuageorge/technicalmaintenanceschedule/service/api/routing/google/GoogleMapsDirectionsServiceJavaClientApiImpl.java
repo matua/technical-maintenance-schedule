@@ -7,6 +7,7 @@ import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.LatLng;
 import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
+import com.matuageorge.technicalmaintenanceschedule.service.api.routing.DirectionsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class GoogleMapsDirectionsServiceJavaClientApiImpl implements GoogleMapsDirectionsService {
+public class GoogleMapsDirectionsServiceJavaClientApiImpl implements DirectionsService {
 
     RestTemplate restTemplate;
     GeoApiContext geoApiContext;

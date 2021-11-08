@@ -5,6 +5,7 @@ import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.Task;
+import com.matuageorge.technicalmaintenanceschedule.model.TaskPriority;
 import com.matuageorge.technicalmaintenanceschedule.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -102,5 +103,10 @@ public class TaskServiceImpl implements TaskService {
         Task task = findByDescription(taskDescription).orElseThrow(
                 () -> new NotFoundException("Task to delete is not found"));
         delete(task.getId());
+    }
+
+    @Override
+    public List<Task> findAllCommon(TaskPriority priority) {
+        return taskRepository.findByPriorityEquals(priority);
     }
 }
