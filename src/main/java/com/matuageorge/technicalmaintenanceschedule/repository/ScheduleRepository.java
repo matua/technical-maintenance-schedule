@@ -50,4 +50,12 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(Pageable pageable);
 
     List<Schedule> findAllByTaskPriority(TaskPriority priority);
+
+    @Query("from Schedule as schedule0_" +
+            " left join Task task1_ on " +
+            "schedule0_.task.id=task1_.id" +
+            " where schedule0_.endExecutionDateTime is null" +
+            " and schedule0_.user.email = :email " +
+            " order by task1_.priority desc")
+    Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByEmail(Pageable pageable, String email);
 }

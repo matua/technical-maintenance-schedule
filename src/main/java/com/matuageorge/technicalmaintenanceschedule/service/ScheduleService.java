@@ -41,5 +41,8 @@ public interface ScheduleService {
 
     Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException;
 
+    Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByUserEmail(Integer page, Integer pageSize
+            , String email) throws NotFoundException;
+
     List<Schedule> findAllByTaskPriority(TaskPriority urgent);
 }

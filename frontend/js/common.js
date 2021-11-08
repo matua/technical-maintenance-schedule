@@ -29,7 +29,7 @@ function parseToken(token) {
 }
 
 function checkAdminRights(token) {
-    return token.role === 'ADMINISTRATOR';
+    return token.role === 'ADMINISTRATOR' || token.role === 'TECHNICIAN';
 }
 
 function logout() {

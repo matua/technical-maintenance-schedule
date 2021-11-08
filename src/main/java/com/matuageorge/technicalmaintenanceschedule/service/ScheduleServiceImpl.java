@@ -168,10 +168,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     public Page<Schedule> findAllSortedByTaskPriority(Integer page, Integer pageSize) throws NotFoundException {
 
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<Schedule> tasksPage = scheduleRepository.findAllByOrderByTaskPriorityDesc(pageable);
+        Page<Schedule> schedulePage = scheduleRepository.findAllByOrderByTaskPriorityDesc(pageable);
 
-        if (tasksPage.hasContent()) {
-            return tasksPage;
+        if (schedulePage.hasContent()) {
+            return schedulePage;
         } else {
             throw new NotFoundException(NO_SCHEDULE_FOUND);
         }
@@ -181,10 +181,26 @@ public class ScheduleServiceImpl implements ScheduleService {
     public Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException {
 
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<Schedule> tasksPage = scheduleRepository.findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(pageable);
+        Page<Schedule> schedulePage = scheduleRepository.findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(pageable);
 
-        if (tasksPage.hasContent()) {
-            return tasksPage;
+        if (schedulePage.hasContent()) {
+            return schedulePage;
+        } else {
+            throw new NotFoundException(NO_SCHEDULE_FOUND);
+        }
+    }
+
+    @Override
+    public Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByUserEmail(
+            Integer page, Integer pageSize, String email) throws NotFoundException {
+
+        Pageable pageable = PageRequest.of(page, pageSize);
+
+        Page<Schedule> schedulePage =
+                scheduleRepository.findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByEmail(pageable, email);
+
+        if (schedulePage.hasContent()) {
+            return schedulePage;
         } else {
             throw new NotFoundException(NO_SCHEDULE_FOUND);
         }

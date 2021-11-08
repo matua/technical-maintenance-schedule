@@ -6,11 +6,14 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExi
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.Schedule;
 import com.matuageorge.technicalmaintenanceschedule.service.ScheduleService;
+import com.matuageorge.technicalmaintenanceschedule.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import static com.matuageorge.technicalmaintenanceschedule.config.Utility.ADMIN;
@@ -23,6 +26,7 @@ import static com.matuageorge.technicalmaintenanceschedule.config.Utility.SCHEDU
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
+    private final UserService userService;
     private final ModelMapper modelMapper;
 
     @PostMapping(ADMIN + SCHEDULES)
@@ -91,7 +95,7 @@ public class ScheduleController {
         return ResponseEntity.ok().body(schedulesPageResponseBody);
     }
 
-    @GetMapping(SCHEDULES + "/notCompleted/{page}/{pageSize}")
+    @GetMapping(ADMIN + SCHEDULES + "/notCompleted/{page}/{pageSize}")
     public ResponseEntity<Page<Schedule>> findAllNotCompleted(
             @PathVariable Integer page,
             @PathVariable Integer pageSize) throws NotFoundException {
@@ -100,6 +104,22 @@ public class ScheduleController {
 
         Page<Schedule> schedulesPageResponseBody =
                 scheduleService.findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(page, pageSize);
+        return ResponseEntity.ok().body(schedulesPageResponseBody);
+    }
+
+    @GetMapping(SCHEDULES + "/notCompleted/{page}/{pageSize}")
+    public ResponseEntity<Page<Schedule>> findAllNotCompletedByUser(
+            @PathVariable Integer page,
+            @PathVariable Integer pageSize, @AuthenticationPrincipal UserDetails userDetails) throws NotFoundException {
+
+        log.info("Handling for user:{ } find all NOT COMPLETED schedules page: {} with size: {}", userDetails, page,
+                pageSize);
+
+        String email = userDetails.getUsername();
+
+        Page<Schedule> schedulesPageResponseBody =
+                scheduleService.findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByUserEmail(page, pageSize,
+                        email);
         return ResponseEntity.ok().body(schedulesPageResponseBody);
     }
 }
