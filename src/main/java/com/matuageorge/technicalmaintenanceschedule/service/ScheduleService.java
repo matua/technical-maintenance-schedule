@@ -5,6 +5,7 @@ import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExi
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.Schedule;
 import com.matuageorge.technicalmaintenanceschedule.model.Task;
+import com.matuageorge.technicalmaintenanceschedule.model.TaskPriority;
 import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
 import org.springframework.data.domain.Page;
 
@@ -39,4 +40,6 @@ public interface ScheduleService {
     Page<Schedule> findAllSortedByTaskPriority(Integer page, Integer pageSize) throws NotFoundException;
 
     Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException;
+
+    List<Schedule> findAllByTaskPriority(TaskPriority urgent);
 }

@@ -91,7 +91,7 @@ public class MainMainPlannerServiceImpl implements MainPlannerService {
     }
 
     @Override
-    public void allocateSchedulesBetweenUsers(int numberOfSchedules, int numberOfUsers) {
+    public void allocateCommonSchedulesBetweenUsers(int numberOfSchedules, int numberOfUsers) {
 
     }
 }

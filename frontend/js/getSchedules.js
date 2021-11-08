@@ -5,7 +5,7 @@ let paginationHtml;
 let logout_button = document.getElementById('logout_button');
 let urgentClass = 'uk-text-danger';
 
-async function getSchedules(page = 0, size = 10) {
+async function getSchedules(page = 0, size = 5) {
     loadAnimation('schedules');
 
     schedulesHtml = '';
@@ -69,7 +69,7 @@ async function getSchedules(page = 0, size = 10) {
         page.content.forEach(
             schedule => {
                 schedulesHtml +=
-                    `<tr>
+                    `<tr> 
                         <td class="uk-table-link ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">
                             <a class="uk-link-reset" href="single_schedule.html#${schedule[0].id}">${schedule[0].terminal.name}</a>
                         </td>

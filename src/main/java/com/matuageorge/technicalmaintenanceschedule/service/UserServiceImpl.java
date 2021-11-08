@@ -135,15 +135,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllByRoleAndActiveAndOnduty(Role technician, boolean active, boolean onDuty) {
-//        return userRepository.findAllByRoleAndActiveAndOnDuty(technician, active, onDuty);
-        return null;
+    public List<User> findAllByRoleAndActiveAndOnDuty(Role role, Boolean active, Boolean onDuty) {
+        return userRepository.findAllByRoleAndActiveAndOnDuty(role, active, onDuty);
     }
-
-//    @Override
-//    public List<User> findAllByRoleAndActiveAndOnduty(Role role, Boolean active, Boolean onDuty) {
-//        return userRepository.findAllByRoleAndActiveAndOnduty(role, active, onDuty);
-//    }
 
 
     private void validateUserMainFields(User savedUser) throws ValidationException {

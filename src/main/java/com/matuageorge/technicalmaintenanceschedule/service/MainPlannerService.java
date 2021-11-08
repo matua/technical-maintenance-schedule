@@ -16,5 +16,5 @@ public interface MainPlannerService {
 
     List<Schedule> addUrgentSchedules() throws ValidationException, NotFoundException;
 
-    void allocateSchedulesBetweenUsers(int numberOfSchedules, int numberOfUsers);
+    void allocateCommonSchedulesBetweenUsers(int numberOfSchedules, int numberOfUsers);
 }

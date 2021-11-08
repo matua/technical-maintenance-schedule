@@ -2,6 +2,7 @@ package com.matuageorge.technicalmaintenanceschedule.repository;
 
 import com.matuageorge.technicalmaintenanceschedule.model.Schedule;
 import com.matuageorge.technicalmaintenanceschedule.model.Task;
+import com.matuageorge.technicalmaintenanceschedule.model.TaskPriority;
 import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,4 +48,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             " where schedule0_.endExecutionDateTime is null " +
             " order by task1_.priority desc")
     Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(Pageable pageable);
+
+    List<Schedule> findAllByTaskPriority(TaskPriority priority);
 }
