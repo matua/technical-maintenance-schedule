@@ -19,7 +19,7 @@ async function login(event) {
             if (json.token != null) {
                 if ((parseToken(json.token)).active === "true") {
                     localStorage.setItem('token', json.token);
-                    window.location.href = 'tasks.html';
+                    window.location.href = 'schedules.html';
                 } else {
                     UIkit.notification({message: ERRORS.USER_BLOCKED_MESSAGE, pos: 'bottom-center', status: 'danger'})
                 }

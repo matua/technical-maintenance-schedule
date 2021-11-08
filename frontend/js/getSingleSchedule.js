@@ -84,7 +84,7 @@ function startTask(id) {
         okText: 'Start Task',
         callbacks: {
             okClick: async function () {
-                const url = baseUrl + `/admin/schedules/start/${id}`;
+                const url = baseUrl + `/schedules/start/${id}`;
                 if (checkAdminRights(parseToken(getToken()))) {
                     await fetch(url, {
                         method: 'PUT',
@@ -109,7 +109,7 @@ async function completeTask(id) {
         okText: 'Complete Task',
         callbacks: {
             okClick: async function () {
-                const url = baseUrl + `/admin/schedules/complete/${id}`;
+                const url = baseUrl + `/schedules/complete/${id}`;
                 if (checkAdminRights(parseToken(getToken()))) {
                     await fetch(url, {
                         method: 'PUT',

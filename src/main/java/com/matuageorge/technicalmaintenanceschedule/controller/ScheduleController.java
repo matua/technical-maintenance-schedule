@@ -48,7 +48,7 @@ public class ScheduleController {
         return ResponseEntity.ok(updatedSchedule);
     }
 
-    @PutMapping(ADMIN + SCHEDULES + "/complete/{scheduleId}")
+    @PutMapping(SCHEDULES + "/complete/{scheduleId}")
     public ResponseEntity<Void> completeSchedule(@PathVariable Long scheduleId) {
 
         log.info("Handling schedule with id: {} to complete..", scheduleId);
@@ -57,7 +57,7 @@ public class ScheduleController {
         return ResponseEntity.accepted().build();
     }
 
-    @PutMapping(ADMIN + SCHEDULES + "/start/{scheduleId}")
+    @PutMapping(SCHEDULES + "/start/{scheduleId}")
     public ResponseEntity<Void> startSchedule(@PathVariable Long scheduleId) {
 
         log.info("Handling schedule with id: {} to start..", scheduleId);

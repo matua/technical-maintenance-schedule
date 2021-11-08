@@ -12,7 +12,7 @@ async function getSchedules(page = 0, size = 5) {
     paginationHtml = '';
     const url = baseUrl + `/schedules/notCompleted/${page}/${size}`;
 
-    if (checkAdminRights(parseToken(getToken()))) {
+    if (checkTechRights(parseToken(getToken()))) {
         await fetch(url, {
             method: 'GET',
             headers: {
@@ -26,7 +26,13 @@ async function getSchedules(page = 0, size = 5) {
             .then(schedulesPage => {
                 writeSchedulesToTable(schedulesPage);
                 writePaginationForSchedules(schedulesPage, size);
-            });
+            })
+            .catch((err) => {
+                schedulesHtml = `<div class="uk-alert-success uk-position-center" uk-alert>
+                                <a class="uk-alert-close"></a>
+                                <p>No schedules! You are all done for now!</p>
+</div>`;
+            })
         unloadAnimation('schedules');
         document.getElementById('schedules').innerHTML = schedulesHtml;
         document.getElementsByClassName('pagination')[0].innerHTML = paginationHtml;

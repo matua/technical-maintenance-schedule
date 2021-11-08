@@ -21,8 +21,13 @@ async function getTasks(page = 0, size = 10) {
             .then(tasksPage => {
                 writeTasksToTable(tasksPage);
             });
-        document.getElementById('tasks').innerHTML = tasksHtml;
+    } else {
+        tasksHtml = `<div class="uk-alert-danger uk-position-center" uk-alert>
+                                <a class="uk-alert-close"></a>
+                                <p>Not authorized!</p>`;
     }
+    document.getElementById('tasks').innerHTML = tasksHtml;
+
 
     function writeTasksToTable(page) {
         const tasksTableHeaders =
