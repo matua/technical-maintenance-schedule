@@ -37,4 +37,6 @@ public interface ScheduleService {
     Page<Schedule> findByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException;
 
     Page<Schedule> findAllSortedByTaskPriority(Integer page, Integer pageSize) throws NotFoundException;
+
+    Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException;
 }

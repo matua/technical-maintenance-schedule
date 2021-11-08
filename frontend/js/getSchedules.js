@@ -5,7 +5,7 @@ let paginationHtml;
 let logout_button = document.getElementById('logout_button');
 let urgentClass = 'uk-text-danger';
 
-async function getSchedules(page = 0, size = 9) {
+async function getSchedules(page = 0, size = 10) {
     loadAnimation('schedules');
 
     schedulesHtml = '';
@@ -70,15 +70,15 @@ async function getSchedules(page = 0, size = 9) {
             schedule => {
                 schedulesHtml +=
                     `<tr>
-                        <td class="uk-table-link ${schedule.task.priority == 'URGENT' ? urgentClass : ''}">
-                            <a class="uk-link-reset" href="single_schedule.html#${schedule.id}">${schedule.terminal.name}</a>
+                        <td class="uk-table-link ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">
+                            <a class="uk-link-reset" href="single_schedule.html#${schedule.id}">${schedule[0].terminal.name}</a>
                         </td>
-                        <td class="uk-table-shrink ${schedule.task.priority == 'URGENT' ? urgentClass : ''}">${schedule.terminal.location}</td>
-                     <!--                         <td class="uk-text-reset">${schedule.task.description}</td>-->
-                      <!--                        <td class="uk-text-truncate">${schedule.status.toString()}</td>-->
-                      <!--                        <td class="uk-text-truncate">${schedule.user.firstName} ${schedule.user.lastName}</td>-->
-                        <td class="uk-link-truncate ${schedule.task.priority == 'URGENT' ? urgentClass : ''}">${moment(schedule.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</td>
-                      <!--    <td class="uk-text-truncate">${schedule.endExecutionDateTime != null ? schedule.endExecutionDateTime : "NOT YET!"}</td>-->
+                        <td class="uk-table-shrink ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">${schedule[0].terminal.location}</td>
+                     <!--                         <td class="uk-text-reset">${schedule[0].task.description}</td>-->
+                      <!--                        <td class="uk-text-truncate">${schedule[0].status.toString()}</td>-->
+                      <!--                        <td class="uk-text-truncate">${schedule[0].user.firstName} ${schedule[0].user.lastName}</td>-->
+                        <td class="uk-link-truncate ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">${moment(schedule[0].dateTimeCreated).format('DD.MM.YYYY HH:MM')}</td>
+                      <!--    <td class="uk-text-truncate">${schedule[0].endExecutionDateTime != null ? schedule[0].endExecutionDateTime : "NOT YET!"}</td>-->
                     </tr>`
             });
         schedulesHtml = schedulesTableHeaders + schedulesHtml + schedulesTableFooter;
