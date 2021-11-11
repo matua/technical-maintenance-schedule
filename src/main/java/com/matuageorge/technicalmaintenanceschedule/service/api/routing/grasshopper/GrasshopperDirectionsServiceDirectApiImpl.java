@@ -184,9 +184,12 @@ public class GrasshopperDirectionsServiceDirectApiImpl implements DirectionsServ
                 for (int j = 0; j < route.activities.size(); j++) {
                     final String routeId = route.activities.get(j).id;
                     if (routeId != null) {
-                        if (String.valueOf(schedule.getId()).equals(routeId)) {
+                        final Long scheduleId = schedule.getId();
+                        if (String.valueOf(scheduleId).equals(routeId)) {
                             partialOptimizedOrderSchedules.get(i)[j] = schedule;
-                            scheduleService.setUser(schedule.getId(), Long.valueOf(route.vehicleId));
+                            scheduleService.setUser(scheduleId, Long.valueOf(route.vehicleId));
+                            scheduleService.setOptimizationIndex(scheduleId,
+                                    (long) j);
                         }
                     }
                 }

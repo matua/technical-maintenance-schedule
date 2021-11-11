@@ -90,4 +90,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
                      """
     )
     void setUser(Long scheduleId, Long userId);
+
+    @Modifying
+    @Query(
+            """
+                    update Schedule s
+                    set s.optimizationIndex = :optimizationIndex
+                    where s.id = :scheduleId
+                     """
+    )
+    void setOptimizationIndex(Long scheduleId, Long optimizationIndex);
 }

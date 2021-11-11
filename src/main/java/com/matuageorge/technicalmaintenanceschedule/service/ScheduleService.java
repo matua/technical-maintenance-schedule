@@ -51,4 +51,6 @@ public interface ScheduleService {
     void releaseSchedule(Long scheduleId);
 
     void setUser(Long scheduleId, Long userId);
+
+    void setOptimizationIndex(Long scheduleId, Long optimizationIndex);
 }
