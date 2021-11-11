@@ -85,7 +85,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     @Query(
             """
                     update Schedule s
-                    set s.user = :userId
+                    set s.user.id = :userId
                     where s.id = :scheduleId
                      """
     )

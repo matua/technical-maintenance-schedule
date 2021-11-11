@@ -33,8 +33,8 @@ public class GrasshopperDirectionsServiceDirectApiImpl implements DirectionsServ
     private final RestTemplate restTemplate;
     @Value("${grasshopper.api.key}")
     private String grassHopperApiKey;
-    private ScheduleService scheduleService;
-    private UserService userService;
+    private final ScheduleService scheduleService;
+    private final UserService userService;
 
     @Override
     public Optional<List<Terminal>> getOptimalRouteListOfTerminals(List<Terminal> origins,
@@ -186,16 +186,18 @@ public class GrasshopperDirectionsServiceDirectApiImpl implements DirectionsServ
                     if (routeId != null) {
                         if (String.valueOf(schedule.getId()).equals(routeId)) {
                             partialOptimizedOrderSchedules.get(i)[j] = schedule;
+                            scheduleService.setUser(schedule.getId(), Long.valueOf(route.vehicleId));
                         }
                     }
                 }
             }
         });
 
-        return Optional.of(partialOptimizedOrderSchedules.values()
+        final List<Schedule> value = partialOptimizedOrderSchedules.values()
                 .stream()
                 .flatMap(Arrays::stream)
-                .toList());
+                .toList();
+        return Optional.of(value);
     }
 
     private List<Vehicle> convertListOfUsersToListOfVehicles(List<User> users) {
