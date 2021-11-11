@@ -80,4 +80,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
                     """
     )
     void releaseSchedule(Long scheduleId, LocalDateTime releasedExecutionDateTime);
+
+    @Modifying
+    @Query(
+            """
+                    update Schedule s
+                    set s.user = :userId
+                    where s.id = :scheduleId
+                     """
+    )
+    void setUser(Long scheduleId, Long userId);
 }

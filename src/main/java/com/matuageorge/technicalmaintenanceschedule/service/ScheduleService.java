@@ -49,4 +49,6 @@ public interface ScheduleService {
     void grabSchedule(Long scheduleId);
 
     void releaseSchedule(Long scheduleId);
+
+    void setUser(Long scheduleId, Long userId);
 }

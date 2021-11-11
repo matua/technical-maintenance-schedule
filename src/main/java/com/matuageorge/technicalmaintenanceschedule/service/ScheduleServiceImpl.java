@@ -135,6 +135,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleRepository.releaseSchedule(scheduleId, LocalDateTime.now());
     }
 
+    @Override
+    @Transactional
+    public void setUser(Long scheduleId, Long userId) {
+        scheduleRepository.setUser(scheduleId, userId);
+    }
+
 
     @Override
     public Schedule update(Schedule schedule) throws ValidationException, NotFoundException {

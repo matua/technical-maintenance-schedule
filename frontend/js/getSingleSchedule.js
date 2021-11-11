@@ -48,7 +48,7 @@ async function getSingleSchedule() {
         } else {
             grab_task_button = '';
         }
-        if (page.releasedExecutionDateTime == null && page.startExecutionDateTime == null) {
+        if (page.grabbedExecutionDateTime != null && page.startExecutionDateTime == null) {
             release_task_button = `<button id="release_task_button" onclick="releaseTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">RELEASE TASK</button>`
         } else {
             release_task_button = '';
@@ -75,7 +75,7 @@ async function getSingleSchedule() {
                 Status: <span class="uk-badge"> ${page.status}</span></br>
                 Time Issued: <code> ${moment(page.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</code></br>
                 Time Grabbed: <code> ${page.grabbedExecutionDateTime != null ? moment(new Date(page.grabbedExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
-                Time Released: <code> ${page.releasedExecutionDateTime != null ? moment(new Date(page.releasedExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
+                Time Released: <code> ${page.releasedExecutionDateTime != null ? moment(new Date(page.releasedExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "No"}</code></br>
                 Time Started: <code> ${page.startExecutionDateTime != null ? moment(new Date(page.startExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
                 Time Completed: <code> ${page.endExecutionDateTime != null ? moment(new Date(page.endExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
                 <p uk-margin>

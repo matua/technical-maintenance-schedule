@@ -37,4 +37,6 @@ public class User extends AbstractBaseEntity {
     @PositiveOrZero
     @Max(message = "Field hours cannot be more than 24 hours", value = 24)
     private Integer fieldHours;
+    private Double baseLongitude;
+    private Double baseLatitude;
 }
