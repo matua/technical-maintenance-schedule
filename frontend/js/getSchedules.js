@@ -2,8 +2,10 @@
 
 let schedulesHtml;
 let paginationHtml;
-let logout_button = document.getElementById('logout_button');
-let urgentClass = 'uk-text-danger';
+let logoutButton = document.getElementById('logout_button');
+document.getElementById('current_user').innerHTML =
+    `<div class="uk-alert-primary uk-alert">${getCurrentUserEmail(parseToken(getToken()))}</div>`;
+const urgentClass = 'uk-text-danger';
 const NO_SCHEDULES = `<div class="uk-alert-success uk-position-center uk-alert">
                                 <a class="uk-alert-close"></a>
                                 <p>No schedules! You are all done for now!</p>
@@ -90,7 +92,7 @@ async function getSchedules(page = 0, size = 5) {
     }
 }
 
-logout_button.addEventListener('click', logout);
+logoutButton.addEventListener('click', logout);
 
 getSchedules();
 getLocation();

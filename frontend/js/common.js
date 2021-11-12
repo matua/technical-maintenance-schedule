@@ -96,3 +96,7 @@ function unloadAnimation(element) {
     document.getElementById('loader').innerHTML = '';
     document.getElementById(element).hidden = false;
 }
+
+function getCurrentUserEmail(token) {
+    return token.sub;
+}
