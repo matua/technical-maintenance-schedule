@@ -10,7 +10,7 @@ async function getSchedules(page = 0, size = 5) {
 
     schedulesHtml = '';
     paginationHtml = '';
-    const url = baseUrl + `/schedules/notCompleted/${page}/${size}`;
+    const url = baseUrl + `/schedules/notCompletedSortedByPriorityIndex/${page}/${size}`;
 
     if (checkTechRights(parseToken(getToken()))) {
         await fetch(url, {

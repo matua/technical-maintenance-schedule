@@ -53,4 +53,6 @@ public interface ScheduleService {
     void setUser(Long scheduleId, Long userId);
 
     void setOptimizationIndex(Long scheduleId, Long optimizationIndex);
+
+    Page<Schedule> findAllSortedByPriorityIndexAndByEndExecutionDateTimeNullAndByUserEmail(Integer page, Integer pageSize, String email);
 }

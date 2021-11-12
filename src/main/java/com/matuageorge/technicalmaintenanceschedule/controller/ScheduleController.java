@@ -132,18 +132,34 @@ public class ScheduleController {
         return ResponseEntity.ok().body(schedulesPageResponseBody);
     }
 
-    @GetMapping(SCHEDULES + "/notCompleted/{page}/{pageSize}")
+    @GetMapping(ADMIN + SCHEDULES + "/notCompletedByUser/{page}/{pageSize}")
     public ResponseEntity<Page<Schedule>> findAllNotCompletedByUser(
             @PathVariable Integer page,
             @PathVariable Integer pageSize, @AuthenticationPrincipal UserDetails userDetails) throws NotFoundException {
 
-        log.info("Handling for user:{ } find all NOT COMPLETED schedules page: {} with size: {}", userDetails, page,
+        log.info("Handling for user:{} find all NOT COMPLETED schedules page: {} with size: {}", userDetails, page,
                 pageSize);
 
         String email = userDetails.getUsername();
 
         Page<Schedule> schedulesPageResponseBody =
                 scheduleService.findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByUserEmail(page, pageSize,
+                        email);
+        return ResponseEntity.ok().body(schedulesPageResponseBody);
+    }
+
+    @GetMapping(SCHEDULES + "/notCompletedSortedByPriorityIndex/{page}/{pageSize}")
+    public ResponseEntity<Page<Schedule>> findAllNotCompletedByPriorityIndexByUser(
+            @PathVariable Integer page,
+            @PathVariable Integer pageSize, @AuthenticationPrincipal UserDetails userDetails) throws NotFoundException {
+
+        log.info("Handling for user:{} find all NOT COMPLETED schedules page: {} with size: {}", userDetails, page,
+                pageSize);
+
+        String email = userDetails.getUsername();
+
+        Page<Schedule> schedulesPageResponseBody =
+                scheduleService.findAllSortedByPriorityIndexAndByEndExecutionDateTimeNullAndByUserEmail(page, pageSize,
                         email);
         return ResponseEntity.ok().body(schedulesPageResponseBody);
     }

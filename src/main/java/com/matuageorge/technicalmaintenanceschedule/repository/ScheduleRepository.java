@@ -100,4 +100,12 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
                      """
     )
     void setOptimizationIndex(Long scheduleId, Long optimizationIndex);
+
+    @Query("from Schedule as schedule0_" +
+            " left join Task task1_ on " +
+            "schedule0_.task.id=task1_.id" +
+            " where schedule0_.endExecutionDateTime is null" +
+            " and schedule0_.user.email = :email ")
+    Page<Schedule> findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(
+            Pageable pageable, String email);
 }

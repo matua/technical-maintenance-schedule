@@ -147,6 +147,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleRepository.setOptimizationIndex(scheduleId, optimizationIndex);
     }
 
+    @Override
+    public Page<Schedule> findAllSortedByPriorityIndexAndByEndExecutionDateTimeNullAndByUserEmail(
+            Integer page, Integer pageSize, String email) {
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by("optimizationIndex"));
+        return scheduleRepository.findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(
+                pageable, email);
+    }
+
 
     @Override
     public Schedule update(Schedule schedule) throws ValidationException, NotFoundException {
@@ -217,7 +225,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByUserEmail(
             Integer page, Integer pageSize, String email) throws NotFoundException {
 
-        Pageable pageable = PageRequest.of(page, pageSize, Sort.by("optimizationIndex").descending());
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by("optimizationIndex"));
 
         Page<Schedule> schedulePage =
                 scheduleRepository.findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByEmail(pageable, email);
