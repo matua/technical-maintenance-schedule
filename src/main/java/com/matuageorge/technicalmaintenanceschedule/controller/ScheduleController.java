@@ -153,13 +153,15 @@ public class ScheduleController {
             @PathVariable Integer page,
             @PathVariable Integer pageSize, @AuthenticationPrincipal UserDetails userDetails) throws NotFoundException {
 
-        log.info("Handling for user:{} find all NOT COMPLETED schedules page: {} with size: {}", userDetails, page,
+        log.info("Handling for user:{} find all NOT COMPLETED schedules SORTED BY OPTIMIZATION INDEX page: {} with " +
+                        "size: {}",
+                userDetails, page,
                 pageSize);
 
         String email = userDetails.getUsername();
 
         Page<Schedule> schedulesPageResponseBody =
-                scheduleService.findAllSortedByPriorityIndexAndByEndExecutionDateTimeNullAndByUserEmail(page, pageSize,
+                scheduleService.findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(page, pageSize,
                         email);
         return ResponseEntity.ok().body(schedulesPageResponseBody);
     }

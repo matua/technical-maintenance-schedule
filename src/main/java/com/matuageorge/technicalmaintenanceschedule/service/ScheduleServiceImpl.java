@@ -148,7 +148,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<Schedule> findAllSortedByPriorityIndexAndByEndExecutionDateTimeNullAndByUserEmail(
+    public Page<Schedule> findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(
             Integer page, Integer pageSize, String email) {
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by("optimizationIndex"));
         return scheduleRepository.findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(

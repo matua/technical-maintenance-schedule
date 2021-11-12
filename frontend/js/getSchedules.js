@@ -4,6 +4,10 @@ let schedulesHtml;
 let paginationHtml;
 let logout_button = document.getElementById('logout_button');
 let urgentClass = 'uk-text-danger';
+const NO_SCHEDULES = `<div class="uk-alert-success uk-position-center uk-alert">
+                                <a class="uk-alert-close"></a>
+                                <p>No schedules! You are all done for now!</p>
+                                </div>`;
 
 async function getSchedules(page = 0, size = 5) {
     loadAnimation('schedules');
@@ -28,26 +32,20 @@ async function getSchedules(page = 0, size = 5) {
                 writePaginationForSchedules(schedulesPage, size);
             })
             .catch((err) => {
-                schedulesHtml = `<div class="uk-alert-success uk-position-center" uk-alert>
-                                <a class="uk-alert-close"></a>
-                                <p>No schedules! You are all done for now!</p>
-</div>`;
+                schedulesHtml = NO_SCHEDULES;
             })
         unloadAnimation('schedules');
         document.getElementById('schedules').innerHTML = schedulesHtml;
         document.getElementsByClassName('pagination')[0].innerHTML = paginationHtml;
-
     }
 
     function writeSchedulesToTable(page) {
-        const schedulesTableHeaders =
+        let schedulesTableHeaders =
             `<div class="uk-padding-small">
                 <div class="uk-tile uk-tile-muted uk-padding-remove">
                     <p class="uk-h4">Total tasks: ${page.totalElements}
                     <span class="uk-badge .uk-position-right">${page.pageable.pageNumber + 1}|${page.totalPages}</span>
-<!--                    <input  onchange="" type="checkbox" checked>Toggle Done</input>-->
                     </p>
-<!--                </div>         -->
              </div>   
              <div>
                  <div class="uk-container">                  
@@ -58,24 +56,19 @@ async function getSchedules(page = 0, size = 5) {
             <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
                 <thead>
                     <tr>
-<!--                        <th class="uk-table-shrink">Priority</th>-->
                         <th class="uk-width-small">Terminal</th>
                         <th class="uk-width-small">Location</th>
-<!--                        <th class="uk-width-small">Task</th>-->
-<!--                        <th class="uk-width-small">Status</th>-->
-<!--                        <th class="uk-width-small">User</th>-->
                         <th class="uk-width-small">Issued</th>
-<!--                        <th class="uk-width-small">Completed</th>-->
                     </tr>
                 </thead>
                 <tbody>`
-        const schedulesTableFooter =
+        let schedulesTableFooter =
             ``
-
-        page.content.forEach(
-            schedule => {
-                schedulesHtml +=
-                    `<tr> 
+        if (!page.empty) {
+            page.content.forEach(
+                schedule => {
+                    schedulesHtml +=
+                        `<tr> 
                         <td class="uk-table-link ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">
                             <a class="uk-link-reset" href="single_schedule.html#${schedule[0].id}">${schedule[0].terminal.name}</a>
                         </td>
@@ -86,7 +79,12 @@ async function getSchedules(page = 0, size = 5) {
                         <td class="uk-link-truncate ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">${moment(schedule[0].dateTimeCreated).format('DD.MM.YYYY HH:MM')}</td>
                       <!--    <td class="uk-text-truncate">${schedule[0].endExecutionDateTime != null ? schedule[0].endExecutionDateTime : "NOT YET!"}</td>-->
                     </tr>`
-            });
+                });
+        } else {
+            schedulesTableHeaders = '';
+            schedulesTableFooter = '';
+            schedulesHtml = NO_SCHEDULES;
+        }
         schedulesHtml = schedulesTableHeaders + schedulesHtml + schedulesTableFooter;
         return schedulesHtml;
     }

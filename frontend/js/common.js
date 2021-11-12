@@ -60,7 +60,7 @@ function writePaginationForSchedules(schedulesPage, size) {
     const totalPages = schedulesPage.totalPages;
     const currentPage = schedulesPage.number;
 
-    if (currentPage === 0) {
+    if (currentPage === 0 || totalPages === 0) {
         paginationHtml += `<li class="arrow unavailable"><a>PREV.</a></li>`
     } else {
         paginationHtml += `<li class="arrow available"><a
@@ -69,7 +69,7 @@ function writePaginationForSchedules(schedulesPage, size) {
     }
 
 
-    if (currentPage === totalPages - 1) {
+    if (currentPage === totalPages - 1 || totalPages === 0) {
         paginationHtml += `
             <li class="arrow unavailable"><a>NEXT</li>`
     } else {
