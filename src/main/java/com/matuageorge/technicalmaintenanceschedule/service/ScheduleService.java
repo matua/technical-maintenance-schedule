@@ -10,9 +10,10 @@ import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ScheduleService {
+    List<Schedule> findAllByTerminalAndTask(Terminal terminal, Task task);
+
     Schedule save(Schedule schedule) throws ValidationException, ResourceAlreadyExistsException;
 
     Schedule update(Schedule schedule) throws ValidationException, NotFoundException;
@@ -26,8 +27,6 @@ public interface ScheduleService {
     List<Schedule> findAll();
 
     List<Schedule> findByEndExecutionDateTimeNotNull();
-
-    Optional<Schedule> findByTerminalAndTask(Terminal terminal, Task task);
 
     List<Schedule> addUrgentSchedules() throws ValidationException, NotFoundException;
 

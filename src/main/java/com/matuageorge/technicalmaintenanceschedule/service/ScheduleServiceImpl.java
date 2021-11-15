@@ -265,12 +265,14 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Optional<Schedule> findByTerminalAndTask(Terminal terminal, Task task) {
-        final Optional<Schedule> byTerminalAndTask = scheduleRepository.findByTerminalAndTask(terminal, task);
-        byTerminalAndTask.ifPresent(s -> log.info("error: {},{}",
-                s.getTerminal().getName(),
-                s.getTask().getDescription()));
-        return byTerminalAndTask;
+    public List<Schedule> findAllByTerminalAndTask(Terminal terminal, Task task) {
+        final List<Schedule> schedules = scheduleRepository.findAllByTerminalAndTask(terminal, task);
+        if (!schedules.isEmpty()) {
+            log.info("Schedule already exists: {},{}",
+                    terminal.getName(),
+                    task.getDescription());
+        }
+        return schedules;
     }
 
     private String getEndTimeStamp(DateTimeFormatter formatter, LocalDateTime now) {

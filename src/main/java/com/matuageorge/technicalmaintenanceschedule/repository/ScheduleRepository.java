@@ -108,4 +108,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             " and schedule0_.user.email = :email ")
     Page<Schedule> findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(
             Pageable pageable, String email);
+
+    List<Schedule> findAllByTerminalAndTask(Terminal terminal, Task task);
 }

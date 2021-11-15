@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +44,7 @@ public class MainMainPlannerServiceImpl implements MainPlannerService {
         terminals.forEach(
                 terminal -> allCommonTasks.forEach(
                         task -> {
-                            Optional<Schedule> scheduleByTerminalAndTask = scheduleService.findByTerminalAndTask(terminal, task);
+                            final List<Schedule> scheduleByTerminalAndTask = scheduleService.findAllByTerminalAndTask(terminal, task);
                             if (scheduleByTerminalAndTask.isEmpty()) {
                                 Schedule schedule = Schedule.builder()
                                         .status(TaskStatus.SCHEDULED)
