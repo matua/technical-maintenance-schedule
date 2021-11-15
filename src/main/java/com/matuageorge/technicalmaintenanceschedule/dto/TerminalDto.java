@@ -14,4 +14,6 @@ public class TerminalDto {
     private String name;
     private Integer terminalGroupId;
     private TerminalType type;
+    private Double longitude;
+    private Double latitude;
 }

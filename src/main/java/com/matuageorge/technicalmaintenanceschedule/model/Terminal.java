@@ -18,7 +18,8 @@ import javax.validation.constraints.Size;
 @SuperBuilder
 @Table(name = "terminals")
 @Entity
-public class Terminal extends AbstractBaseEntity {
+public class
+Terminal extends AbstractBaseEntity {
     @Enumerated(EnumType.STRING)
     private TerminalType type;
     @Size(min = 1, max = 10,

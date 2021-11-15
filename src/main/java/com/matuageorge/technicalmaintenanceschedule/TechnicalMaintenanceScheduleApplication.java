@@ -4,10 +4,7 @@ import com.google.maps.errors.ApiException;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
-import com.matuageorge.technicalmaintenanceschedule.model.Role;
-import com.matuageorge.technicalmaintenanceschedule.model.Schedule;
 import com.matuageorge.technicalmaintenanceschedule.model.TerminalType;
-import com.matuageorge.technicalmaintenanceschedule.model.User;
 import com.matuageorge.technicalmaintenanceschedule.service.*;
 import com.matuageorge.technicalmaintenanceschedule.service.api.payway.PayWayApiService;
 import com.matuageorge.technicalmaintenanceschedule.service.api.routing.DirectionsService;
@@ -18,11 +15,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.io.IOException;
-import java.util.List;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -48,13 +43,13 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
     public void run(String... args) throws NotFoundException, ValidationException, ResourceAlreadyExistsException, IOException, InterruptedException, ApiException {
         log.info("Updating the Terminals DB...");
         terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
-        mainPlannerService.addNewCommonTaskSchedulesIfExist();
-        mainPlannerService.createNewSchedulesForCommonTasksDueAgain();
-        mainPlannerService.addUrgentSchedules();
-
-        final Page<Schedule> all = scheduleService.findAll(0, 40);
-        final List<User> users = userService.findAllByRoleAndActiveAndOnDuty(Role.TECHNICIAN, true, true);
-
-        directionsService.getOptimalIndicesOfOrderOfSchedules(all.getContent(), users);
+//        mainPlannerService.addNewCommonTaskSchedulesIfExist();
+//        mainPlannerService.createNewSchedulesForCommonTasksDueAgain();
+//        mainPlannerService.addUrgentSchedules();
+//
+//        final Page<Schedule> all = scheduleService.findAll(0, 40);
+//        final List<User> users = userService.findAllByRoleAndActiveAndOnDuty(Role.TECHNICIAN, true, true);
+//
+//        directionsService.getOptimalIndicesOfOrderOfSchedules(all.getContent(), users);
     }
 }

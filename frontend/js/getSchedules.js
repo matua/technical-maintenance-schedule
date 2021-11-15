@@ -2,23 +2,23 @@
 
 let schedulesHtml;
 let paginationHtml;
-let logoutButton = document.getElementById('logout_button');
-document.getElementById('current_user').innerHTML =
+let logoutButton = document
+    .getElementById('logout_button');
+document.getElementById('current_user')
+    .innerHTML =
     `<div class="uk-alert-primary uk-alert">${getCurrentUserEmail(parseToken(getToken()))}</div>`;
-const urgentClass = 'uk-text-danger';
-const NO_SCHEDULES = `<div class="uk-alert-success uk-position-center uk-alert">
-                                <a class="uk-alert-close"></a>
-                                <p>No schedules! You are all done for now!</p>
-                                </div>`;
 
-async function getSchedules(page = 0, size = 5) {
+async function getSchedules(page = 0,
+                            size = 5) {
     loadAnimation('schedules');
 
     schedulesHtml = '';
     paginationHtml = '';
-    const url = baseUrl + `/schedules/notCompletedSortedByPriorityIndex/${page}/${size}`;
+    const url = baseUrl +
+        `/schedules/notCompletedSortedByPriorityIndex/${page}/${size}`;
 
-    if (checkTechRights(parseToken(getToken()))) {
+    if (checkTechRights(parseToken(
+        getToken()))) {
         await fetch(url, {
             method: 'GET',
             headers: {
@@ -27,21 +27,36 @@ async function getSchedules(page = 0, size = 5) {
             },
         })
             .then((response) => {
-                return response.json();
+                return response
+                    .json();
             })
             .then(schedulesPage => {
-                writeSchedulesToTable(schedulesPage);
-                writePaginationForSchedules(schedulesPage, size);
+                writeSchedulesToTable
+                (
+                    schedulesPage);
+                writePaginationForSchedules
+                (schedulesPage,
+                    size);
             })
             .catch((err) => {
-                schedulesHtml = NO_SCHEDULES;
+                schedulesHtml =
+                    NO_SCHEDULES;
             })
-        unloadAnimation('schedules');
-        document.getElementById('schedules').innerHTML = schedulesHtml;
-        document.getElementsByClassName('pagination')[0].innerHTML = paginationHtml;
+        unloadAnimation(
+            'schedules');
+        document.getElementById(
+            'schedules')
+            .innerHTML =
+            schedulesHtml;
+        document
+            .getElementsByClassName(
+                'pagination')[0]
+            .innerHTML =
+            paginationHtml;
     }
 
-    function writeSchedulesToTable(page) {
+    function writeSchedulesToTable(
+        page) {
         let schedulesTableHeaders =
             `<div class="uk-padding-small">
                 <div class="uk-tile uk-tile-muted uk-padding-remove">
@@ -69,30 +84,38 @@ async function getSchedules(page = 0, size = 5) {
         if (!page.empty) {
             page.content.forEach(
                 schedule => {
-                    schedulesHtml +=
+                    schedulesHtml
+                        +=
                         `<tr> 
-                        <td class="uk-table-link ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">
+                        <td class="uk-table-link ${schedule[0].task.priority === 'URGENT' ? URGENT_TASK_CLASS : ''}">
                             <a class="uk-link-reset" href="single_schedule.html#${schedule[0].id}">${schedule[0].terminal.name}</a>
                         </td>
-                        <td class="uk-table-shrink ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">${schedule[0].terminal.location}</td>
+                        <td class="uk-table-shrink ${schedule[0].task.priority === 'URGENT' ? URGENT_TASK_CLASS : ''}">${schedule[0].terminal.location}</td>
                      <!--                         <td class="uk-text-reset">${schedule[0].task.description}</td>-->
                       <!--                        <td class="uk-text-truncate">${schedule[0].status.toString()}</td>-->
                       <!--                        <td class="uk-text-truncate">${schedule[0].user.firstName} ${schedule[0].user.lastName}</td>-->
-                        <td class="uk-link-truncate ${schedule[0].task.priority === 'URGENT' ? urgentClass : ''}">${moment(schedule[0].dateTimeCreated).format('DD.MM.YYYY HH:MM')}</td>
+                        <td class="uk-link-truncate ${schedule[0].task.priority === 'URGENT' ? URGENT_TASK_CLASS : ''}">${moment(schedule[0].dateTimeCreated).format('DD.MM.YYYY HH:MM')}</td>
                       <!--    <td class="uk-text-truncate">${schedule[0].endExecutionDateTime != null ? schedule[0].endExecutionDateTime : "NOT YET!"}</td>-->
                     </tr>`
                 });
         } else {
-            schedulesTableHeaders = '';
-            schedulesTableFooter = '';
-            schedulesHtml = NO_SCHEDULES;
+            schedulesTableHeaders =
+                '';
+            schedulesTableFooter =
+                '';
+            schedulesHtml =
+                NO_SCHEDULES;
         }
-        schedulesHtml = schedulesTableHeaders + schedulesHtml + schedulesTableFooter;
+        schedulesHtml =
+            schedulesTableHeaders +
+            schedulesHtml +
+            schedulesTableFooter;
         return schedulesHtml;
     }
 }
 
-logoutButton.addEventListener('click', logout);
+logoutButton.addEventListener('click',
+    logout);
 
 getSchedules();
 getLocation();

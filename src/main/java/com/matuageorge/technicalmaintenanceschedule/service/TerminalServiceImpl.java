@@ -54,6 +54,12 @@ public class TerminalServiceImpl implements TerminalService {
             terminal.setName(terminalDto.getName());
             terminal.setLocation(terminalDto.getLocation());
             terminal.setDisabled(terminalDto.getDisabled());
+            if (terminalDto.getLongitude() != null) {
+                terminal.setLongitude(terminalDto.getLongitude());
+            }
+            if (terminalDto.getLatitude() != null) {
+                terminal.setLatitude(terminalDto.getLatitude());
+            }
             terminal.setType(terminalDto.getType());
             savedTerminal = terminalRepository.save(modelMapper.map(terminal, Terminal.class));
         } else {
