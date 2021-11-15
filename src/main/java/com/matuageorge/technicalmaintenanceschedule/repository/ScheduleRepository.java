@@ -110,4 +110,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             Pageable pageable, String email);
 
     List<Schedule> findAllByTerminalAndTask(Terminal terminal, Task task);
+
+    List<Schedule> findAllByTerminalAndTaskAndEndExecutionDateTimeNull(Terminal terminal, Task task);
 }

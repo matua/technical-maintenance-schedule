@@ -155,6 +155,11 @@ public class ScheduleServiceImpl implements ScheduleService {
                 pageable, email);
     }
 
+    @Override
+    public List<Schedule> findAllByTerminalAndTaskAndByEndExecutionDateTimeNull(Terminal terminal, Task task) {
+        return scheduleRepository.findAllByTerminalAndTaskAndEndExecutionDateTimeNull(terminal, task);
+    }
+
 
     @Override
     public Schedule update(Schedule schedule) throws ValidationException, NotFoundException {

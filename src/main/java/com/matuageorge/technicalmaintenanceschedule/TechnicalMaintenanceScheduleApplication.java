@@ -44,8 +44,8 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
         log.info("Updating the Terminals DB...");
         terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
         mainPlannerService.addNewCommonTaskSchedulesIfExist();
-//        mainPlannerService.createNewSchedulesForCommonTasksDueAgain();
-//        mainPlannerService.addUrgentSchedules();
+        mainPlannerService.createNewSchedulesForCommonTasksDueAgain();
+        mainPlannerService.addUrgentSchedules();
 //
 //        final Page<Schedule> all = scheduleService.findAll(0, 40);
 //        final List<User> users = userService.findAllByRoleAndActiveAndOnDuty(Role.TECHNICIAN, true, true);

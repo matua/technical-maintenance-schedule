@@ -66,19 +66,23 @@ public class MainMainPlannerServiceImpl implements MainPlannerService {
         List<Schedule> finishedSchedules = scheduleService.findByEndExecutionDateTimeNotNull();
         finishedSchedules.forEach(
                 schedule -> {
-                    LocalDateTime nextScheduledDay = schedule.getEndExecutionDateTime()
-                            .plusDays(schedule.getTask().getFrequency());
-                    if (nextScheduledDay.isAfter(now)) {
-                        Schedule newSchedule = Schedule.builder()
-                                .status(TaskStatus.SCHEDULED)
-                                .terminal(schedule.getTerminal())
-                                .task(schedule.getTask())
-                                .build();
-                        try {
-                            scheduleService.save(newSchedule);
-                        } catch (ValidationException | ResourceAlreadyExistsException e) {
-                            log.error(e.getLocalizedMessage());
+                    if (scheduleService.findAllByTerminalAndTaskAndByEndExecutionDateTimeNull(schedule.getTerminal(),
+                            schedule.getTask()).size() == 0) {
+                        LocalDateTime nextScheduledDay = schedule.getEndExecutionDateTime()
+                                .plusDays(schedule.getTask().getFrequency());
+                        if (nextScheduledDay.isAfter(now)) {
+                            Schedule newSchedule = Schedule.builder()
+                                    .status(TaskStatus.SCHEDULED)
+                                    .terminal(schedule.getTerminal())
+                                    .task(schedule.getTask())
+                                    .build();
+                            try {
+                                scheduleService.save(newSchedule);
+                            } catch (ValidationException | ResourceAlreadyExistsException e) {
+                                log.error(e.getLocalizedMessage());
+                            }
                         }
+
                     }
                 }
         );

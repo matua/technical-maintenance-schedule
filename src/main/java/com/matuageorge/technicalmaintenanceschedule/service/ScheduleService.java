@@ -54,4 +54,6 @@ public interface ScheduleService {
     void setOptimizationIndex(Long scheduleId, Long optimizationIndex);
 
     Page<Schedule> findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(Integer page, Integer pageSize, String email);
+
+    List<Schedule> findAllByTerminalAndTaskAndByEndExecutionDateTimeNull(Terminal terminal, Task task);
 }
