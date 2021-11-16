@@ -1,36 +1,34 @@
+package com.matuageorge.technicalmaintenanceschedule.model.graphhopper;
+
 import com.fasterxml.jackson.annotation.*;
-import com.matuageorge.technicalmaintenanceschedule.model.grasshopper.Objective;
-import com.matuageorge.technicalmaintenanceschedule.model.grasshopper.Service;
-import com.matuageorge.technicalmaintenanceschedule.model.grasshopper.Vehicle;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "objectives",
-        "vehicles",
-        "services"
+        "location_id",
+        "lat",
+        "lon"
 })
 @Generated("jsonschema2pojo")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Example {
+public class Address {
 
-    @JsonProperty("objectives")
-    public List<Objective> objectives = null;
-    @JsonProperty("vehicles")
-    public List<Vehicle> vehicles = null;
-    @JsonProperty("services")
-    public List<Service> services = null;
+    @JsonProperty("location_id")
+    public String locationId;
+    @JsonProperty("lat")
+    public Double lat;
+    @JsonProperty("lon")
+    public Double lon;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -43,5 +41,4 @@ public class Example {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 }

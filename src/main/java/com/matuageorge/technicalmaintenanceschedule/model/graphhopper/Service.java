@@ -1,4 +1,4 @@
-package com.matuageorge.technicalmaintenanceschedule.model.grasshopper;
+package com.matuageorge.technicalmaintenanceschedule.model.graphhopper;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;

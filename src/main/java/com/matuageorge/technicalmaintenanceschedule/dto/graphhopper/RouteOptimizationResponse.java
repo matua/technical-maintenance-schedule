@@ -1,7 +1,7 @@
-package com.matuageorge.technicalmaintenanceschedule.dto.grasshopper;
+package com.matuageorge.technicalmaintenanceschedule.dto.graphhopper;
 
 import com.fasterxml.jackson.annotation.*;
-import com.matuageorge.technicalmaintenanceschedule.model.grasshopper.Solution;
+import com.matuageorge.technicalmaintenanceschedule.model.graphhopper.Solution;
 
 import javax.annotation.processing.Generated;
 import java.util.HashMap;

@@ -1,14 +1,14 @@
-package com.matuageorge.technicalmaintenanceschedule.service.api.routing.grasshopper;
+package com.matuageorge.technicalmaintenanceschedule.service.api.routing.graphhopper;
 
 import com.google.maps.model.LatLng;
-import com.matuageorge.technicalmaintenanceschedule.dto.grasshopper.RouteOptimizationRequest;
-import com.matuageorge.technicalmaintenanceschedule.dto.grasshopper.RouteOptimizationResponse;
+import com.matuageorge.technicalmaintenanceschedule.dto.graphhopper.RouteOptimizationRequest;
+import com.matuageorge.technicalmaintenanceschedule.dto.graphhopper.RouteOptimizationResponse;
 import com.matuageorge.technicalmaintenanceschedule.exception.NotFoundException;
 import com.matuageorge.technicalmaintenanceschedule.exception.ValidationException;
 import com.matuageorge.technicalmaintenanceschedule.model.Schedule;
 import com.matuageorge.technicalmaintenanceschedule.model.Terminal;
 import com.matuageorge.technicalmaintenanceschedule.model.User;
-import com.matuageorge.technicalmaintenanceschedule.model.grasshopper.*;
+import com.matuageorge.technicalmaintenanceschedule.model.graphhopper.*;
 import com.matuageorge.technicalmaintenanceschedule.service.ScheduleService;
 import com.matuageorge.technicalmaintenanceschedule.service.UserService;
 import com.matuageorge.technicalmaintenanceschedule.service.api.routing.DirectionsService;
@@ -24,15 +24,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.*;
 
 
-@org.springframework.stereotype.Service("grasshopper")
+@org.springframework.stereotype.Service("graphhopper")
 @Slf4j
 @RequiredArgsConstructor
 @Primary
-public class GrasshopperDirectionsServiceDirectApiImpl implements DirectionsService {
+public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsService {
 
     private final RestTemplate restTemplate;
-    @Value("${grasshopper.api.key}")
-    private String grassHopperApiKey;
+    @Value("${graphhopper.api.key}")
+    private String graphHopperApiKey;
     private final ScheduleService scheduleService;
     private final UserService userService;
 
@@ -80,13 +80,13 @@ public class GrasshopperDirectionsServiceDirectApiImpl implements DirectionsServ
                 .scheme("https")
                 .host("graphhopper.com")
                 .pathSegment("api", "1", "vrp")
-                .queryParam("key", grassHopperApiKey)
+                .queryParam("key", graphHopperApiKey)
                 .build();
 
         final ResponseEntity<RouteOptimizationResponse> routeOptimizationResponseResponseEntity = restTemplate.postForEntity(uri.toUriString(), routeOptimizationRequest,
                 RouteOptimizationResponse.class);
 
-        log.info("Trying to get the best route for kiosks via Grasshopper API...");
+        log.info("Trying to get the best route for kiosks via Graphhopper API...");
 
         final RouteOptimizationResponse body = routeOptimizationResponseResponseEntity.getBody();
 
@@ -125,7 +125,7 @@ public class GrasshopperDirectionsServiceDirectApiImpl implements DirectionsServ
 
     @Override
     public Optional<List<Schedule>> getOptimalIndicesOfOrderOfSchedules(List<Schedule> schedules, List<User> users) throws ValidationException, NotFoundException {
-        log.info("Building a request object for Grasshopper API..");
+        log.info("Building a request object for Graphhopper API..");
 
         List<Objective> objectives = List.of(Objective.builder()
                 .type("min-max")
@@ -159,10 +159,10 @@ public class GrasshopperDirectionsServiceDirectApiImpl implements DirectionsServ
                 .scheme("https")
                 .host("graphhopper.com")
                 .pathSegment("api", "1", "vrp")
-                .queryParam("key", grassHopperApiKey)
+                .queryParam("key", graphHopperApiKey)
                 .build();
 
-        log.info("Shooting at Grasshopper API to get the best route for kiosks...\n{}",
+        log.info("Shooting at Graphhopper API to get the best route for kiosks...\n{}",
                 uri.toUriString());
 
         final ResponseEntity<RouteOptimizationResponse> routeOptimizationResponseResponseEntity = restTemplate.postForEntity(uri.toUriString(), routeOptimizationRequest,
