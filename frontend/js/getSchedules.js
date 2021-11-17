@@ -31,14 +31,10 @@ async function getSchedules(page = 0,
                     .json();
             })
             .then(schedulesPage => {
-                writeSchedulesToTable
-                (
-                    schedulesPage);
-                writePaginationForSchedules
-                (schedulesPage,
-                    size);
+                writeSchedulesToTable(schedulesPage);
+                writePaginationForSchedules(schedulesPage, size);
             })
-            .catch((err) => {
+            .catch(() => {
                 schedulesHtml =
                     NO_SCHEDULES;
             })
@@ -56,12 +52,12 @@ async function getSchedules(page = 0,
     }
 
     function writeSchedulesToTable(
-        page) {
+        p) {
         let schedulesTableHeaders =
             `<div class="uk-padding-small">
                 <div class="uk-tile uk-tile-muted uk-padding-remove">
-                    <p class="uk-h4">Total tasks: ${page.totalElements}
-                    <span class="uk-badge .uk-position-right">${page.pageable.pageNumber + 1}|${page.totalPages}</span>
+                    <p class="uk-h4">Total tasks: ${p.totalElements}
+                    <span class="uk-badge .uk-position-right">${p.pageable.pageNumber + 1}|${p.totalPages}</span>
                     </p>
              </div>   
              <div>
@@ -81,8 +77,8 @@ async function getSchedules(page = 0,
                 <tbody>`
         let schedulesTableFooter =
             ``
-        if (!page.empty) {
-            page.content.forEach(
+        if (!p.empty) {
+            p.content.forEach(
                 schedule => {
                     schedulesHtml
                         +=

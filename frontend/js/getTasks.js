@@ -22,14 +22,14 @@ async function getTasks(page = 0, size = 10) {
                 writeTasksToTable(tasksPage);
             });
     } else {
-        tasksHtml = `<div class="uk-alert-danger uk-position-center" uk-alert>
+        tasksHtml = `<div class="uk-alert-danger uk-position-center uk-alert">
                                 <a class="uk-alert-close"></a>
                                 <p>Not authorized!</p>`;
     }
     document.getElementById('tasks').innerHTML = tasksHtml;
 
 
-    function writeTasksToTable(page) {
+    function writeTasksToTable(p) {
         const tasksTableHeaders =
             `<div class="uk-overflow-auto">
             <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
@@ -45,7 +45,7 @@ async function getTasks(page = 0, size = 10) {
         const tasksTableFooter =
             `</tbody>
        </table>`
-        page.content.forEach(
+        p.content.forEach(
             task => {
                 let taskPriorityIcon = taskStatusIcon(task.priority);
                 tasksHtml +=
