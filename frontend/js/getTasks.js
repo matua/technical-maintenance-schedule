@@ -92,8 +92,6 @@ async function deleteTask(id) {
                     });
                 }
                 this.hide();
-                // let complete_task_button = document.getElementById('complete_task_button');
-                // complete_task_button.hidden = true;
                 document.location.reload();
             }
         }

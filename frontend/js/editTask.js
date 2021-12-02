@@ -31,7 +31,7 @@ async function editTask() {
             },
         });
     }
-    window.location = './tasks.html';
+    window.location.replace('../tasks.html');
 }
 
 edit_task_form.addEventListener('submit', editTask);
