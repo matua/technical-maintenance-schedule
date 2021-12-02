@@ -40,6 +40,8 @@ async function getTasks(page = 0, size = 10) {
                         <th class="uk-table-expand">Description</th>
                         <th class="uk-width-small">Frequency</th>
                         <th class="uk-width-small"></th>
+                        <th class="uk-width-small"></th>
+                        <th class="uk-width-small"></th>
                     </tr>
                 </thead>
                 <tbody>`
@@ -58,7 +60,9 @@ async function getTasks(page = 0, size = 10) {
                         <td class="uk-text-truncate">${task.frequency}</td>
                         <td class="uk-text-truncate">
                         <a href="edit_task.html?${task.description}|${task.priority}|${task.frequency}"
-                         class="uk-icon-link" uk-icon="pencil"></a></td>
+                         class="uk-icon-link" uk-icon="pencil"></a></td>    
+                         <td class="uk-text-truncate">    
+                        <a class="uk-icon-link" uk-icon="minus-circle" onclick="deleteTask(${task.id})"></a></td>
                     </tr>`
             });
         tasksHtml = tasksTableHeaders + tasksHtml + tasksTableFooter;
@@ -70,3 +74,28 @@ logout_button.addEventListener('click', logout);
 
 getTasks();
 getLocation();
+
+async function deleteTask(id) {
+    duDialog(null, 'This action cannot be undone, proceed?', {
+        buttons: duDialog.OK_CANCEL,
+        okText: 'Delete Task',
+        callbacks: {
+            okClick: async function () {
+                const url = baseUrl + `/admin/tasks/${id}`;
+                if (checkAdminRights(parseToken(getToken()))) {
+                    await fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${getToken()}`
+                        },
+                    });
+                }
+                this.hide();
+                // let complete_task_button = document.getElementById('complete_task_button');
+                // complete_task_button.hidden = true;
+                document.location.reload();
+            }
+        }
+    });
+}
