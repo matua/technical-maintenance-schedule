@@ -43,8 +43,13 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
+
     private String getSinceArgs(String description) {
-        return description.substring(description.indexOf("Since"), description.indexOf("Duration") - 7);
+        final int since = description.indexOf("Since");
+        if (since > 0) {
+            return description.substring(since, description.indexOf("Duration") - 7);
+        }
+        return description;
     }
 
     @Override

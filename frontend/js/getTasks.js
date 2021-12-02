@@ -31,7 +31,8 @@ async function getTasks(page = 0, size = 10) {
 
     function writeTasksToTable(p) {
         const tasksTableHeaders =
-            `<div class="uk-overflow-auto">
+            `<a href="edit_task.html" uk-icon="icon: plus" class="uk-padding-large">Add new    </a>
+            <div class="uk-overflow-auto">
             <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
                 <thead>
                     <tr>
