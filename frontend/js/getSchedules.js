@@ -20,7 +20,7 @@ async function getSchedules(page = 0,
             `/schedules/notCompletedSortedByPriorityIndex/${page}/${size}`;
     } else {
         url = baseUrl +
-            `/schedules/${page}/${size * 2}`;
+            `/schedules/${page}/${size * 5}`;
     }
 
     if (checkAdminOrTechRights(parseToken(getToken()))) {
