@@ -36,6 +36,10 @@ function checkTechRights(token) {
     return token.role === 'TECHNICIAN';
 }
 
+function checkAdminOrTechRights(token) {
+    return token.role === 'TECHNICIAN' || token.role === 'ADMINISTRATOR';
+}
+
 function logout() {
     window.localStorage.removeItem('token');
     window.location.href = 'login.html';
@@ -99,4 +103,8 @@ function unloadAnimation(element) {
 
 function getCurrentUserEmail(token) {
     return token.sub;
+}
+
+function getCurrentUserTole(token) {
+    return token.role;
 }

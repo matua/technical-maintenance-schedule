@@ -10,15 +10,20 @@ document.getElementById('current_user')
 
 async function getSchedules(page = 0,
                             size = 5) {
+    const userRole = getCurrentUserTole(parseToken(getToken()));
     loadAnimation('schedules');
-
+    let url;
     schedulesHtml = '';
     paginationHtml = '';
-    const url = baseUrl +
-        `/schedules/notCompletedSortedByPriorityIndex/${page}/${size}`;
+    if (userRole === 'TECHNICIAN') {
+        url = baseUrl +
+            `/schedules/notCompletedSortedByPriorityIndex/${page}/${size}`;
+    } else {
+        url = baseUrl +
+            `/schedules/${page}/${size * 2}`;
+    }
 
-    if (checkTechRights(parseToken(
-        getToken()))) {
+    if (checkAdminOrTechRights(parseToken(getToken()))) {
         await fetch(url, {
             method: 'GET',
             headers: {
@@ -34,7 +39,8 @@ async function getSchedules(page = 0,
                 writeSchedulesToTable(schedulesPage);
                 writePaginationForSchedules(schedulesPage, size);
             })
-            .catch(() => {
+            .catch((err) => {
+                console.error(err);
                 schedulesHtml =
                     NO_SCHEDULES;
             })
@@ -78,11 +84,12 @@ async function getSchedules(page = 0,
         let schedulesTableFooter =
             ``
         if (!p.empty) {
-            p.content.forEach(
-                schedule => {
-                    schedulesHtml
-                        +=
-                        `<tr> 
+            if (userRole === 'TECHNICIAN') {
+                p.content.forEach(
+                    schedule => {
+                        schedulesHtml
+                            +=
+                            `<tr> 
                         <td class="uk-table-link ${schedule[0].task.priority === 'URGENT' ? URGENT_TASK_CLASS : ''}">
                             <a class="uk-link-reset" href="single_schedule.html#${schedule[0].id}">${schedule[0].terminal.name}</a>
                         </td>
@@ -93,7 +100,21 @@ async function getSchedules(page = 0,
                         <td class="uk-link-truncate ${schedule[0].task.priority === 'URGENT' ? URGENT_TASK_CLASS : ''}">${moment(schedule[0].dateTimeCreated).format('DD.MM.YYYY HH:MM')}</td>
                       <!--    <td class="uk-text-truncate">${schedule[0].endExecutionDateTime != null ? schedule[0].endExecutionDateTime : "NOT YET!"}</td>-->
                     </tr>`
-                });
+                    });
+            } else {
+                p.content.forEach(
+                    schedule => {
+                        schedulesHtml
+                            +=
+                            `<tr> 
+                        <td class="uk-table-link ${schedule.task.priority === 'URGENT' ? URGENT_TASK_CLASS : ''}">
+                            <a class="uk-link-reset" href="single_schedule.html#${schedule.id}">${schedule.terminal.name}</a>
+                        </td>
+                        <td class="uk-table-shrink ${schedule.task.priority === 'URGENT' ? URGENT_TASK_CLASS : ''}">${schedule.terminal.location}</td>
+                        <td class="uk-link-truncate ${schedule.task.priority === 'URGENT' ? URGENT_TASK_CLASS : ''}">${moment(schedule.dateTimeCreated).format('DD.MM.YYYY HH:MM')}</td>
+                    </tr>`
+                    });
+            }
         } else {
             schedulesTableHeaders =
                 '';
