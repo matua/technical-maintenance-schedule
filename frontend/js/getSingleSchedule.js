@@ -2,6 +2,7 @@
 
 let singleScheduleHtml;
 let logout_button = document.getElementById('logout_button');
+const userRole = getCurrentUserTole(parseToken(getToken()));
 
 async function getSingleSchedule() {
     loadAnimation('schedule');
@@ -10,7 +11,7 @@ async function getSingleSchedule() {
     singleScheduleHtml = '';
     const url = baseUrl + `/schedules/${scheduleId}`;
 
-    if (checkTechRights(parseToken(getToken()))) {
+    if (checkAdminOrTechRights(parseToken(getToken()))) {
         await fetch(url, {
             method: 'GET',
             headers: {
@@ -33,25 +34,27 @@ async function getSingleSchedule() {
         let complete_task_button;
         let grab_task_button;
         let release_task_button;
-        if (page.startExecutionDateTime == null && page.grabbedExecutionDateTime != null) {
-            start_task_button = `<button id="start_task_button" onclick="startTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">START TASK</button>`
-        } else {
-            start_task_button = '';
-        }
-        if (page.endExecutionDateTime == null && page.startExecutionDateTime != null) {
-            complete_task_button = `<button id="complete_task_button" onclick="completeTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">COMPLETE TASK</button>`
-        } else {
-            complete_task_button = '';
-        }
-        if (page.grabbedExecutionDateTime == null && page.startExecutionDateTime == null) {
-            grab_task_button = `<button id="grab_task_button" onclick="grabTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">GRAB TASK</button>`
-        } else {
-            grab_task_button = '';
-        }
-        if (page.grabbedExecutionDateTime != null && page.startExecutionDateTime == null) {
-            release_task_button = `<button id="release_task_button" onclick="releaseTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">RELEASE TASK</button>`
-        } else {
-            release_task_button = '';
+        if (userRole === 'TECHNICIAN') {
+            if (page.startExecutionDateTime == null && page.grabbedExecutionDateTime != null) {
+                start_task_button = `<button id="start_task_button" onclick="startTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">START TASK</button>`
+            } else {
+                start_task_button = '';
+            }
+            if (page.endExecutionDateTime == null && page.startExecutionDateTime != null) {
+                complete_task_button = `<button id="complete_task_button" onclick="completeTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">COMPLETE TASK</button>`
+            } else {
+                complete_task_button = '';
+            }
+            if (page.grabbedExecutionDateTime == null && page.startExecutionDateTime == null) {
+                grab_task_button = `<button id="grab_task_button" onclick="grabTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">GRAB TASK</button>`
+            } else {
+                grab_task_button = '';
+            }
+            if (page.grabbedExecutionDateTime != null && page.startExecutionDateTime == null) {
+                release_task_button = `<button id="release_task_button" onclick="releaseTask(${page.id})" class="uk-button uk-button-secondary uk-button-large">RELEASE TASK</button>`
+            } else {
+                release_task_button = '';
+            }
         }
 
 
@@ -79,16 +82,16 @@ async function getSingleSchedule() {
                 Time Started: <code> ${page.startExecutionDateTime != null ? moment(new Date(page.startExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
                 Time Completed: <code> ${page.endExecutionDateTime != null ? moment(new Date(page.endExecutionDateTime)).format('DD.MM.YYYY HH:MM') : "NOT YET!"}</code></br>
                 <p uk-margin>
-                ${grab_task_button}
+                ${grab_task_button === undefined ? '' : grab_task_button}
                 </p>  
                 <p uk-margin>
-                ${release_task_button}
+                ${release_task_button === undefined ? '' : release_task_button}
                 </p>
                  <p uk-margin>
-                ${start_task_button}
+                ${start_task_button === undefined ? '' : start_task_button}
                 </p>  
                 <p uk-margin>
-                ${complete_task_button}
+                ${complete_task_button === undefined ? '' : complete_task_button}
                 </p>
                 Time Spent on task: <code>${timeDifference(new Date(page.endExecutionDateTime), new Date(page.startExecutionDateTime))}</code>
                 </p>
