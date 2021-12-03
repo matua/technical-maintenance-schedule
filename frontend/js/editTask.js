@@ -14,14 +14,15 @@ if (arrayOfTaskParameters[0].length === 0) {
 }
 console.log(newOrUpdate);
 
-async function editTask() {
+function editTask(event) {
+    event.preventDefault();
     const form = new FormData(edit_task_form);
     let TaskDtoToUpdateFromForm = fromFormDataToJson(form);
 
     const url = baseUrl + `/admin/tasks`;
 
     if (checkAdminRights(parseToken(getToken()))) {
-        await fetch(url, {
+        fetch(url, {
             method: newOrUpdate,
             body: JSON.stringify(TaskDtoToUpdateFromForm),
             headers: {
@@ -29,9 +30,8 @@ async function editTask() {
                 'Accept': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             },
-        });
+        }).then(() => window.location.replace('tasks.html'));
     }
-    window.location.replace('../tasks.html');
 }
 
 edit_task_form.addEventListener('submit', editTask);

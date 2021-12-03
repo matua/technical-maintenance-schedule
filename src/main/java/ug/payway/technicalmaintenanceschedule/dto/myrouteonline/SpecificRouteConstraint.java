@@ -17,13 +17,13 @@ public class SpecificRouteConstraint {
 
     @JsonProperty("startAt")
     @Valid
-    public StartAt startAt;
+    public Address startAt;
     @JsonProperty("endAt")
     @Valid
-    public EndAt endAt;
+    public Address endAt;
     @JsonIgnore
     @Valid
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
