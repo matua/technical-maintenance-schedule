@@ -53,7 +53,6 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
     private String headOfficeLatitude;
     @Value("${payway.location.long.headoffice}")
     private String headOfficeLongitude;
-    private String jobToken;
 
     @Override
     public Optional<List<Terminal>> getOptimalRouteListOfTerminals(
@@ -76,7 +75,7 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
 
     @Override
     public Optional<List<Schedule>> getOptimalIndicesOfOrderOfSchedules(List<Schedule> schedules, List<User> users) {
-        log.info("Building a jobTokenRequest object for Graphhopper API..");
+        log.info("Building a jobTokenRequest object for MyRouteOnline API..");
 
         final RoutingParameters routingParameters = RoutingParameters.builder()
                 .startTime(startTime).visitClosestFirst(Boolean.valueOf(visitClosestFirst)).build();
@@ -148,8 +147,7 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
         List<Schedule> optimizedSchedules = new ArrayList<>();
 
         if (Boolean.TRUE.equals(body.isSuccessful)) {
-            jobToken = body.jobToken;
-
+            String jobToken = body.jobToken;
 
             UriComponents routePlanCheckUri = UriComponentsBuilder
                     .newInstance().scheme("https")
@@ -191,11 +189,9 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
 
             //map routes to users
             Map<Integer, Long> routeToUser = new HashMap<>();
-            for (Route route1 : routes) {
-                routeToUser.put(route1.routeNumber, users.get(route1.routeNumber - 1).getId());
-            }
+            routes.forEach(route -> routeToUser.put(route.routeNumber, users.get(route.routeNumber - 1).getId()));
 
-            final Long[] optimizationIndex = {1000L};
+            final Long[] optimizationIndex = {1L};
             routes.forEach(route -> route.stops.forEach(stop -> {
                 if (stop.stopAddressId != 0) {
                     Schedule schedule = new Schedule();
@@ -206,10 +202,10 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
                     scheduleService.setUser(scheduleId, routeToUser.get(route.routeNumber));
                     int urgency = 1;
                     if (e.getTask().getPriority().equals(TaskPriority.URGENT)) {
-                        urgency = 10;
+                        urgency = 100;
                     }
                     scheduleService.setOptimizationIndex(scheduleId, optimizationIndex[0] * urgency);
-                    optimizationIndex[0]--;
+                    optimizationIndex[0]++;
                 }
             }));
         }

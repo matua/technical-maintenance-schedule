@@ -147,7 +147,7 @@ public class ScheduleController {
     @GetMapping(Utility.SCHEDULES + "/notCompletedSortedByPriorityIndex/{page}/{pageSize}")
     public ResponseEntity<Page<Schedule>> findAllNotCompletedByPriorityIndexByUser(
             @PathVariable Integer page,
-            @PathVariable Integer pageSize, @AuthenticationPrincipal UserDetails userDetails) throws NotFoundException {
+            @PathVariable Integer pageSize, @AuthenticationPrincipal UserDetails userDetails) {
 
         log.info("Handling for user:{} find all NOT COMPLETED schedules SORTED BY OPTIMIZATION INDEX page: {} with " +
                         "size: {}",
