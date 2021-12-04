@@ -124,7 +124,7 @@ public class ScheduleController {
         log.info("Handling find all NOT COMPLETED schedules page: {} with size: {}", page, pageSize);
 
         Page<ScheduleDto> schedulesPageResponseBody =
-                scheduleService.findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(page, pageSize);
+                scheduleService.findAllByEndExecutionDateTimeNull(page, pageSize);
         return ResponseEntity.ok().body(schedulesPageResponseBody);
     }
 

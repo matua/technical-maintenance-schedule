@@ -4,7 +4,6 @@ import com.google.maps.model.LatLng;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -23,7 +22,6 @@ import java.util.*;
 @org.springframework.stereotype.Service("graphhopper")
 @Slf4j
 @RequiredArgsConstructor
-@Primary
 public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsService {
 
     private final RestTemplate restTemplate;
@@ -36,7 +34,7 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
                                                                    List<Terminal> destinations,
                                                                    List<Terminal> terminalLocations) {
 
-        log.info("Getting optimal route via Google Java Client API and returning list of terminals in an optimized " +
+        log.info("Getting optimal route via Graphhopper API and returning list of terminals in an optimized " +
                 "order");
 
         List<Objective> objectives = List.of(Objective.builder()

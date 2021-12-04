@@ -3,21 +3,19 @@ package ug.payway.technicalmaintenanceschedule.dto.myrouteonline;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.Builder;
 
 import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "startTime",
-        "visitClosestFirst"
+        "jobToken",
+        "isSuccessful"
 })
 @Generated("jsonschema2pojo")
-@Builder
-public class RoutingParameters {
+public class JobResponse {
 
-    @JsonProperty("startTime")
-    public String startTime;
-    @JsonProperty("visitClosestFirst")
-    public Boolean visitClosestFirst;
+    @JsonProperty("jobToken")
+    public String jobToken;
+    @JsonProperty("isSuccessful")
+    public Boolean isSuccessful;
 }

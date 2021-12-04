@@ -7,6 +7,7 @@ import ug.payway.technicalmaintenanceschedule.exception.ResourceAlreadyExistsExc
 import ug.payway.technicalmaintenanceschedule.exception.ValidationException;
 import ug.payway.technicalmaintenanceschedule.model.Schedule;
 import ug.payway.technicalmaintenanceschedule.model.Task;
+import ug.payway.technicalmaintenanceschedule.model.TaskPriority;
 import ug.payway.technicalmaintenanceschedule.model.Terminal;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public interface ScheduleService {
 
     Page<ScheduleDto> findAllSortedByTaskPriority(Integer page, Integer pageSize) throws NotFoundException;
 
-    Page<ScheduleDto> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException;
+    Page<ScheduleDto> findAllByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException;
 
     Page<ScheduleDto> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByUserEmail(Integer page,
                                                                                              Integer pageSize
@@ -53,4 +54,11 @@ public interface ScheduleService {
     Page<Schedule> findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(Integer page, Integer pageSize, String email);
 
     List<ScheduleDto> findAllByTerminalAndTaskAndByEndExecutionDateTimeNull(Terminal terminal, Task task);
+
+    List<Schedule> findAllByEndExecutionDateTimeNull();
+
+    List<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(TaskPriority urgent);
+
+    Page<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(TaskPriority taskPriority, Integer page,
+                                                                    Integer pageSize);
 }

@@ -213,10 +213,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<ScheduleDto> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException {
+    public Page<ScheduleDto> findAllByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException {
 
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<Schedule> schedulePage = scheduleRepository.findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(pageable);
+        Page<Schedule> schedulePage = scheduleRepository.findAllByPageSortedByTaskPriorityAndByEndExecutionDateTimeNull(pageable);
 
         if (schedulePage.hasContent()) {
             return schedulePage.map(
@@ -247,6 +247,25 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<ScheduleDto> findAll() {
         return scheduleRepository.findAll().stream().map(schedule -> modelMapper.map(schedule, ScheduleDto.class)).toList();
+    }
+
+    @Override
+    public List<Schedule> findAllByEndExecutionDateTimeNull() {
+
+        return scheduleRepository.findAllByEndExecutionDateTimeNull();
+    }
+
+    @Override
+    public List<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(TaskPriority taskPriority) {
+        return scheduleRepository.findAllByTaskPriorityAndEndExecutionDateTimeNull(taskPriority);
+    }
+
+    @Override
+    public Page<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(TaskPriority taskPriority, Integer page, Integer pageSize) {
+
+        Pageable pageable = PageRequest.of(page, pageSize);
+
+        return scheduleRepository.findAllByTaskPriorityAndEndExecutionDateTimeNull(pageable, taskPriority);
     }
 
     @Override

@@ -47,7 +47,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             "schedule0_.task.id=task1_.id" +
             " where schedule0_.endExecutionDateTime is null " +
             " order by task1_.priority desc")
-    Page<Schedule> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNull(Pageable pageable);
+    Page<Schedule> findAllByPageSortedByTaskPriorityAndByEndExecutionDateTimeNull(Pageable pageable);
 
     List<Schedule> findAllByTaskPriority(TaskPriority priority);
 
@@ -114,4 +114,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     List<Schedule> findAllByTerminalAndTaskAndEndExecutionDateTimeNull(Terminal terminal, Task task);
 
     List<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(TaskPriority taskPriority);
+
+    Page<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(Pageable pageable, TaskPriority taskPriority);
+
+    List<Schedule> findAllByEndExecutionDateTimeNull();
 }
