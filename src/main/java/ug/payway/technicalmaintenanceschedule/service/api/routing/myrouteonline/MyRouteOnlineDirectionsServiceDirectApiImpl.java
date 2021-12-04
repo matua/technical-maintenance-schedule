@@ -25,6 +25,7 @@ import ug.payway.technicalmaintenanceschedule.service.ScheduleService;
 import ug.payway.technicalmaintenanceschedule.service.api.routing.DirectionsService;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @org.springframework.stereotype.Service("myrouteonline")
 @Slf4j
@@ -55,18 +56,21 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
     private String jobToken;
 
     @Override
-    public Optional<List<Terminal>> getOptimalRouteListOfTerminals(List<Terminal> origins, List<Terminal> destinations, List<Terminal> terminalLocations) {
+    public Optional<List<Terminal>> getOptimalRouteListOfTerminals(
+            List<Terminal> origins, List<Terminal> destinations, List<Terminal> terminalLocations) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<List<Terminal>> getOptimalRouteListOfTerminalsWithLatLngStartAndFinishPoint(LatLng startAndFinishPoint, List<Terminal> terminalLocations) {
+    public Optional<List<Terminal>> getOptimalRouteListOfTerminalsWithLatLngStartAndFinishPoint(
+            LatLng startAndFinishPoint, List<Terminal> terminalLocations) {
         return Optional.empty();
     }
 
 
     @Override
-    public Optional<int[]> getOptimalIndicesOfOrderOfTerminals(List<Terminal> origins, List<Terminal> destinations, List<Terminal> terminalLocations) {
+    public Optional<int[]> getOptimalIndicesOfOrderOfTerminals(
+            List<Terminal> origins, List<Terminal> destinations, List<Terminal> terminalLocations) {
         return Optional.empty();
     }
 
@@ -74,21 +78,50 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
     public Optional<List<Schedule>> getOptimalIndicesOfOrderOfSchedules(List<Schedule> schedules, List<User> users) {
         log.info("Building a jobTokenRequest object for Graphhopper API..");
 
-        final RoutingParameters routingParameters = RoutingParameters.builder().startTime(startTime).visitClosestFirst(Boolean.valueOf(visitClosestFirst)).build();
+        final RoutingParameters routingParameters = RoutingParameters.builder()
+                .startTime(startTime).visitClosestFirst(Boolean.valueOf(visitClosestFirst)).build();
 
-        final SpecificRouteConstraint specificRouteConstraint = SpecificRouteConstraint.builder().startAt(Address.builder().idNumber(0).title(HEAD_OFFICE).serviceTimeInMinutes(0).address("[" + headOfficeLatitude + ", " + headOfficeLongitude + "]").build()).endAt(Address.builder().idNumber(0).title(HEAD_OFFICE).serviceTimeInMinutes(0).address("[" + headOfficeLatitude + ", " + headOfficeLongitude + "]").build()).build();
+        final SpecificRouteConstraint specificRouteConstraint = SpecificRouteConstraint.builder()
+                .startAt(Address.builder().idNumber(0).title(HEAD_OFFICE)
+                        .serviceTimeInMinutes(0).address("[" + headOfficeLatitude + ", " + headOfficeLongitude + "]")
+                        .build())
+                .endAt(Address.builder()
+                        .idNumber(0)
+                        .title(HEAD_OFFICE)
+                        .serviceTimeInMinutes(0)
+                        .address("[" + headOfficeLatitude + ", " + headOfficeLongitude + "]").build())
+                .build();
 
 
-        final RoutesConstraints routesConstraints = RoutesConstraints.builder().isFixedNumberOfRoutes(Boolean.valueOf(isFixedNumberOfRoutes)).fixedNumberOfRoutes(users.size()).specificRouteConstraints(List.of(specificRouteConstraint)).build();
+        final RoutesConstraints routesConstraints = RoutesConstraints.builder()
+                .isFixedNumberOfRoutes(Boolean.valueOf(isFixedNumberOfRoutes))
+                .fixedNumberOfRoutes(users.size())
+                .specificRouteConstraints(List.of(specificRouteConstraint))
+                .build();
 
 
         List<Address> addresses = new ArrayList<>();
-        schedules.forEach(schedule -> addresses.add(Address.builder().idNumber(Math.toIntExact(schedule.getId())).title(schedule.getTerminal().getName() + "|" + schedule.getTask().getDescription()).serviceTimeInMinutes(Integer.valueOf(serviceTimeInMinutes)).address("[" + schedule.getTerminal().getLatitude() + ", " + schedule.getTerminal().getLongitude() + "]").build()));
+        schedules.forEach(schedule -> addresses.add(Address.builder()
+                .idNumber(Math.toIntExact(schedule.getId()))
+                .title(schedule.getTerminal().getName() + "|" + schedule.getTask().getDescription())
+                .serviceTimeInMinutes(Integer.valueOf(serviceTimeInMinutes))
+                .address("[" + schedule.getTerminal()
+                        .getLatitude() + ", " + schedule.getTerminal().getLongitude() + "]")
+                .build()));
 
-        RouteOptimizationRequest routeOptimizationRequest = RouteOptimizationRequest.builder().routingParameters(routingParameters).routesConstraints(routesConstraints).addresses(addresses).build();
+        RouteOptimizationRequest routeOptimizationRequest = RouteOptimizationRequest.builder()
+                .routingParameters(routingParameters)
+                .routesConstraints(routesConstraints)
+                .addresses(addresses)
+                .build();
 
 
-        UriComponents routePlanStartUri = UriComponentsBuilder.newInstance().scheme("https").host("planner.myrouteonline.com").pathSegment("ws_api/").queryParam("m", "routePlanStart").build();
+        UriComponents routePlanStartUri = UriComponentsBuilder.newInstance()
+                .scheme("https")
+                .host("planner.myrouteonline.com")
+                .pathSegment("ws_api/")
+                .queryParam("m", "routePlanStart")
+                .build();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -105,7 +138,8 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
 
         log.info("Shooting at MyRouteOnline API to get the job token...\n{}", routePlanStartUri.toUriString());
 
-        ResponseEntity<JobResponse> jobResponseEntity = restTemplate.postForEntity(routePlanStartUri.toUriString(), jobTokenRequest, JobResponse.class);
+        ResponseEntity<JobResponse> jobResponseEntity = restTemplate
+                .postForEntity(routePlanStartUri.toUriString(), jobTokenRequest, JobResponse.class);
 
         final JobResponse body = jobResponseEntity.getBody();
 
@@ -117,7 +151,11 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
             jobToken = body.jobToken;
 
 
-            UriComponents routePlanCheckUri = UriComponentsBuilder.newInstance().scheme("https").host("planner.myrouteonline.com").pathSegment("ws_api/").queryParam("m", "routePlanCheck").build();
+            UriComponents routePlanCheckUri = UriComponentsBuilder
+                    .newInstance().scheme("https")
+                    .host("planner.myrouteonline.com")
+                    .pathSegment("ws_api/")
+                    .queryParam("m", "routePlanCheck").build();
 
             parameters = new LinkedMultiValueMap<>();
             parameters.add("apiToken", myRouteOnlineApiKey);
@@ -126,20 +164,24 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
 
             HttpEntity<MultiValueMap<String, String>> mainRequest = new HttpEntity<>(parameters, headers);
 
-            log.info("Shooting at MyRouteOnline API to get the best route for kiosks...\n{}", routePlanCheckUri.toUriString());
+            log.info("Shooting at MyRouteOnline API to get the best route for kiosks...\n{}",
+                    routePlanCheckUri.toUriString());
 
             Boolean isFinished = false;
             RouteOptimizationResponse routeOptimizationResponseBody = null;
             while (Boolean.FALSE.equals(isFinished)) {
-                ResponseEntity<RouteOptimizationResponse> routeOptimizationResponseResponseEntity = restTemplate.postForEntity(routePlanCheckUri.toUriString(), mainRequest, RouteOptimizationResponse.class);
+                ResponseEntity<RouteOptimizationResponse> routeOptimizationResponseResponseEntity =
+                        restTemplate.postForEntity(
+                                routePlanCheckUri.toUriString(), mainRequest, RouteOptimizationResponse.class);
 
                 routeOptimizationResponseBody = routeOptimizationResponseResponseEntity.getBody();
                 isFinished = Objects.requireNonNull(routeOptimizationResponseBody).isFinished;
+
                 try {
-                    log.info("Waiting for results for 6 seconds...");
-                    Thread.sleep(6000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    log.info("Waiting for results for some 5 seconds...");
+                    TimeUnit.SECONDS.sleep(5);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
                 }
             }
 
