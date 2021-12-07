@@ -10,32 +10,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.annotation.Generated;
-import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "id",
-        "name",
-        "address",
-        "size",
-        "time_windows"
+        "address"
 })
 @Generated("jsonschema2pojo")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Service {
+public class Delivery {
 
-    @JsonProperty("id")
-    public String id;
-    @JsonProperty("name")
-    public String name;
     @JsonProperty("address")
     public Address address;
-    @JsonProperty("size")
-    public List<Integer> size = null;
-    @JsonProperty("time_windows")
-    public List<TimeWindow> timeWindows = null;
 
 }

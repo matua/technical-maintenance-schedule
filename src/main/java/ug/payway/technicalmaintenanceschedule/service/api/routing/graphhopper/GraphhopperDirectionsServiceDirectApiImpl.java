@@ -4,11 +4,11 @@ import com.google.maps.model.LatLng;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import ug.payway.technicalmaintenanceschedule.dto.graphhopper.RouteOptimizationRequest;
 import ug.payway.technicalmaintenanceschedule.dto.graphhopper.RouteOptimizationResponse;
 import ug.payway.technicalmaintenanceschedule.model.Schedule;
 import ug.payway.technicalmaintenanceschedule.model.Terminal;
@@ -22,6 +22,7 @@ import java.util.*;
 @org.springframework.stereotype.Service("graphhopper")
 @Slf4j
 @RequiredArgsConstructor
+@Primary
 public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsService {
 
     private final RestTemplate restTemplate;
@@ -63,7 +64,7 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
                         .build())
                 .build()));
 
-        RouteOptimizationRequest routeOptimizationRequest = RouteOptimizationRequest.builder()
+        com.matuageorge.dto.graphhopper.RouteOptimizationRequest routeOptimizationRequest = com.matuageorge.dto.graphhopper.RouteOptimizationRequest.builder()
                 .objectives(objectives)
                 .vehicles(vehicles)
                 .services(services)
@@ -116,8 +117,15 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
         return Optional.empty();
     }
 
+
     @Override
-    public Optional<List<Schedule>> getOptimalIndicesOfOrderOfSchedules(List<Schedule> schedules, List<User> users) {
+    public Optional<List<Schedule>> getOptimalIndicesOfOrderOfSchedules(
+            List<Schedule> schedules,
+            List<User> users,
+            Double startAddressLatitude,
+            Double startAddressLongitude,
+            Double endAddressLatitude,
+            Double endAddressLongitude) {
         log.info("Building a request object for Graphhopper API..");
 
         List<Objective> objectives = List.of(Objective.builder()
@@ -142,7 +150,7 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
                                 .build())
         );
 
-        RouteOptimizationRequest routeOptimizationRequest = RouteOptimizationRequest.builder()
+        com.matuageorge.dto.graphhopper.RouteOptimizationRequest routeOptimizationRequest = com.matuageorge.dto.graphhopper.RouteOptimizationRequest.builder()
                 .objectives(objectives)
                 .vehicles(vehicles)
                 .services(services)

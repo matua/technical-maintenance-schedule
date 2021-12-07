@@ -23,12 +23,13 @@ import java.util.Optional;
 @Slf4j
 @AllArgsConstructor
 public class TaskServiceImpl implements TaskService {
-    private final TaskRepository taskRepository;
+//    private final UtilityService utilityService;
+private final TaskRepository taskRepository;
     private final ModelMapper modelMapper;
 
     @Override
     public Task save(TaskDto taskDto) throws ValidationException, ResourceAlreadyExistsException {
-
+        Task savedTask;
         Optional<Task> taskToSave = taskRepository.findByDescriptionArgsSince(getSinceArgs(taskDto.getDescription()));
         if (taskToSave.isPresent()) {
             log.info("Task with such description: {} or kiosk message id: {} already " +
@@ -36,7 +37,9 @@ public class TaskServiceImpl implements TaskService {
             throw new ResourceAlreadyExistsException("Task with such description or message id already exists");
         } else {
             try {
-                return taskRepository.save(modelMapper.map(taskDto, Task.class));
+                savedTask = taskRepository.save(modelMapper.map(taskDto, Task.class));
+//                utilityService.addNewCommonTaskSchedules(savedTask);
+                return savedTask;
             } catch (IllegalArgumentException e) {
                 throw new ValidationException("Task cannot be null");
             }

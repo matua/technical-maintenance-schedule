@@ -16,26 +16,32 @@ import java.util.List;
 @JsonPropertyOrder({
         "id",
         "name",
-        "address",
+        "priority",
+        "pickup",
+        "delivery",
         "size",
-        "time_windows"
+        "required_skills"
 })
 @Generated("jsonschema2pojo")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Service {
+public class Shipment {
 
     @JsonProperty("id")
     public String id;
     @JsonProperty("name")
     public String name;
-    @JsonProperty("address")
-    public Address address;
+    @JsonProperty("priority")
+    public Integer priority;
+    @JsonProperty("pickup")
+    public Pickup pickup;
+    @JsonProperty("delivery")
+    public Delivery delivery;
     @JsonProperty("size")
     public List<Integer> size = null;
-    @JsonProperty("time_windows")
-    public List<TimeWindow> timeWindows = null;
+    @JsonProperty("required_skills")
+    public List<String> requiredSkills = null;
 
 }

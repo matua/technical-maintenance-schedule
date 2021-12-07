@@ -39,15 +39,6 @@ public class TaskController {
         return ResponseEntity.ok(updatedTask);
     }
 
-//    @DeleteMapping(Utility.ADMIN + Utility.TASKS + "/{taskDescription}")
-//    public ResponseEntity<Void> deleteByDescription(@PathVariable String taskDescription) throws ValidationException,
-//            NotFoundException {
-//
-//        log.info("Handling delete task with task description: {}", taskDescription);
-//        taskService.deleteByDescription(taskDescription);
-//        return ResponseEntity.accepted().build();
-//    }
-
     @DeleteMapping(Utility.ADMIN + Utility.TASKS + "/{taskId}")
     public ResponseEntity<Void> deleteById(@PathVariable Long taskId) throws
             NotFoundException, ValidationException {

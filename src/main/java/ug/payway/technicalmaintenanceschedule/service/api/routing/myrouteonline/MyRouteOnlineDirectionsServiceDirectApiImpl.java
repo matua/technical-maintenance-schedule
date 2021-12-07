@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.maps.model.LatLng;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,11 +17,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ug.payway.technicalmaintenanceschedule.dto.myrouteonline.*;
+import ug.payway.technicalmaintenanceschedule.exception.NotFoundException;
+import ug.payway.technicalmaintenanceschedule.exception.ValidationException;
 import ug.payway.technicalmaintenanceschedule.model.Schedule;
 import ug.payway.technicalmaintenanceschedule.model.TaskPriority;
 import ug.payway.technicalmaintenanceschedule.model.Terminal;
 import ug.payway.technicalmaintenanceschedule.model.User;
 import ug.payway.technicalmaintenanceschedule.service.ScheduleService;
+import ug.payway.technicalmaintenanceschedule.service.UserService;
 import ug.payway.technicalmaintenanceschedule.service.api.routing.DirectionsService;
 
 import java.util.*;
@@ -30,13 +33,15 @@ import java.util.concurrent.TimeUnit;
 @org.springframework.stereotype.Service("myrouteonline")
 @Slf4j
 @RequiredArgsConstructor
-@Primary
 public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsService {
 
     private static final String HEAD_OFFICE = "Head Office";
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final ScheduleService scheduleService;
+    private final UserService userService;
+    private final ModelMapper modelMapper;
+    //    private final UserService userService;
     @Value("${myrouteonline.api.key}")
     private String myRouteOnlineApiKey;
     @Value("${startTime}")
@@ -49,10 +54,6 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
     private String fixedNumberOfRoutes;
     @Value("${serviceTimeInMinutes}")
     private String serviceTimeInMinutes;
-    @Value("${payway.location.lat.headoffice}")
-    private String headOfficeLatitude;
-    @Value("${payway.location.long.headoffice}")
-    private String headOfficeLongitude;
 
     @Override
     public Optional<List<Terminal>> getOptimalRouteListOfTerminals(
@@ -74,7 +75,11 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
     }
 
     @Override
-    public Optional<List<Schedule>> getOptimalIndicesOfOrderOfSchedules(List<Schedule> schedules, List<User> users) {
+    public Optional<List<Schedule>> getOptimalIndicesOfOrderOfSchedules(List<Schedule> schedules, List<User> users,
+                                                                        Double startAddressLatitude,
+                                                                        Double startAddressLongitude,
+                                                                        Double endAddressLatitude,
+                                                                        Double endAddressLongitude) {
         log.info("Building a jobTokenRequest object for MyRouteOnline API..");
 
         final RoutingParameters routingParameters = RoutingParameters.builder()
@@ -82,13 +87,13 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
 
         final SpecificRouteConstraint specificRouteConstraint = SpecificRouteConstraint.builder()
                 .startAt(Address.builder().idNumber(0).title(HEAD_OFFICE)
-                        .serviceTimeInMinutes(0).address("[" + headOfficeLatitude + ", " + headOfficeLongitude + "]")
+                        .serviceTimeInMinutes(0).address("[" + startAddressLatitude + ", " + startAddressLongitude + "]")
                         .build())
                 .endAt(Address.builder()
                         .idNumber(0)
                         .title(HEAD_OFFICE)
                         .serviceTimeInMinutes(0)
-                        .address("[" + headOfficeLatitude + ", " + headOfficeLongitude + "]").build())
+                        .address("[" + endAddressLatitude + ", " + endAddressLongitude + "]").build())
                 .build();
 
 
@@ -191,23 +196,40 @@ public class MyRouteOnlineDirectionsServiceDirectApiImpl implements DirectionsSe
             Map<Integer, Long> routeToUser = new HashMap<>();
             routes.forEach(route -> routeToUser.put(route.routeNumber, users.get(route.routeNumber - 1).getId()));
 
-            final Long[] optimizationIndex = {1L};
-            routes.forEach(route -> route.stops.forEach(stop -> {
-                if (stop.stopAddressId != 0) {
-                    Schedule schedule = new Schedule();
-                    final Long scheduleId = Long.valueOf(stop.stopAddressId);
-                    schedule.setId(scheduleId);
-                    final Schedule e = schedules.get(schedules.indexOf(schedule));
-                    optimizedSchedules.add(e);
-                    scheduleService.setUser(scheduleId, routeToUser.get(route.routeNumber));
-                    int urgency = 1;
-                    if (e.getTask().getPriority().equals(TaskPriority.URGENT)) {
-                        urgency = 100;
+            final Long[] optimizationIndex = {1000L};
+            routes.forEach(
+                    route -> {
+                        final List<Stop> stops = route.stops;
+                        for (int i = 0; i < stops.size(); i++) {
+                            Stop stop = stops.get(i);
+                            if (stop.stopAddressId != 0) {
+                                Schedule schedule = new Schedule();
+                                final Long scheduleId = Long.valueOf(stop.stopAddressId);
+                                schedule.setId(scheduleId);
+                                final Schedule e = schedules.get(schedules.indexOf(schedule));
+                                final Long userId = routeToUser.get(route.routeNumber);
+                                scheduleService.setUser(scheduleId, userId);
+                                try {
+                                    e.setUser(modelMapper.map(userService.findById(Long.valueOf(userId)),
+                                            User.class));
+                                } catch (ValidationException | NotFoundException ex) {
+                                    ex.printStackTrace();
+                                }
+                                optimizedSchedules.add(e);
+                                int urgency = 1;
+                                if (e.getTask().getPriority().equals(TaskPriority.URGENT)) {
+                                    urgency = 100;
+                                }
+                                scheduleService.setOptimizationIndex(scheduleId, optimizationIndex[0] * urgency);
+                                optimizationIndex[0]--;
+//                                if (i == stops.size() - 1) {
+//                                    userService.setLastScheduledAddress(e.getTerminal().getLatitude(),
+//                                            e.getTerminal().getLongitude());
+//                                }
+                            }
+                        }
                     }
-                    scheduleService.setOptimizationIndex(scheduleId, optimizationIndex[0] * urgency);
-                    optimizationIndex[0]++;
-                }
-            }));
+            );
         }
         return Optional.of(optimizedSchedules);
     }

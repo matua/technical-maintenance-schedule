@@ -62,4 +62,6 @@ public interface ScheduleService {
 
     Page<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(TaskPriority taskPriority, Integer page,
                                                                     Integer pageSize);
+
+    int getNumberOfDistributedSchedules();
 }

@@ -118,4 +118,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     Page<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(Pageable pageable, TaskPriority taskPriority);
 
     List<Schedule> findAllByEndExecutionDateTimeNull();
+
+    List<Schedule> findAllByUserNotNullAndEndExecutionDateTimeNull();
 }

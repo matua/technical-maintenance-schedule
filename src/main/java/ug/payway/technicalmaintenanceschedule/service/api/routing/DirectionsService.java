@@ -2,8 +2,6 @@ package ug.payway.technicalmaintenanceschedule.service.api.routing;
 
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.LatLng;
-import ug.payway.technicalmaintenanceschedule.exception.NotFoundException;
-import ug.payway.technicalmaintenanceschedule.exception.ValidationException;
 import ug.payway.technicalmaintenanceschedule.model.Schedule;
 import ug.payway.technicalmaintenanceschedule.model.Terminal;
 import ug.payway.technicalmaintenanceschedule.model.User;
@@ -26,7 +24,11 @@ public interface DirectionsService {
     Optional<List<Terminal>> getOptimalRouteListOfTerminalsWithLatLngStartAndFinishPoint(LatLng origin,
                                                                                          List<Terminal> terminalLocations) throws IOException, InterruptedException, ApiException;
 
-    default Optional<List<Schedule>> getOptimalIndicesOfOrderOfSchedules(List<Schedule> schedules, List<User> users) throws ValidationException, NotFoundException {
+    default Optional<List<Schedule>> getOptimalIndicesOfOrderOfSchedules(List<Schedule> schedules, List<User> users,
+                                                                         Double startAddressLatitude,
+                                                                         Double startAddressLongitude,
+                                                                         Double endAddressLatitude,
+                                                                         Double endAddressLongitude) {
         return Optional.empty();
     }
 }

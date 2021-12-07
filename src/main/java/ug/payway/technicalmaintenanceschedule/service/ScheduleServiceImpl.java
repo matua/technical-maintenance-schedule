@@ -110,6 +110,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    public int getNumberOfDistributedSchedules() {
+        return scheduleRepository.findAllByUserNotNullAndEndExecutionDateTimeNull().size();
+    }
+
+    @Override
     @Transactional
     public void completeSchedule(Long scheduleId) {
         scheduleRepository.completeSchedule(scheduleId, LocalDateTime.now());
