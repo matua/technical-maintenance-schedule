@@ -1,0 +1,19 @@
+package ug.payway.technicalmaintenanceschedule.service;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import ug.payway.technicalmaintenanceschedule.model.UserLocation;
+import ug.payway.technicalmaintenanceschedule.repository.UserLocationRepository;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class UserLocationServiceImpl implements UserLocationService {
+  UserLocationRepository userLocationRepository;
+
+  @Override
+  public UserLocation save(UserLocation userLocation) {
+    return userLocationRepository.save(userLocation);
+  }
+}

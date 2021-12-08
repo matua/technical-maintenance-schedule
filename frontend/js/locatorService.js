@@ -12,6 +12,9 @@ function getLocation() {
         }, function () {
             alert('Oops! An error occurred.');
         }, options);
+
+    //write to DB
+
 }
 
 function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
