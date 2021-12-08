@@ -10,20 +10,18 @@ import javax.validation.Valid;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "isFixedNumberOfRoutes",
-        "fixedNumberOfRoutes",
-        "specificRouteConstraints"
-})
+@JsonPropertyOrder({"isFixedNumberOfRoutes", "fixedNumberOfRoutes", "specificRouteConstraints"})
 @Generated("jsonschema2pojo")
 @Builder
 public class RoutesConstraints {
 
-    @JsonProperty("isFixedNumberOfRoutes")
-    public Boolean isFixedNumberOfRoutes;
-    @JsonProperty("fixedNumberOfRoutes")
-    public Integer fixedNumberOfRoutes;
-    @JsonProperty("specificRouteConstraints")
-    @Valid
-    public List<SpecificRouteConstraint> specificRouteConstraints = null;
+  @JsonProperty("isFixedNumberOfRoutes")
+  public Boolean isFixedNumberOfRoutes;
+
+  @JsonProperty("fixedNumberOfRoutes")
+  public Integer fixedNumberOfRoutes;
+
+  @JsonProperty("specificRouteConstraints")
+  @Valid
+  public List<SpecificRouteConstraint> specificRouteConstraints = null;
 }

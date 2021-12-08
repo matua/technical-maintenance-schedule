@@ -33,50 +33,45 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class DirectionsApiTest {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(DirectionsApiTest.class);
-    GeoApiContext sc;
-    @Value("${google.directions.api.key}")
-    private String googleApiKey;
+  private static final Logger log = org.slf4j.LoggerFactory.getLogger(DirectionsApiTest.class);
+  GeoApiContext sc;
 
-    @BeforeEach
-    void before() {
-        sc = new GeoApiContext.Builder()
-                .apiKey(googleApiKey).build();
-    }
+  @Value("${google.directions.api.key}")
+  private String googleApiKey;
 
+  @BeforeEach
+  void before() {
+    sc = new GeoApiContext.Builder().apiKey(googleApiKey).build();
+  }
 
-    /**
-     * Tests that calling {@code optimizeWaypoints(true)} works in either order.
-     */
-    @Test
-    void testOptimizeWaypointsAfterWaypoints() throws Exception {
-        List<LatLng> waypoints = getOptimizationWaypoints();
-        LatLng origin = waypoints.get(0);
-        LatLng destination = waypoints.get(1);
-        DirectionsResult result =
-                DirectionsApi.newRequest(sc)
-                        .origin(origin)
-                        .destination(destination)
-                        .departureTime(Instant.now())
-                        .waypoints(waypoints.subList(2, waypoints.size()).toArray(new LatLng[0]))
-                        .optimizeWaypoints(true)
-                        .await();
+  /** Tests that calling {@code optimizeWaypoints(true)} works in either order. */
+  @Test
+  void testOptimizeWaypointsAfterWaypoints() throws Exception {
+    List<LatLng> waypoints = getOptimizationWaypoints();
+    LatLng origin = waypoints.get(0);
+    LatLng destination = waypoints.get(1);
+    DirectionsResult result =
+        DirectionsApi.newRequest(sc)
+            .origin(origin)
+            .destination(destination)
+            .departureTime(Instant.now())
+            .waypoints(waypoints.subList(2, waypoints.size()).toArray(new LatLng[0]))
+            .optimizeWaypoints(true)
+            .await();
 
-        assertNotNull(result.toString());
-        log.info(Arrays.toString(result.routes[0].waypointOrder));
-    }
+    assertNotNull(result.toString());
+    log.info(Arrays.toString(result.routes[0].waypointOrder));
+  }
 
-    /**
-     * Coordinates in Mexico City.
-     */
-    private List<LatLng> getOptimizationWaypoints() {
-        List<LatLng> waypoints = new ArrayList<>();
-        waypoints.add(new LatLng(32.60611550982706, 32.5640432));
-        waypoints.add(new LatLng(32.5640432, 0.3106486));
-        waypoints.add(new LatLng(19.435436, -99.139145));
-        waypoints.add(new LatLng(19.396436, -99.157176));
-        waypoints.add(new LatLng(19.427705, -99.198858));
-        waypoints.add(new LatLng(19.425869, -99.160716));
-        return waypoints;
-    }
+  /** Coordinates in Mexico City. */
+  private List<LatLng> getOptimizationWaypoints() {
+    List<LatLng> waypoints = new ArrayList<>();
+    waypoints.add(new LatLng(32.60611550982706, 32.5640432));
+    waypoints.add(new LatLng(32.5640432, 0.3106486));
+    waypoints.add(new LatLng(19.435436, -99.139145));
+    waypoints.add(new LatLng(19.396436, -99.157176));
+    waypoints.add(new LatLng(19.427705, -99.198858));
+    waypoints.add(new LatLng(19.425869, -99.160716));
+    return waypoints;
+  }
 }

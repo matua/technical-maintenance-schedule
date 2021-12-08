@@ -8,22 +8,20 @@ import lombok.Builder;
 import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "idNumber",
-        "title",
-        "serviceTimeInMinutes",
-        "address"
-})
+@JsonPropertyOrder({"idNumber", "title", "serviceTimeInMinutes", "address"})
 @Generated("jsonschema2pojo")
 @Builder
 public class Address {
 
-    @JsonProperty("idNumber")
-    public Integer idNumber;
-    @JsonProperty("title")
-    public String title;
-    @JsonProperty("serviceTimeInMinutes")
-    public Integer serviceTimeInMinutes;
-    @JsonProperty("address")
-    public String address;
+  @JsonProperty("idNumber")
+  public Integer idNumber;
+
+  @JsonProperty("title")
+  public String title;
+
+  @JsonProperty("serviceTimeInMinutes")
+  public Integer serviceTimeInMinutes;
+
+  @JsonProperty("address")
+  public String address;
 }

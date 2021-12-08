@@ -19,37 +19,42 @@ import java.util.Objects;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Schedule extends AbstractBaseEntity {
-    @OneToOne(optional = false)
-    @JoinColumn(name = "terminal_id", referencedColumnName = "id")
-    private Terminal terminal;
-    @OneToOne
-    @JoinColumn(name = "task_id", referencedColumnName = "id")
-    private Task task;
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-    @Enumerated(EnumType.STRING)
-    private TaskStatus status;
-    @CreatedDate
-    @Column(name = "date_time_created", updatable = false)
-    private LocalDateTime dateTimeCreated;
-    private LocalDateTime startExecutionDateTime;
-    private LocalDateTime endExecutionDateTime;
-    private LocalDateTime grabbedExecutionDateTime;
-    private LocalDateTime releasedExecutionDateTime;
-    private Long optimizationIndex;
+  @OneToOne(optional = false)
+  @JoinColumn(name = "terminal_id", referencedColumnName = "id")
+  private Terminal terminal;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Schedule schedule = (Schedule) o;
-        return Objects.equals(id, schedule.id);
-    }
+  @OneToOne
+  @JoinColumn(name = "task_id", referencedColumnName = "id")
+  private Task task;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), id);
-    }
+  @OneToOne
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  private User user;
+
+  @Enumerated(EnumType.STRING)
+  private TaskStatus status;
+
+  @CreatedDate
+  @Column(name = "date_time_created", updatable = false)
+  private LocalDateTime dateTimeCreated;
+
+  private LocalDateTime startExecutionDateTime;
+  private LocalDateTime endExecutionDateTime;
+  private LocalDateTime grabbedExecutionDateTime;
+  private LocalDateTime releasedExecutionDateTime;
+  private Long optimizationIndex;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
+    Schedule schedule = (Schedule) o;
+    return Objects.equals(id, schedule.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), id);
+  }
 }

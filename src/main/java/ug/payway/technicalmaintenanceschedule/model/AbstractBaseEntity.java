@@ -14,7 +14,7 @@ import javax.persistence.MappedSuperclass;
 @SuperBuilder
 @NoArgsConstructor
 public class AbstractBaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  protected Long id;
 }

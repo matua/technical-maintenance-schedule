@@ -1,4 +1,3 @@
-
 package ug.payway.technicalmaintenanceschedule.model.graphhopper;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,9 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "routing"
-})
+@JsonPropertyOrder({"routing"})
 @Generated("jsonschema2pojo")
 @Data
 @AllArgsConstructor
@@ -22,7 +19,6 @@ import javax.annotation.Generated;
 @Builder
 public class Configuration {
 
-    @JsonProperty("routing")
-    public Routing routing;
-
+  @JsonProperty("routing")
+  public Routing routing;
 }

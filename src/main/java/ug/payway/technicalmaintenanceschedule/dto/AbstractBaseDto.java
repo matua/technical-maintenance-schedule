@@ -1,5 +1,6 @@
 package ug.payway.technicalmaintenanceschedule.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -13,8 +14,9 @@ import javax.persistence.MappedSuperclass;
 @Data
 @SuperBuilder
 @NoArgsConstructor
+@AllArgsConstructor
 public class AbstractBaseDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  protected Long id;
 }

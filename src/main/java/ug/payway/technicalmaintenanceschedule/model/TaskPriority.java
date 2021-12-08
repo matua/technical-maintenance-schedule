@@ -4,13 +4,12 @@ import lombok.Getter;
 
 @Getter
 public enum TaskPriority {
-    COMMON("Common"),
-    MEDIUM("Medium"),
-    URGENT("Urgent");
+  COMMON("Common"),
+  MEDIUM("Medium"),
+  URGENT("Urgent");
+  private final String name;
 
-    private final String name;
-
-    TaskPriority(String name) {
-        this.name = name;
-    }
+  TaskPriority(String name) {
+    this.name = name;
+  }
 }

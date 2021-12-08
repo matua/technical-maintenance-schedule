@@ -1,4 +1,3 @@
-
 package ug.payway.technicalmaintenanceschedule.model.graphhopper;
 
 import com.fasterxml.jackson.annotation.*;
@@ -14,19 +13,19 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "costs",
-        "distance",
-        "time",
-        "transport_time",
-        "completion_time",
-        "max_operation_time",
-        "waiting_time",
-        "service_duration",
-        "preparation_time",
-        "no_vehicles",
-        "no_unassigned",
-        "routes",
-        "unassigned"
+  "costs",
+  "distance",
+  "time",
+  "transport_time",
+  "completion_time",
+  "max_operation_time",
+  "waiting_time",
+  "service_duration",
+  "preparation_time",
+  "no_vehicles",
+  "no_unassigned",
+  "routes",
+  "unassigned"
 })
 @Generated("jsonschema2pojo")
 @Data
@@ -35,113 +34,124 @@ import java.util.Map;
 @Builder
 public class Solution {
 
-    @JsonProperty("costs")
-    public Integer costs;
-    @JsonProperty("distance")
-    public Integer distance;
-    @JsonProperty("time")
-    public Integer time;
-    @JsonProperty("transport_time")
-    public Integer transportTime;
-    @JsonProperty("completion_time")
-    public Integer completionTime;
-    @JsonProperty("max_operation_time")
-    public Integer maxOperationTime;
-    @JsonProperty("waiting_time")
-    public Integer waitingTime;
-    @JsonProperty("service_duration")
-    public Integer serviceDuration;
-    @JsonProperty("preparation_time")
-    public Integer preparationTime;
-    @JsonProperty("no_vehicles")
-    public Integer noVehicles;
-    @JsonProperty("no_unassigned")
-    public Integer noUnassigned;
-    @JsonProperty("routes")
-    public List<Route> routes = null;
-    @JsonProperty("unassigned")
-    public Unassigned unassigned;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonProperty("costs")
+  public Integer costs;
 
-    public Solution withCosts(Integer costs) {
-        this.costs = costs;
-        return this;
-    }
+  @JsonProperty("distance")
+  public Integer distance;
 
-    public Solution withDistance(Integer distance) {
-        this.distance = distance;
-        return this;
-    }
+  @JsonProperty("time")
+  public Integer time;
 
-    public Solution withTime(Integer time) {
-        this.time = time;
-        return this;
-    }
+  @JsonProperty("transport_time")
+  public Integer transportTime;
 
-    public Solution withTransportTime(Integer transportTime) {
-        this.transportTime = transportTime;
-        return this;
-    }
+  @JsonProperty("completion_time")
+  public Integer completionTime;
 
-    public Solution withCompletionTime(Integer completionTime) {
-        this.completionTime = completionTime;
-        return this;
-    }
+  @JsonProperty("max_operation_time")
+  public Integer maxOperationTime;
 
-    public Solution withMaxOperationTime(Integer maxOperationTime) {
-        this.maxOperationTime = maxOperationTime;
-        return this;
-    }
+  @JsonProperty("waiting_time")
+  public Integer waitingTime;
 
-    public Solution withWaitingTime(Integer waitingTime) {
-        this.waitingTime = waitingTime;
-        return this;
-    }
+  @JsonProperty("service_duration")
+  public Integer serviceDuration;
 
-    public Solution withServiceDuration(Integer serviceDuration) {
-        this.serviceDuration = serviceDuration;
-        return this;
-    }
+  @JsonProperty("preparation_time")
+  public Integer preparationTime;
 
-    public Solution withPreparationTime(Integer preparationTime) {
-        this.preparationTime = preparationTime;
-        return this;
-    }
+  @JsonProperty("no_vehicles")
+  public Integer noVehicles;
 
-    public Solution withNoVehicles(Integer noVehicles) {
-        this.noVehicles = noVehicles;
-        return this;
-    }
+  @JsonProperty("no_unassigned")
+  public Integer noUnassigned;
 
-    public Solution withNoUnassigned(Integer noUnassigned) {
-        this.noUnassigned = noUnassigned;
-        return this;
-    }
+  @JsonProperty("routes")
+  public List<Route> routes = null;
 
-    public Solution withRoutes(List<Route> routes) {
-        this.routes = routes;
-        return this;
-    }
+  @JsonProperty("unassigned")
+  public Unassigned unassigned;
 
-    public Solution withUnassigned(Unassigned unassigned) {
-        this.unassigned = unassigned;
-        return this;
-    }
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
+  public Solution withCosts(Integer costs) {
+    this.costs = costs;
+    return this;
+  }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
+  public Solution withDistance(Integer distance) {
+    this.distance = distance;
+    return this;
+  }
 
-    public Solution withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
+  public Solution withTime(Integer time) {
+    this.time = time;
+    return this;
+  }
 
+  public Solution withTransportTime(Integer transportTime) {
+    this.transportTime = transportTime;
+    return this;
+  }
+
+  public Solution withCompletionTime(Integer completionTime) {
+    this.completionTime = completionTime;
+    return this;
+  }
+
+  public Solution withMaxOperationTime(Integer maxOperationTime) {
+    this.maxOperationTime = maxOperationTime;
+    return this;
+  }
+
+  public Solution withWaitingTime(Integer waitingTime) {
+    this.waitingTime = waitingTime;
+    return this;
+  }
+
+  public Solution withServiceDuration(Integer serviceDuration) {
+    this.serviceDuration = serviceDuration;
+    return this;
+  }
+
+  public Solution withPreparationTime(Integer preparationTime) {
+    this.preparationTime = preparationTime;
+    return this;
+  }
+
+  public Solution withNoVehicles(Integer noVehicles) {
+    this.noVehicles = noVehicles;
+    return this;
+  }
+
+  public Solution withNoUnassigned(Integer noUnassigned) {
+    this.noUnassigned = noUnassigned;
+    return this;
+  }
+
+  public Solution withRoutes(List<Route> routes) {
+    this.routes = routes;
+    return this;
+  }
+
+  public Solution withUnassigned(Unassigned unassigned) {
+    this.unassigned = unassigned;
+    return this;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
+
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put(name, value);
+  }
+
+  public Solution withAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put(name, value);
+    return this;
+  }
 }

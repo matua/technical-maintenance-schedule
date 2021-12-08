@@ -7,15 +7,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "jobToken",
-        "isSuccessful"
-})
+@JsonPropertyOrder({"jobToken", "isSuccessful"})
 @Generated("jsonschema2pojo")
 public class JobResponse {
 
-    @JsonProperty("jobToken")
-    public String jobToken;
-    @JsonProperty("isSuccessful")
-    public Boolean isSuccessful;
+  @JsonProperty("jobToken")
+  public String jobToken;
+
+  @JsonProperty("isSuccessful")
+  public Boolean isSuccessful;
 }

@@ -22,13 +22,15 @@ import javax.validation.constraints.Size;
 @Table(name = "tasks")
 @Entity
 public class Task extends AbstractBaseEntity {
-    @Size(min = 1, max = 300, message
-            = "Description must be between 1 and 300 characters")
-    private String description;
-    @Enumerated(EnumType.STRING)
-    private TaskPriority priority;
-    @Min(message = "Frequency must be minimum every 1 day", value = 1)
-    @Max(message = "Frequency must be maximum every 365 days", value = 365)
-    private Integer frequency;
-    private Long messageId;
+  @Size(min = 1, max = 300, message = "Description must be between 1 and 300 characters")
+  private String description;
+
+  @Enumerated(EnumType.STRING)
+  private TaskPriority priority;
+
+  @Min(message = "Frequency must be minimum every 1 day", value = 1)
+  @Max(message = "Frequency must be maximum every 365 days", value = 365)
+  private Integer frequency;
+
+  private Long messageId;
 }

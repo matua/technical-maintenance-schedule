@@ -13,21 +13,27 @@ import ug.payway.technicalmaintenanceschedule.model.Role;
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final JwtFilter jwtFilter;
+  private final JwtFilter jwtFilter;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors().and()
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .mvcMatchers("/admin/**").hasAnyAuthority(Role.ADMINISTRATOR.name())
-                .mvcMatchers("/auth").permitAll()
-                .mvcMatchers("/**").hasAnyAuthority(Role.TECHNICIAN.name(), Role.ADMINISTRATOR.name())
-                .and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.cors()
+        .and()
+        .httpBasic()
+        .disable()
+        .csrf()
+        .disable()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeRequests()
+        .mvcMatchers("/admin/**")
+        .hasAnyAuthority(Role.ADMINISTRATOR.name())
+        .mvcMatchers("/auth")
+        .permitAll()
+        .mvcMatchers("/**")
+        .hasAnyAuthority(Role.TECHNICIAN.name(), Role.ADMINISTRATOR.name())
+        .and()
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+  }
 }

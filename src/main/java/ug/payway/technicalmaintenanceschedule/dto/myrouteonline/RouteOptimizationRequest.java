@@ -10,22 +10,20 @@ import javax.validation.Valid;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "routingParameters",
-        "routesConstraints",
-        "addresses"
-})
+@JsonPropertyOrder({"routingParameters", "routesConstraints", "addresses"})
 @Generated("jsonschema2pojo")
 @Builder
 public class RouteOptimizationRequest {
 
-    @JsonProperty("routingParameters")
-    @Valid
-    public RoutingParameters routingParameters;
-    @JsonProperty("routesConstraints")
-    @Valid
-    public RoutesConstraints routesConstraints;
-    @JsonProperty("addresses")
-    @Valid
-    public List<Address> addresses = null;
+  @JsonProperty("routingParameters")
+  @Valid
+  public RoutingParameters routingParameters;
+
+  @JsonProperty("routesConstraints")
+  @Valid
+  public RoutesConstraints routesConstraints;
+
+  @JsonProperty("addresses")
+  @Valid
+  public List<Address> addresses = null;
 }

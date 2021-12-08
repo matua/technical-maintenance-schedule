@@ -1,4 +1,3 @@
-
 package com.matuageorge.dto.graphhopper;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -16,12 +15,12 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "vehicles",
-        "vehicle_types",
-        "services",
-        "shipments",
-        "objectives",
-        "configuration"
+  "vehicles",
+  "vehicle_types",
+  "services",
+  "shipments",
+  "objectives",
+  "configuration"
 })
 @Generated("jsonschema2pojo")
 @Data
@@ -30,17 +29,24 @@ import java.util.List;
 @Builder
 public class RouteOptimizationRequest {
 
-    @JsonProperty("vehicles")
-    public List<Vehicle> vehicles = null;
-    @JsonProperty("vehicle_types")
-    public List<VehicleType> vehicleTypes = null;
-    @JsonProperty("services")
-    public List<Service> services = null;
-    @JsonProperty("shipments")
-    public List<Shipment> shipments = null;
-    @JsonProperty("objectives")
-    public List<Objective> objectives = null;
-    @JsonProperty("configuration")
-    public Configuration configuration;
+  @JsonProperty("vehicles")
+  public List<Vehicle> vehicles = null;
 
+  @JsonProperty("vehicle_types")
+  public List<VehicleType> vehicleTypes = null;
+
+  @JsonProperty("services")
+  public List<Service> services = null;
+
+  @JsonProperty("shipments")
+  public List<Shipment> shipments = null;
+
+  @JsonProperty("objectives")
+  public List<Objective> objectives = null;
+
+  @JsonProperty("configuration")
+  public Configuration configuration;
+
+  @JsonProperty("relations")
+  public List<Relation> relations;
 }

@@ -120,4 +120,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     List<Schedule> findAllByEndExecutionDateTimeNull();
 
     List<Schedule> findAllByUserNotNullAndEndExecutionDateTimeNull();
+
+    @Query("from Schedule as schedule0_ " +
+            "left join Task task1_ on " +
+            "schedule0_.task.id=task1_.id " +
+            "where schedule0_.endExecutionDateTime is null " +
+            "and schedule0_.grabbedExecutionDateTime is null")
+    Page<Schedule> findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(Pageable pageable);
 }

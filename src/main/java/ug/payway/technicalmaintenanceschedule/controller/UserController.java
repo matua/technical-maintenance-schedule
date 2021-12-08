@@ -21,25 +21,25 @@ import static ug.payway.technicalmaintenanceschedule.config.Utility.USERS;
 @RequestMapping(ADMIN)
 public class UserController {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @GetMapping(USERS + "/{page}/{pageSize}")
-    public ResponseEntity<Page<User>> findAll(
-            @PathVariable Integer page, @PathVariable Integer pageSize) throws NotFoundException {
+  @GetMapping(USERS + "/{page}/{pageSize}")
+  public ResponseEntity<Page<User>> findAll(
+      @PathVariable Integer page, @PathVariable Integer pageSize) throws NotFoundException {
 
-        log.info("Handling find all users page: {} with size: {}", page, pageSize);
+    log.info("Handling find all users page: {} with size: {}", page, pageSize);
 
-        Page<User> usersPageResponseBody = userService.findAll(page, pageSize);
-        return ResponseEntity.ok().body(usersPageResponseBody);
-    }
+    Page<User> usersPageResponseBody = userService.findAll(page, pageSize);
+    return ResponseEntity.ok().body(usersPageResponseBody);
+  }
 
-    @PutMapping(USERS + "/{userId}/toggle")
-    public ResponseEntity<Void> toggleUserStatusByUserId(
-            @PathVariable Long userId) throws ValidationException, NotFoundException, ResourceAlreadyExistsException {
+  @PutMapping(USERS + "/{userId}/toggle")
+  public ResponseEntity<Void> toggleUserStatusByUserId(@PathVariable Long userId)
+      throws ValidationException, NotFoundException, ResourceAlreadyExistsException {
 
-        log.info("Toggling status of user with id {}", userId);
+    log.info("Toggling status of user with id {}", userId);
 
-        userService.toggleUserStatusByUserId(userId);
-        return ResponseEntity.ok().build();
-    }
+    userService.toggleUserStatusByUserId(userId);
+    return ResponseEntity.ok().build();
+  }
 }

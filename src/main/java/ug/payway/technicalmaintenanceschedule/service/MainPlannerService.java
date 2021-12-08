@@ -10,9 +10,11 @@ import java.io.IOException;
 import java.util.List;
 
 public interface MainPlannerService {
-    void addNewCommonTaskSchedulesIfExist() throws NotFoundException, ValidationException, ResourceAlreadyExistsException, IOException, InterruptedException, ApiException;
+  void addNewCommonTaskSchedulesIfExist()
+      throws NotFoundException, ValidationException, ResourceAlreadyExistsException, IOException,
+          InterruptedException, ApiException;
 
-    void createNewSchedulesForCommonTasksDueAgain();
+  void createNewSchedulesForCommonTasksDueAgain();
 
-    List<Schedule> addUrgentSchedules() throws ValidationException, NotFoundException;
+  List<Schedule> addUrgentSchedules() throws ValidationException, NotFoundException;
 }

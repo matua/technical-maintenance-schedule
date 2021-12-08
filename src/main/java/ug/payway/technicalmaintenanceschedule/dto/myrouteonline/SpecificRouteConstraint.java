@@ -9,18 +9,16 @@ import javax.annotation.Generated;
 import javax.validation.Valid;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "startAt",
-        "endAt"
-})
+@JsonPropertyOrder({"startAt", "endAt"})
 @Generated("jsonschema2pojo")
 @Builder
 public class SpecificRouteConstraint {
 
-    @JsonProperty("startAt")
-    @Valid
-    public Address startAt;
-    @JsonProperty("endAt")
-    @Valid
-    public Address endAt;
+  @JsonProperty("startAt")
+  @Valid
+  public Address startAt;
+
+  @JsonProperty("endAt")
+  @Valid
+  public Address endAt;
 }

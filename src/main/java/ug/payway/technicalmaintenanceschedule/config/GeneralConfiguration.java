@@ -11,27 +11,26 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class GeneralConfiguration {
-    @Value("${google.directions.api.key}")
-    String googleApiKey;
+  @Value("${google.directions.api.key}")
+  String googleApiKey;
 
-    @Bean
-    ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+  @Bean
+  ModelMapper modelMapper() {
+    return new ModelMapper();
+  }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+  @Bean
+  RestTemplate restTemplate() {
+    return new RestTemplate();
+  }
 
-    @Bean
-    GeoApiContext geoApiContext() {
-        return new GeoApiContext.Builder()
-                .apiKey(googleApiKey).build();
-    }
+  @Bean
+  GeoApiContext geoApiContext() {
+    return new GeoApiContext.Builder().apiKey(googleApiKey).build();
+  }
 }

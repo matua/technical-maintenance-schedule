@@ -26,81 +26,91 @@ import java.util.Optional;
 @Slf4j
 public class PayWayApiServiceImpl implements PayWayApiService {
 
-    @Value("${payway.api.kioskcash.key}")
-    private String paywayKioskCashApiKey;
-    @Value("${payway.api.messages.key}")
-    private String paywayMessagesApiKey;
-    private final RestTemplate restTemplate;
-    private final ModelMapper modelMapper;
+  private final RestTemplate restTemplate;
+  private final ModelMapper modelMapper;
 
-    @Override
-    public List<Terminal> getCurrentListOfTerminals() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Accept", "application/json");
-        headers.add("X-Api-Key", paywayKioskCashApiKey);
+  @Value("${payway.api.kioskcash.key}")
+  private String paywayKioskCashApiKey;
 
-        UriComponents uri = UriComponentsBuilder.newInstance()
-                .scheme("https")
-                .host("admin.payway.ug")
-                .pathSegment("integration", "query", "technical-maintenance-schedule", "terminalList.json")
-                .build();
+  @Value("${payway.api.messages.key}")
+  private String paywayMessagesApiKey;
 
-        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(headers);
+  @Override
+  public List<Terminal> getCurrentListOfTerminals() {
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Accept", "application/json");
+    headers.add("X-Api-Key", paywayKioskCashApiKey);
 
-        log.info("Trying to get the list of kiosks via PayWay API...");
+    UriComponents uri =
+        UriComponentsBuilder.newInstance()
+            .scheme("https")
+            .host("admin.payway.ug")
+            .pathSegment(
+                "integration", "query", "technical-maintenance-schedule", "terminalList.json")
+            .build();
 
-        ResponseEntity<List<TerminalDto>> responseEntity = restTemplate
-                .exchange(uri.toUriString(), HttpMethod.GET, requestEntity, new ParameterizedTypeReference<>() {
-                });
+    HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(headers);
 
-        return modelMapper.map(responseEntity.getBody(), new TypeToken<List<Terminal>>() {
-        }.getType());
-    }
+    log.info("Trying to get the list of kiosks via PayWay API...");
 
-    @Override
-    public Optional<List<KioskMessage>> getAllTerminalsToBeUrgentlyServiced(String startTimeStamp,
-                                                                            String endTimeStamp) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Accept", "application/json");
-        headers.add("X-Api-Key", paywayMessagesApiKey);
+    ResponseEntity<List<TerminalDto>> responseEntity =
+        restTemplate.exchange(
+            uri.toUriString(),
+            HttpMethod.GET,
+            requestEntity,
+            new ParameterizedTypeReference<>() {});
 
-        UriComponents build = UriComponentsBuilder.newInstance()
-                .scheme("https")
-                .host("admin.payway.ug")
-                .pathSegment("integration", "query", "kiosks", "kioskMessages.json")
-                .queryParam(
-                        "From", startTimeStamp)
-                .queryParam("To", endTimeStamp)
-                .build();
+    return modelMapper.map(responseEntity.getBody(), new TypeToken<List<Terminal>>() {}.getType());
+  }
 
-        HttpEntity<MultiValueMap<String, Object>> requestEntity
-                = new HttpEntity<>(headers);
+  @Override
+  public Optional<List<KioskMessage>> getAllTerminalsToBeUrgentlyServiced(
+      String startTimeStamp, String endTimeStamp) {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    headers.set("Accept", "application/json");
+    headers.add("X-Api-Key", paywayMessagesApiKey);
 
-        log.info("Trying to get the list of OUT_OF_SERVICE messages from {} to {} from kiosks...",
-                startTimeStamp, endTimeStamp);
+    UriComponents build =
+        UriComponentsBuilder.newInstance()
+            .scheme("https")
+            .host("admin.payway.ug")
+            .pathSegment("integration", "query", "kiosks", "kioskMessages.json")
+            .queryParam("From", startTimeStamp)
+            .queryParam("To", endTimeStamp)
+            .build();
 
-        ResponseEntity<List<KioskMessage>> responseEntity = restTemplate
-                .exchange(build.toUriString(),
-                        HttpMethod.GET, requestEntity, new ParameterizedTypeReference<>() {
-                        });
+    HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(headers);
 
-        List<KioskMessage> listOfKiosksOutOfService = getKiosksWithOutOfServiceMessage(responseEntity);
+    log.info(
+        "Trying to get the list of OUT_OF_SERVICE messages from {} to {} from kiosks...",
+        startTimeStamp,
+        endTimeStamp);
 
-        log.info("Quantity of kiosks to be urgently serviced: {}", listOfKiosksOutOfService.size());
-        log.info("Kiosks to be urgently serviced:");
-        listOfKiosksOutOfService.forEach(kioskMessage -> log.info(kioskMessage.getKiosk()));
+    ResponseEntity<List<KioskMessage>> responseEntity =
+        restTemplate.exchange(
+            build.toUriString(),
+            HttpMethod.GET,
+            requestEntity,
+            new ParameterizedTypeReference<>() {});
 
-        return Optional.of(listOfKiosksOutOfService);
-    }
+    List<KioskMessage> listOfKiosksOutOfService = getKiosksWithOutOfServiceMessage(responseEntity);
 
-    private List<KioskMessage> getKiosksWithOutOfServiceMessage(ResponseEntity<List<KioskMessage>> responseEntity) {
+    log.info("Quantity of kiosks to be urgently serviced: {}", listOfKiosksOutOfService.size());
+    log.info("Kiosks to be urgently serviced:");
+    listOfKiosksOutOfService.forEach(kioskMessage -> log.info(kioskMessage.getKiosk()));
 
-        log.info("Getting kiosks and error messages with OUT_OF_SERVICE status");
+    return Optional.of(listOfKiosksOutOfService);
+  }
 
-        return Objects.requireNonNull(responseEntity.getBody())
-                .stream().filter(kioskMessage -> kioskMessage.getName().equalsIgnoreCase("OUT_OF_SERVICE"))
-                .distinct()
-                .toList();
-    }
+  private List<KioskMessage> getKiosksWithOutOfServiceMessage(
+      ResponseEntity<List<KioskMessage>> responseEntity) {
+
+    log.info("Getting kiosks and error messages with OUT_OF_SERVICE status");
+
+    return Objects.requireNonNull(responseEntity.getBody()).stream()
+        .filter(kioskMessage -> kioskMessage.getName().equalsIgnoreCase("OUT_OF_SERVICE"))
+        .distinct()
+        .toList();
+  }
 }

@@ -13,55 +13,61 @@ import ug.payway.technicalmaintenanceschedule.model.Terminal;
 import java.util.List;
 
 public interface ScheduleService {
-    List<Schedule> findAllByTerminalAndTask(Terminal terminal, Task task);
+  List<Schedule> findAllByTerminalAndTask(Terminal terminal, Task task);
 
-    Schedule save(Schedule schedule) throws ValidationException, ResourceAlreadyExistsException;
+  Schedule save(Schedule schedule) throws ValidationException, ResourceAlreadyExistsException;
 
-    Schedule update(Schedule schedule) throws ValidationException, NotFoundException;
+  Schedule update(Schedule schedule) throws ValidationException, NotFoundException;
 
-    void delete(Long taskId) throws ValidationException, NotFoundException;
+  void delete(Long taskId) throws ValidationException, NotFoundException;
 
-    Schedule findById(Long id) throws ValidationException, NotFoundException;
+  Schedule findById(Long id) throws ValidationException, NotFoundException;
 
-    Page<ScheduleDto> findAll(Integer page, Integer pageSize) throws NotFoundException;
+  Page<ScheduleDto> findAll(Integer page, Integer pageSize) throws NotFoundException;
 
-    List<ScheduleDto> findAll();
+  List<ScheduleDto> findAll();
 
-    List<ScheduleDto> findByEndExecutionDateTimeNotNull();
+  List<ScheduleDto> findByEndExecutionDateTimeNotNull();
 
-    List<Schedule> addUrgentSchedules() throws ValidationException, NotFoundException;
+  List<Schedule> addUrgentSchedules() throws ValidationException, NotFoundException;
 
-    void completeSchedule(Long scheduleId);
+  void completeSchedule(Long scheduleId);
 
-    void startSchedule(Long scheduleId);
+  void startSchedule(Long scheduleId);
 
-    Page<ScheduleDto> findAllSortedByTaskPriority(Integer page, Integer pageSize) throws NotFoundException;
+  Page<ScheduleDto> findAllSortedByTaskPriority(Integer page, Integer pageSize)
+      throws NotFoundException;
 
-    Page<ScheduleDto> findAllByEndExecutionDateTimeNull(Integer page, Integer pageSize) throws NotFoundException;
+  Page<ScheduleDto> findAllByEndExecutionDateTimeNull(Integer page, Integer pageSize)
+      throws NotFoundException;
 
-    Page<ScheduleDto> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByUserEmail(Integer page,
-                                                                                             Integer pageSize
-            , String email) throws NotFoundException;
+  Page<ScheduleDto> findAllSortedByTaskPriorityAndByEndExecutionDateTimeNullAndByUserEmail(
+      Integer page, Integer pageSize, String email) throws NotFoundException;
 
-    void grabSchedule(Long scheduleId);
+  void grabSchedule(Long scheduleId);
 
-    void releaseSchedule(Long scheduleId);
+  void releaseSchedule(Long scheduleId);
 
-    void setUser(Long scheduleId, Long userId);
+  void setUser(Long scheduleId, Long userId);
 
-    void setOptimizationIndex(Long scheduleId, Long optimizationIndex);
+  void setOptimizationIndex(Long scheduleId, Long optimizationIndex);
 
-    Page<Schedule> findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(
-            Integer page, Integer pageSize, String email);
+  Page<Schedule> findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(
+      Integer page, Integer pageSize, String email);
 
-    List<ScheduleDto> findAllByTerminalAndTaskAndByEndExecutionDateTimeNull(Terminal terminal, Task task);
+  List<ScheduleDto> findAllByTerminalAndTaskAndByEndExecutionDateTimeNull(
+      Terminal terminal, Task task);
 
-    List<Schedule> findAllByEndExecutionDateTimeNull();
+  List<Schedule> findAllByEndExecutionDateTimeNull();
 
-    List<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(TaskPriority urgent);
+  List<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(TaskPriority urgent);
 
-    Page<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(TaskPriority taskPriority, Integer page,
-                                                                    Integer pageSize);
+  Page<Schedule> findAllByTaskPriorityAndEndExecutionDateTimeNull(
+      TaskPriority taskPriority, Integer page, Integer pageSize);
 
-    int getNumberOfDistributedSchedules();
+  int getNumberOfDistributedSchedules();
+
+  Page<Schedule>
+      findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(
+          Integer page, Integer pageSize) throws NotFoundException;
 }

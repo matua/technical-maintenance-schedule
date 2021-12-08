@@ -12,21 +12,21 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaskService {
-    Task save(TaskDto taskDto) throws ValidationException, ResourceAlreadyExistsException;
+  Task save(TaskDto taskDto) throws ValidationException, ResourceAlreadyExistsException;
 
-    Task update(TaskDto taskDto) throws ValidationException, NotFoundException;
+  Task update(TaskDto taskDto) throws ValidationException, NotFoundException;
 
-    void delete(Long taskId) throws ValidationException, NotFoundException;
+  void delete(Long taskId) throws ValidationException, NotFoundException;
 
-    Page<Task> findAllByPage(Integer page, Integer pageSize) throws NotFoundException;
+  Page<Task> findAllByPage(Integer page, Integer pageSize) throws NotFoundException;
 
-    List<Task> findAll();
+  List<Task> findAll();
 
-    Task findById(Long id) throws ValidationException, NotFoundException;
+  Task findById(Long id) throws ValidationException, NotFoundException;
 
-    Optional<Task> findByDescription(String taskDescription);
+  Optional<Task> findByDescription(String taskDescription);
 
-    void deleteByDescription(String taskDescription) throws NotFoundException;
+  void deleteByDescription(String taskDescription) throws NotFoundException;
 
-    List<Task> findAllCommon(TaskPriority priority);
+  List<Task> findAllCommon(TaskPriority priority);
 }

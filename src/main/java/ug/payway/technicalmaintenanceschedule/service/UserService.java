@@ -12,26 +12,29 @@ import ug.payway.technicalmaintenanceschedule.model.User;
 import java.util.List;
 
 public interface UserService {
-    UserDto save(UserDto userDto) throws ValidationException, NotFoundException, ResourceAlreadyExistsException;
+  UserDto save(UserDto userDto)
+      throws ValidationException, NotFoundException, ResourceAlreadyExistsException;
 
-    UserDto update(Long userId, UserDto userDto) throws ValidationException, NotFoundException;
+  UserDto update(Long userId, UserDto userDto) throws ValidationException, NotFoundException;
 
-    void delete(Long userId) throws ValidationException, NotFoundException;
+  void delete(Long userId) throws ValidationException, NotFoundException;
 
-    Page<User> findAll(Integer page, Integer pageSize
-    ) throws NotFoundException;
+  Page<User> findAll(Integer page, Integer pageSize) throws NotFoundException;
 
-    UserDto findById(Long id) throws ValidationException, NotFoundException;
+  UserDto findById(Long id) throws ValidationException, NotFoundException;
 
-    User findByEmail(String email) throws ValidationException, NotFoundException;
+  User findByEmail(String email) throws ValidationException, NotFoundException;
 
-    User findByEmailAndPassword(String email, String password) throws ValidationException, NotFoundException, NotAuthorizedException;
+  User findByEmailAndPassword(String email, String password)
+      throws ValidationException, NotFoundException, NotAuthorizedException;
 
-    User createNewUserIfDoesNotExist(String email, String firstName, String lastName, String password, Role role);
+  User createNewUserIfDoesNotExist(
+      String email, String firstName, String lastName, String password, Role role);
 
-    void toggleUserStatusByUserId(Long userId) throws ValidationException, NotFoundException, ResourceAlreadyExistsException;
+  void toggleUserStatusByUserId(Long userId)
+      throws ValidationException, NotFoundException, ResourceAlreadyExistsException;
 
-    List<User> findAllByRole(Role role);
+  List<User> findAllByRole(Role role);
 
-    List<User> findAllByRoleAndActiveAndOnDuty(Role role, Boolean active, Boolean onDuty);
+  List<User> findAllByRoleAndActiveAndOnDuty(Role role, Boolean active, Boolean onDuty);
 }

@@ -1,4 +1,3 @@
-
 package ug.payway.technicalmaintenanceschedule.model.graphhopper;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -9,16 +8,13 @@ import javax.annotation.Generated;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "coordinates",
-        "type"
-})
+@JsonPropertyOrder({"coordinates", "type"})
 @Generated("jsonschema2pojo")
 public class Point {
 
-    @JsonProperty("coordinates")
-    public List<List<Double>> coordinates = null;
-    @JsonProperty("type")
-    public String type;
+  @JsonProperty("coordinates")
+  public List<List<Double>> coordinates = null;
 
+  @JsonProperty("type")
+  public String type;
 }

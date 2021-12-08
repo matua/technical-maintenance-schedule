@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PayWayApiService {
-    List<Terminal> getCurrentListOfTerminals();
+  List<Terminal> getCurrentListOfTerminals();
 
-    Optional<List<KioskMessage>> getAllTerminalsToBeUrgentlyServiced(String startTimeStamp, String endTimeStamp);
+  Optional<List<KioskMessage>> getAllTerminalsToBeUrgentlyServiced(
+      String startTimeStamp, String endTimeStamp);
 }

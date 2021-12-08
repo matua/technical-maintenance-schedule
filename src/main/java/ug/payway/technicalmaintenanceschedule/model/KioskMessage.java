@@ -21,22 +21,26 @@ import java.util.Map;
 @AllArgsConstructor
 @SuperBuilder
 public class KioskMessage extends AbstractBaseEntity {
-    @JsonProperty("args")
-    @JsonDeserialize(using = StringToMap.class)
-    private Map<String, String> args;
-    private String arrived;
-    @JsonProperty("id")
-    private Long messageId;
-    private String kiosk;
-    private String name;
-    @JsonProperty("occured")
-    private String occurred;
+  @JsonProperty("args")
+  @JsonDeserialize(using = StringToMap.class)
+  private Map<String, String> args;
 
-    private static final class StringToMap extends JsonDeserializer<Map<String, String>> {
+  private String arrived;
 
-        @Override
-        public Map deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-            return new ObjectMapper().readValue(p.getValueAsString(), Map.class);
-        }
+  @JsonProperty("id")
+  private Long messageId;
+
+  private String kiosk;
+  private String name;
+
+  @JsonProperty("occured")
+  private String occurred;
+
+  private static final class StringToMap extends JsonDeserializer<Map<String, String>> {
+
+    @Override
+    public Map deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+      return new ObjectMapper().readValue(p.getValueAsString(), Map.class);
     }
+  }
 }

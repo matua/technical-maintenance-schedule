@@ -6,5 +6,5 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class ValidationException extends Exception {
-    private final String message;
+  private final String message;
 }

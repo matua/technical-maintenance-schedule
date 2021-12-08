@@ -11,10 +11,10 @@ import java.util.Optional;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    Optional<Task> findByDescription(String description);
+  Optional<Task> findByDescription(String description);
 
-    @Query("from Task as t where t.description like %:descriptionSinceArgs%")
-    Optional<Task> findByDescriptionArgsSince(String descriptionSinceArgs);
+  @Query("from Task as t where t.description like %:descriptionSinceArgs%")
+  Optional<Task> findByDescriptionArgsSince(String descriptionSinceArgs);
 
-    List<Task> findByPriorityEquals(TaskPriority priority);
+  List<Task> findByPriorityEquals(TaskPriority priority);
 }

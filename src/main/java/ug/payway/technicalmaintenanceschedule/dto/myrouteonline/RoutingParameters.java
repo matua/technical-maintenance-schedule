@@ -8,16 +8,14 @@ import lombok.Builder;
 import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "startTime",
-        "visitClosestFirst"
-})
+@JsonPropertyOrder({"startTime", "visitClosestFirst"})
 @Generated("jsonschema2pojo")
 @Builder
 public class RoutingParameters {
 
-    @JsonProperty("startTime")
-    public String startTime;
-    @JsonProperty("visitClosestFirst")
-    public Boolean visitClosestFirst;
+  @JsonProperty("startTime")
+  public String startTime;
+
+  @JsonProperty("visitClosestFirst")
+  public Boolean visitClosestFirst;
 }

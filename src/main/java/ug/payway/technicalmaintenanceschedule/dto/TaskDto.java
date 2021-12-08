@@ -5,8 +5,8 @@ import ug.payway.technicalmaintenanceschedule.model.TaskPriority;
 
 @Data
 public class TaskDto {
-    private String description;
-    private TaskPriority priority;
-    private Integer frequency;
-    private Long messageId;
+  private String description;
+  private TaskPriority priority;
+  private Integer frequency;
+  private Long messageId;
 }

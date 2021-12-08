@@ -1,4 +1,3 @@
-
 package ug.payway.technicalmaintenanceschedule.model.graphhopper;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,10 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.annotation.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "earliest",
-        "latest"
-})
+@JsonPropertyOrder({"earliest", "latest"})
 @Generated("jsonschema2pojo")
 @Data
 @AllArgsConstructor
@@ -23,9 +19,9 @@ import javax.annotation.Generated;
 @Builder
 public class TimeWindow {
 
-    @JsonProperty("earliest")
-    public Integer earliest;
-    @JsonProperty("latest")
-    public Integer latest;
+  @JsonProperty("earliest")
+  public Integer earliest;
 
+  @JsonProperty("latest")
+  public Integer latest;
 }

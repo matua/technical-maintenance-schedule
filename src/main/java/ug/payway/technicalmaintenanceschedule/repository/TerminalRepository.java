@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface TerminalRepository extends JpaRepository<Terminal, Long> {
-    Optional<Terminal> findByName(String name);
+  Optional<Terminal> findByName(String name);
 }
