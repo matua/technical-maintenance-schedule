@@ -1,4 +1,4 @@
-function getLocation() {
+async function getLocation() {
     let options = {
         enableHighAccuracy: true,
         timeout: 5000,
@@ -7,14 +7,16 @@ function getLocation() {
 
     navigator.geolocation.getCurrentPosition(
         position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
             document.getElementById('gps_location').innerHTML =
-                `My GPS: ${position.coords.latitude}, ${position.coords.longitude}`
+                `My GPS: ${latitude}, ${longitude}`
+            writeLocationToDb(latitude, longitude)
         }, function () {
+            latitude = null;
+            longitude = null;
             alert('Oops! An error occurred.');
         }, options);
-
-    //write to DB
-
 }
 
 function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
@@ -34,5 +36,17 @@ function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
     }
 }
 
-
-getLocation();
+async function writeLocationToDb(latitude, longitude) {
+    if (checkAdminOrTechRights(parseToken(getToken()))) {
+        const url = baseUrl + `/user_locations/${latitude}/${longitude}`;
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            },
+        }).catch((err) => {
+            console.error(err);
+        })
+    }
+}

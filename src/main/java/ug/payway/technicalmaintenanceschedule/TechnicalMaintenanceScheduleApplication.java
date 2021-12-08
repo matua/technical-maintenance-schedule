@@ -24,7 +24,6 @@ import ug.payway.technicalmaintenanceschedule.service.api.routing.DirectionsServ
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -68,14 +67,14 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
                 0, users.size() * 10);
 
     // distribute urgent tasks
-    final Optional<List<Schedule>> optimalIndicesOfOrderOfSchedulesToOptimize =
-        directionsService.getOptimalIndicesOfOrderOfSchedules(
-            schedulesToOptimize.stream().toList(),
-            users,
-            Double.parseDouble(headOfficeLatitude),
-            Double.parseDouble(headOfficeLongitude),
-            Double.parseDouble(headOfficeLatitude),
-            Double.parseDouble(headOfficeLongitude));
+    //    final Optional<List<Schedule>> optimalIndicesOfOrderOfSchedulesToOptimize =
+    //        directionsService.getOptimalIndicesOfOrderOfSchedules(
+    //            schedulesToOptimize.stream().toList(),
+    //            users,
+    //            Double.parseDouble(headOfficeLatitude),
+    //            Double.parseDouble(headOfficeLongitude),
+    //            Double.parseDouble(headOfficeLatitude),
+    //            Double.parseDouble(headOfficeLongitude));
 
     log.info("dummy");
   }

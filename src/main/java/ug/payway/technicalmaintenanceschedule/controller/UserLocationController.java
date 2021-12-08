@@ -30,14 +30,22 @@ public class UserLocationController {
   @PostMapping(Utility.USER_LOCATIONS + "/{latitude}/{longitude}")
   public ResponseEntity<UserLocation> save(
       @AuthenticationPrincipal UserDetails userDetails,
-      @PathVariable Double latitude,
-      @PathVariable Double longitude)
+      @PathVariable String latitude,
+      @PathVariable String longitude)
       throws ValidationException, ResourceAlreadyExistsException, NotFoundException {
+
+    if (latitude.equalsIgnoreCase("undefined")) {
+      return ResponseEntity.badRequest().build();
+    }
 
     final User user = userService.findByEmail(userDetails.getUsername());
 
     UserLocation userLocation =
-        UserLocation.builder().user(user).latitude(latitude).longitude(longitude).build();
+        UserLocation.builder()
+            .user(user)
+            .latitude(Double.valueOf(latitude))
+            .longitude(Double.valueOf(longitude))
+            .build();
 
     log.info(
         "User: {}, saving GPS locations in DB: {}, {}",

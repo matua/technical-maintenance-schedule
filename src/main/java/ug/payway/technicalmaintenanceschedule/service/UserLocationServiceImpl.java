@@ -10,7 +10,7 @@ import ug.payway.technicalmaintenanceschedule.repository.UserLocationRepository;
 @RequiredArgsConstructor
 @Slf4j
 public class UserLocationServiceImpl implements UserLocationService {
-  UserLocationRepository userLocationRepository;
+  private final UserLocationRepository userLocationRepository;
 
   @Override
   public UserLocation save(UserLocation userLocation) {
