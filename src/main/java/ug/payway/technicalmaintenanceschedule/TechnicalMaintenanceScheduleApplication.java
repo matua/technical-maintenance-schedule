@@ -8,22 +8,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import ug.payway.technicalmaintenanceschedule.exception.NotFoundException;
 import ug.payway.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import ug.payway.technicalmaintenanceschedule.exception.ValidationException;
-import ug.payway.technicalmaintenanceschedule.model.Role;
-import ug.payway.technicalmaintenanceschedule.model.Schedule;
 import ug.payway.technicalmaintenanceschedule.model.User;
-import ug.payway.technicalmaintenanceschedule.service.MainPlannerService;
-import ug.payway.technicalmaintenanceschedule.service.ScheduleService;
-import ug.payway.technicalmaintenanceschedule.service.TerminalService;
-import ug.payway.technicalmaintenanceschedule.service.UserService;
+import ug.payway.technicalmaintenanceschedule.model.UserLocation;
+import ug.payway.technicalmaintenanceschedule.service.*;
 import ug.payway.technicalmaintenanceschedule.service.api.routing.DirectionsService;
 
 import java.io.IOException;
-import java.util.List;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -34,6 +28,7 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
   private final TerminalService terminalService;
   private final UserService userService;
   private final ScheduleService scheduleService;
+  private final UserLocationService userLocationService;
   private final MainPlannerService mainPlannerService;
   private final DirectionsService directionsService;
   private final ModelMapper modelMapper;
@@ -58,13 +53,18 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
     //        mainPlannerService.addNewCommonTaskSchedulesIfExist();
     //        mainPlannerService.addUrgentSchedules();
 
-    final List<User> users =
-        userService.findAllByRoleAndActiveAndOnDuty(Role.TECHNICIAN, true, true);
+    final User user = userService.findByEmail("bolumba@payway.ug");
 
-    final Page<Schedule> schedulesToOptimize =
-        scheduleService
-            .findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(
-                0, users.size() * 10);
+    final UserLocation userLocation = userLocationService.findLastByUser(user);
+
+    //    final List<User> users =
+    //        userService.findAllByRoleAndActiveAndOnDuty(Role.TECHNICIAN, true, true);
+    //
+    //    final Page<Schedule> schedulesToOptimize =
+    //        scheduleService
+    //
+    // .findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(
+    //                0, users.size() * 10);
 
     // distribute urgent tasks
     //    final Optional<List<Schedule>> optimalIndicesOfOrderOfSchedulesToOptimize =
