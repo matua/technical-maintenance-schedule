@@ -10,12 +10,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ug.payway.technicalmaintenanceschedule.dto.graphhopper.RouteOptimizationResponse;
-import ug.payway.technicalmaintenanceschedule.model.Schedule;
-import ug.payway.technicalmaintenanceschedule.model.TaskPriority;
-import ug.payway.technicalmaintenanceschedule.model.Terminal;
-import ug.payway.technicalmaintenanceschedule.model.User;
+import ug.payway.technicalmaintenanceschedule.model.*;
 import ug.payway.technicalmaintenanceschedule.model.graphhopper.*;
 import ug.payway.technicalmaintenanceschedule.service.ScheduleService;
+import ug.payway.technicalmaintenanceschedule.service.UserLocationService;
 import ug.payway.technicalmaintenanceschedule.service.api.routing.DirectionsService;
 
 import java.util.*;
@@ -28,6 +26,7 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
 
   private final RestTemplate restTemplate;
   private final ScheduleService scheduleService;
+  private final UserLocationService userLocationService;
 
   @Value("${graphhopper.api.key}")
   private String graphHopperApiKey;
@@ -232,17 +231,20 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
   private List<Vehicle> convertListOfUsersToListOfVehicles(List<User> users) {
     List<Vehicle> vehicles = new ArrayList<>();
     users.forEach(
-        user ->
-            vehicles.add(
-                Vehicle.builder()
-                    .vehicleId(String.valueOf(user.getId()))
-                    .startAddress(
-                        Address.builder()
-                            .locationId("Head Office")
-                            .lon(user.getBaseLongitude())
-                            .lat(user.getBaseLatitude())
-                            .build())
-                    .build()));
+        user -> {
+          final UserLocation userLocationServiceLastByUser =
+              userLocationService.findLastByUser(user);
+          vehicles.add(
+              Vehicle.builder()
+                  .vehicleId(String.valueOf(user.getId()))
+                  .startAddress(
+                      Address.builder()
+                          .locationId("Start Location")
+                          .lat(userLocationServiceLastByUser.getLatitude())
+                          .lon(userLocationServiceLastByUser.getLongitude())
+                          .build())
+                  .build());
+        });
     return vehicles;
   }
 }
