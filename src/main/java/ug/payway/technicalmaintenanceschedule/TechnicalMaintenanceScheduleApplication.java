@@ -8,16 +8,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import ug.payway.technicalmaintenanceschedule.exception.NotFoundException;
 import ug.payway.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import ug.payway.technicalmaintenanceschedule.exception.ValidationException;
+import ug.payway.technicalmaintenanceschedule.model.Role;
+import ug.payway.technicalmaintenanceschedule.model.Schedule;
 import ug.payway.technicalmaintenanceschedule.model.User;
-import ug.payway.technicalmaintenanceschedule.model.UserLocation;
 import ug.payway.technicalmaintenanceschedule.service.*;
 import ug.payway.technicalmaintenanceschedule.service.api.routing.DirectionsService;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -47,34 +51,33 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
   public void run(String... args)
       throws NotFoundException, ValidationException, ResourceAlreadyExistsException, IOException,
           InterruptedException, ApiException {
-    log.info("Updating the Terminals DB...");
-    //        terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
-    //        mainPlannerService.createNewSchedulesForCommonTasksDueAgain();
-    //        mainPlannerService.addNewCommonTaskSchedulesIfExist();
-    //        mainPlannerService.addUrgentSchedules();
-
-    final User user = userService.findByEmail("bolumba@payway.ug");
-
-    final UserLocation userLocation = userLocationService.findLastByUser(user);
-
-    //    final List<User> users =
-    //        userService.findAllByRoleAndActiveAndOnDuty(Role.TECHNICIAN, true, true);
+    //    log.info("Updating the Terminals DB...");
+    //    terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
+    mainPlannerService.createNewSchedulesForCommonTasksDueAgain();
+    mainPlannerService.addNewCommonTaskSchedulesIfExist();
+    //    mainPlannerService.addUrgentSchedules();
     //
-    //    final Page<Schedule> schedulesToOptimize =
-    //        scheduleService
+    //    final User user = userService.findByEmail("bolumba@payway.ug");
     //
-    // .findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(
-    //                0, users.size() * 10);
+    //    final UserLocation userLocation = userLocationService.findLastByUser(user);
 
-    // distribute urgent tasks
-    //    final Optional<List<Schedule>> optimalIndicesOfOrderOfSchedulesToOptimize =
-    //        directionsService.getOptimalIndicesOfOrderOfSchedules(
-    //            schedulesToOptimize.stream().toList(),
-    //            users,
-    //            Double.parseDouble(headOfficeLatitude),
-    //            Double.parseDouble(headOfficeLongitude),
-    //            Double.parseDouble(headOfficeLatitude),
-    //            Double.parseDouble(headOfficeLongitude));
+    final List<User> users =
+        userService.findAllByRoleAndActiveAndOnDuty(Role.TECHNICIAN, true, true);
+
+    final Page<Schedule> schedulesToOptimize =
+        scheduleService
+            .findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(
+                0, users.size() * 10);
+
+    //     distribute urgent tasks
+    final Optional<List<Schedule>> optimalIndicesOfOrderOfSchedulesToOptimize =
+        directionsService.getOptimalIndicesOfOrderOfSchedules(
+            schedulesToOptimize.getContent(),
+            users,
+            Double.parseDouble(headOfficeLatitude),
+            Double.parseDouble(headOfficeLongitude),
+            Double.parseDouble(headOfficeLatitude),
+            Double.parseDouble(headOfficeLongitude));
 
     log.info("dummy");
   }

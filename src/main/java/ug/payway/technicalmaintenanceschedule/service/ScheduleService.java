@@ -70,4 +70,6 @@ public interface ScheduleService {
   Page<Schedule>
       findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(
           Integer page, Integer pageSize) throws NotFoundException;
+
+  //  List<Schedule> findSchedulesForOptimization(Integer quantity);
 }

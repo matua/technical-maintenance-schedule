@@ -1,5 +1,7 @@
 package ug.payway.technicalmaintenanceschedule.service.api.routing.graphhopper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.maps.model.LatLng;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,7 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
   private final RestTemplate restTemplate;
   private final ScheduleService scheduleService;
   private final UserLocationService userLocationService;
+  private final ObjectMapper objectMapper;
 
   @Value("${graphhopper.api.key}")
   private String graphHopperApiKey;
@@ -142,14 +145,12 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
     }
 
     List<String> groups = new ArrayList<>();
+    Relation relation = null;
     if (urgentSchedulesExist) {
       groups.add(TaskPriority.URGENT.getName());
       groups.add(TaskPriority.COMMON.getName());
-    } else {
-      groups.add(TaskPriority.COMMON.getName());
+      relation = Relation.builder().groups(groups).type("in_direct_sequence").build();
     }
-
-    final Relation relation = Relation.builder().groups(groups).type("in_direct_sequence").build();
 
     List<Service> services = new ArrayList<>();
 
@@ -176,8 +177,18 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
             .objectives(objectives)
             .vehicles(vehicles)
             .services(services)
-            .relations(List.of(relation))
             .build();
+
+    if (relation != null) {
+      routeOptimizationRequest.setRelations(List.of(relation));
+    }
+
+    try {
+      final String s = objectMapper.writeValueAsString(routeOptimizationRequest);
+      log.info("JSON PAYLOAD REQUEST:\n____________________\n{}", s);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
 
     UriComponents uri =
         UriComponentsBuilder.newInstance()

@@ -248,6 +248,11 @@ public class ScheduleServiceImpl implements ScheduleService {
             pageable);
   }
 
+  //  @Override
+  //  public List<Schedule> findSchedulesForOptimization(Integer quantity) {
+  //    return scheduleRepository.findSchedulesForOptimization(quantity);
+  //  }
+
   @Override
   public Page<ScheduleDto> findAllByEndExecutionDateTimeNull(Integer page, Integer pageSize)
       throws NotFoundException {
