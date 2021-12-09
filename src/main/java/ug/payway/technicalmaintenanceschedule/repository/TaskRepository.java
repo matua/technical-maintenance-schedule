@@ -17,4 +17,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
   Optional<Task> findByDescriptionArgsSince(String descriptionSinceArgs);
 
   List<Task> findByPriorityEquals(TaskPriority priority);
+
+  //  @Query("select ")
+  Task findFirstByOrderByFrequencyDesc();
 }

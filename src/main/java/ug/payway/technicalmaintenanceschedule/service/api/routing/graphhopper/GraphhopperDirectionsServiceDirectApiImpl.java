@@ -185,7 +185,7 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
 
     try {
       final String s = objectMapper.writeValueAsString(routeOptimizationRequest);
-      log.info("JSON PAYLOAD REQUEST:\n____________________\n{}", s);
+      log.info("\nJSON PAYLOAD REQUEST:\n____________________\n{}", s);
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }
@@ -213,7 +213,6 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
     for (int i = 0; i < routes.size(); i++) {
       partialOptimizedOrderSchedules.put(i, new Schedule[routes.get(i).activities.size()]);
     }
-
     schedules.forEach(
         schedule -> {
           int i = 0;
@@ -226,7 +225,8 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
                 if (String.valueOf(scheduleId).equals(routeId)) {
                   partialOptimizedOrderSchedules.get(i)[j] = schedule;
                   scheduleService.setUser(scheduleId, Long.valueOf(route.vehicleId));
-                  scheduleService.setOptimizationIndex(scheduleId, (long) j);
+                  int urgency = schedule.getTask().getPriority() == TaskPriority.URGENT ? 1 : 10;
+                  scheduleService.setOptimizationIndex(scheduleId, (long) j * urgency);
                 }
               }
             }

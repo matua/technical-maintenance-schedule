@@ -3,7 +3,6 @@ package ug.payway.technicalmaintenanceschedule.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ug.payway.technicalmaintenanceschedule.dto.ScheduleDto;
 import ug.payway.technicalmaintenanceschedule.exception.NotFoundException;
@@ -27,7 +26,6 @@ public class MainMainPlannerServiceImpl implements MainPlannerService {
   @Value("${cron.schedule.timezone}")
   private String timeZone;
 
-  @Scheduled(cron = "${cron.schedule}", zone = "${cron.schedule.timezone}")
   public void addNewCommonTaskSchedulesIfExist() {
 
     List<Terminal> terminals = terminalService.findAll();

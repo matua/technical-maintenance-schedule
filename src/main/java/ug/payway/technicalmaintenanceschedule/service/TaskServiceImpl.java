@@ -122,4 +122,9 @@ public class TaskServiceImpl implements TaskService {
   public List<Task> findAllCommon(TaskPriority priority) {
     return taskRepository.findByPriorityEquals(priority);
   }
+
+  @Override
+  public Task findFirstByOrderByFrequencyDesc() {
+    return taskRepository.findFirstByOrderByFrequencyDesc();
+  }
 }

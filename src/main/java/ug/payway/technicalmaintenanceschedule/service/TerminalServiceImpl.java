@@ -18,6 +18,7 @@ import ug.payway.technicalmaintenanceschedule.repository.TerminalRepository;
 import ug.payway.technicalmaintenanceschedule.service.api.payway.PayWayApiService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -56,10 +57,14 @@ public class TerminalServiceImpl implements TerminalService {
       terminal.setLocation(terminalDto.getLocation());
       terminal.setDisabled(terminalDto.getDisabled());
       if (terminalDto.getLongitude() != null) {
-        terminal.setLongitude(terminalDto.getLongitude());
+        if (!Objects.equals(terminalDto.getLongitude(), terminal.getLongitude())) {
+          terminal.setLongitude(terminalDto.getLongitude());
+        }
       }
       if (terminalDto.getLatitude() != null) {
-        terminal.setLatitude(terminalDto.getLatitude());
+        if (!Objects.equals(terminalDto.getLatitude(), terminal.getLatitude())) {
+          terminal.setLatitude(terminalDto.getLatitude());
+        }
       }
       terminal.setType(terminalDto.getType());
       savedTerminal = terminalRepository.save(modelMapper.map(terminal, Terminal.class));

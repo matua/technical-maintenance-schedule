@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.Scheduled;
 import ug.payway.technicalmaintenanceschedule.exception.NotFoundException;
 import ug.payway.technicalmaintenanceschedule.exception.ResourceAlreadyExistsException;
 import ug.payway.technicalmaintenanceschedule.exception.ValidationException;
@@ -43,6 +44,7 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
   @Value("${payway.location.long.headoffice}")
   private String headOfficeLongitude;
 
+  @Scheduled(cron = "${cron.schedule}", zone = "${cron.schedule.timezone}")
   public static void main(String[] args) {
     SpringApplication.run(TechnicalMaintenanceScheduleApplication.class, args);
   }
@@ -54,12 +56,8 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
     //    log.info("Updating the Terminals DB...");
     //    terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
     mainPlannerService.createNewSchedulesForCommonTasksDueAgain();
-    mainPlannerService.addNewCommonTaskSchedulesIfExist();
+    //    mainPlannerService.addNewCommonTaskSchedulesIfExist();
     //    mainPlannerService.addUrgentSchedules();
-    //
-    //    final User user = userService.findByEmail("bolumba@payway.ug");
-    //
-    //    final UserLocation userLocation = userLocationService.findLastByUser(user);
 
     final List<User> users =
         userService.findAllByRoleAndActiveAndOnDuty(Role.TECHNICIAN, true, true);

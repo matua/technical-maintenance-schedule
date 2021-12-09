@@ -29,4 +29,6 @@ public interface TaskService {
   void deleteByDescription(String taskDescription) throws NotFoundException;
 
   List<Task> findAllCommon(TaskPriority priority);
+
+  Task findFirstByOrderByFrequencyDesc();
 }

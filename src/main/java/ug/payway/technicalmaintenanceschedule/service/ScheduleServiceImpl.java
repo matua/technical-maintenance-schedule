@@ -175,8 +175,13 @@ public class ScheduleServiceImpl implements ScheduleService {
   @Override
   public List<ScheduleDto> findAllByTerminalAndTaskAndByEndExecutionDateTimeNull(
       Terminal terminal, Task task) {
+    final int taskWithBiggestFrequencyField =
+        taskService.findFirstByOrderByFrequencyDesc().getFrequency();
+    LocalDateTime daysAgo =
+        LocalDateTime.now(ZoneId.of(timeZone)).minusDays(taskWithBiggestFrequencyField + 1);
     return scheduleRepository
-        .findAllByTerminalAndTaskAndEndExecutionDateTimeNull(terminal, task)
+        .findAllByTerminalAndTaskAndDateTimeCreatedAfterAndEndExecutionDateTimeNull(
+            terminal, task, daysAgo)
         .stream()
         .map(schedule -> modelMapper.map(schedule, ScheduleDto.class))
         .toList();
@@ -247,11 +252,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         .findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(
             pageable);
   }
-
-  //  @Override
-  //  public List<Schedule> findSchedulesForOptimization(Integer quantity) {
-  //    return scheduleRepository.findSchedulesForOptimization(quantity);
-  //  }
 
   @Override
   public Page<ScheduleDto> findAllByEndExecutionDateTimeNull(Integer page, Integer pageSize)
