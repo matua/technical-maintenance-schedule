@@ -45,8 +45,8 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
   private String headOfficeLongitude;
 
   @Scheduled(cron = "${cron.schedule}", zone = "${cron.schedule.timezone}")
-  public static void main(String[] args) {
-    SpringApplication.run(TechnicalMaintenanceScheduleApplication.class, args);
+  public static void main() {
+    SpringApplication.run(TechnicalMaintenanceScheduleApplication.class);
   }
 
   @Override
@@ -62,15 +62,27 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
     final List<User> users =
         userService.findAllByRoleAndActiveAndOnDuty(Role.TECHNICIAN, true, true);
 
-    final Page<Schedule> schedulesToOptimize =
-        scheduleService
-            .findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(
-                0, users.size() * 10);
+    // find schedules' amount assigned but not completed
+    final List<Schedule> schedulesAssignedButNotCompleted =
+        scheduleService.findAllByEndExecutionDateTimeNullAndUserIdNotNull();
+    final int numberOfSchedulesAssignedBytNotCompleted = schedulesAssignedButNotCompleted.size();
+
+    final int pageSize = users.size() * 15 - numberOfSchedulesAssignedBytNotCompleted;
+
+    Page<Schedule> schedulesToOptimize = Page.empty();
+    if (pageSize != 0) {
+      schedulesToOptimize =
+          scheduleService
+              .findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(
+                  0, pageSize);
+    }
+
+    schedulesAssignedButNotCompleted.addAll(schedulesToOptimize.getContent());
 
     //     distribute urgent tasks
     final Optional<List<Schedule>> optimalIndicesOfOrderOfSchedulesToOptimize =
         directionsService.getOptimalIndicesOfOrderOfSchedules(
-            schedulesToOptimize.getContent(),
+            schedulesAssignedButNotCompleted,
             users,
             Double.parseDouble(headOfficeLatitude),
             Double.parseDouble(headOfficeLongitude),

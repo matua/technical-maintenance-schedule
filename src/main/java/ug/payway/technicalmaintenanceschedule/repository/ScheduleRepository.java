@@ -35,11 +35,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     @Query("update Schedule s set s.status = 'DONE', s.endExecutionDateTime = :endExecutionDateTime where s.id = :scheduleId")
     void completeSchedule(Long scheduleId, LocalDateTime endExecutionDateTime);
 
-
-    Page<Schedule> findByEndExecutionDateTimeNull(Pageable pageable);
-
-    Optional<Schedule> findByTerminalAndTaskAndEndExecutionDateTimeNull(Terminal terminal, Task task);
-
     Page<Schedule> findAllByOrderByTaskPriorityDesc(Pageable pageable);
 
     @Query("from Schedule as schedule0_" +
@@ -48,8 +43,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             " where schedule0_.endExecutionDateTime is null " +
             " order by task1_.priority desc")
     Page<Schedule> findAllByPageSortedByTaskPriorityAndByEndExecutionDateTimeNull(Pageable pageable);
-
-    List<Schedule> findAllByTaskPriority(TaskPriority priority);
 
     @Query("from Schedule as schedule0_" +
             " left join Task task1_ on " +
@@ -101,12 +94,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     )
     void setOptimizationIndex(Long scheduleId, Long optimizationIndex);
 
-    @Query("from Schedule as schedule0_" +
-            " left join Task task1_ on " +
-            "schedule0_.task.id=task1_.id" +
-            " where schedule0_.endExecutionDateTime is null" +
-            " and schedule0_.user.email = :email ")
-    Page<Schedule> findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(
+    @Query("from Schedule sc " +
+            "left join Task t on " +
+            "sc.task.id = t.id " +
+            "where sc.endExecutionDateTime is null " +
+            "and sc.user.email = :email "+
+            "order by sc.optimizationIndex desc, " +
+            "sc.terminal.id desc ")
+    Page<Schedule> findAllOptimizedByUser(
             Pageable pageable, String email);
 
     List<Schedule> findAllByTerminalAndTask(Terminal terminal, Task task);
@@ -127,6 +122,13 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             "order by sc.task.priority desc"
     )
     Page<Schedule> findAllByEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNullByOrderTaskPriorityDesc(Pageable pageable);
+
+//    @Query("from Schedule as sc " +
+//            "where sc.endExecutionDateTime is null " +
+//            "and sc.grabbedExecutionDateTime is null " +
+//            "order by sc.task.priority desc"
+//    )
+    List<Schedule> findAllByEndExecutionDateTimeNullAndUserIdNotNull();
 
     List<Schedule> findAllByTerminalAndTaskAndDateTimeCreatedAfterAndEndExecutionDateTimeNull(Terminal terminal, Task task, LocalDateTime now);
 }

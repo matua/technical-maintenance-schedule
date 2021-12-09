@@ -167,9 +167,7 @@ public class ScheduleServiceImpl implements ScheduleService {
   public Page<Schedule> findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(
       Integer page, Integer pageSize, String email) {
     Pageable pageable = PageRequest.of(page, pageSize, Sort.by("optimizationIndex").descending());
-    return scheduleRepository
-        .findAllSortedByOptimizationIndexAndByEndExecutionDateTimeNullAndByUserEmail(
-            pageable, email);
+    return scheduleRepository.findAllOptimizedByUser(pageable, email);
   }
 
   @Override
@@ -251,6 +249,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     return scheduleRepository
         .findAllByEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNullByOrderTaskPriorityDesc(
             pageable);
+  }
+
+  @Override
+  public List<Schedule> findAllByEndExecutionDateTimeNullAndUserIdNotNull() {
+    return scheduleRepository.findAllByEndExecutionDateTimeNullAndUserIdNotNull();
   }
 
   @Override

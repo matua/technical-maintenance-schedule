@@ -15,7 +15,7 @@ async function getLocation() {
         }, function () {
             latitude = null;
             longitude = null;
-            alert('Oops! An error occurred.');
+            console.log('Oops! An error occurred.');
         }, options);
 }
 
@@ -38,7 +38,7 @@ function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
 
 async function writeLocationToDb(latitude, longitude) {
     if (checkAdminOrTechRights(parseToken(getToken()))) {
-        const url = baseUrl + `/user_locations/${latitude}/${longitude}`;
+        const url = baseUrl + `/user_locations/${0.3242028450429778}/${32.60611550982706}`;
         await fetch(url, {
             method: 'POST',
             headers: {
