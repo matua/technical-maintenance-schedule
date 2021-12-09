@@ -249,7 +249,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     Pageable pageable = PageRequest.of(page, pageSize);
     return scheduleRepository
-        .findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(
+        .findAllByEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNullByOrderTaskPriorityDesc(
             pageable);
   }
 

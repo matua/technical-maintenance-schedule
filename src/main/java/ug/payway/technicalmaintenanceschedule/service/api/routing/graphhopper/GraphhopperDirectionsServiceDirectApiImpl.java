@@ -225,7 +225,7 @@ public class GraphhopperDirectionsServiceDirectApiImpl implements DirectionsServ
                 if (String.valueOf(scheduleId).equals(routeId)) {
                   partialOptimizedOrderSchedules.get(i)[j] = schedule;
                   scheduleService.setUser(scheduleId, Long.valueOf(route.vehicleId));
-                  int urgency = schedule.getTask().getPriority() == TaskPriority.URGENT ? 1 : 10;
+                  int urgency = schedule.getTask().getPriority() == TaskPriority.URGENT ? 1000 : 1;
                   scheduleService.setOptimizationIndex(scheduleId, (long) j * urgency);
                 }
               }

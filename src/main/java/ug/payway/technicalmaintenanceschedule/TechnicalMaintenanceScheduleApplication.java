@@ -56,8 +56,8 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
     //    log.info("Updating the Terminals DB...");
     //    terminalService.updateListOfTerminalsInDb(TerminalType.HARDWARE);
     mainPlannerService.createNewSchedulesForCommonTasksDueAgain();
-    //    mainPlannerService.addNewCommonTaskSchedulesIfExist();
-    //    mainPlannerService.addUrgentSchedules();
+    mainPlannerService.addNewCommonTaskSchedulesIfExist();
+    mainPlannerService.addUrgentSchedules();
 
     final List<User> users =
         userService.findAllByRoleAndActiveAndOnDuty(Role.TECHNICIAN, true, true);
@@ -77,6 +77,6 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
             Double.parseDouble(headOfficeLatitude),
             Double.parseDouble(headOfficeLongitude));
 
-    log.info("dummy");
+    log.info("DONE!");
   }
 }
