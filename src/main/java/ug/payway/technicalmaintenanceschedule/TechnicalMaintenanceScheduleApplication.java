@@ -66,7 +66,7 @@ public class TechnicalMaintenanceScheduleApplication implements CommandLineRunne
     final int pageSize = users.size() * 15 - numberOfSchedulesAssignedBytNotCompleted;
 
     Page<Schedule> schedulesToOptimize = Page.empty();
-    if (pageSize != 0) {
+    if (pageSize > 0) {
       schedulesToOptimize =
           scheduleService
               .findAllSortedByTaskPriorityAndEndExecutionDateTimeNullAndGrabbedExecutionDateTimeNotNull(
