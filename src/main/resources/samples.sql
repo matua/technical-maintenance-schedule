@@ -5,7 +5,7 @@ insert into users (role, first_name, last_name, email, encrypted_password, activ
 values ('ADMINISTRATOR', 'Georgii', 'Matua', 'matuageorge@gmail.com',
         '$2a$10$E/Eck6r.gHRKNwfaKyMYYueVsIWpOHndMoRS3CYWd5Dg8ZLtYselC', true, true, 8);
 insert into users (role, first_name, last_name, email, encrypted_password, active, on_duty, field_hours)
-values ('TECHNICIAN', 'Ahmed', 'Kulumba', 'kulmba@payway.ug',
+values ('TECHNICIAN', 'Ahmed', 'Kulumba', 'kulumba@payway.ug',
         '$2a$10$E/Eck6r.gHRKNwfaKyMYYueVsIWpOHndMoRS3CYWd5Dg8ZLtYselC', true, true, 8);
 insert into users (role, first_name, last_name, email, encrypted_password, active, on_duty, field_hours)
 values ('TECHNICIAN', 'Isaac', 'Bolumba', 'bolumba@payway.ug',

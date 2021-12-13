@@ -12,3 +12,4 @@ target/
 /Dockerfile
 /env.properties
 /src/main/resources/Terminals_GPS.sql
+/pgdata/
