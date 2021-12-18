@@ -10,7 +10,7 @@ document.getElementById('current_user')
 
 async function getSchedules(page = 0,
                             size = 5) {
-    const userRole = getCurrentUserTole(parseToken(getToken()));
+    const userRole = getCurrentUserRole(parseToken(getToken()));
     loadAnimation('schedules');
     let url;
     schedulesHtml = '';
@@ -55,10 +55,13 @@ async function getSchedules(page = 0,
                 'pagination')[0]
             .innerHTML =
             paginationHtml;
+    } else {
+        tasksHtml = `<div class="uk-alert-danger uk-position-center uk-alert">
+                                <a class="uk-alert-close"></a>
+                                <p>Not authorized!</p>`;
     }
 
-    function writeSchedulesToTable(
-        p) {
+    function writeSchedulesToTable(p) {
         let schedulesTableHeaders =
             `<div class="uk-padding-small">
                 <div class="uk-tile uk-tile-muted uk-padding-remove">

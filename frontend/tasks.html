@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link href="css/uikit.min.css" rel="stylesheet"/>
+    <link href="css/general.css" rel="stylesheet"/>
+    <link href="css/loader.css" rel="stylesheet"/>
     <script src="js/libraries/uikit/uikit.min.js"></script>
     <script src="js/libraries/uikit/uikit-icons.min.js"></script>
     <link href="css/custom_dialog/duDialog.min.css" rel="stylesheet">
@@ -14,8 +16,21 @@
 <body>
 <img alt="PayWay Logo" data-src="images/logo.png"
      height="" id="header" uk-img uk-toggle="target: #offcanvas-nav-primary" width="100">
-<div id="tasks">
-</div>
+<!--Pagination-->
+<div class="row">
+    <div class="row">
+
+        <div class="large-12 columns">
+            <hr/>
+            <div class="pagination-centered">
+                <ul class="pagination"></ul>
+            </div>
+        </div>
+    </div>
+    <!--endpagination-->
+    <div class="uk-position-center" id="loader"></div>
+    <div id="tasks">
+    </div>
 </body>
 </html>
 

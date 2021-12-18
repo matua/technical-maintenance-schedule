@@ -85,6 +85,31 @@ function writePaginationForSchedules(schedulesPage, size) {
     return paginationHtml;
 }
 
+function writePaginationForTasks(tasksPage, size) {
+    const totalPages = tasksPage.totalPages;
+    const currentPage = tasksPage.number;
+
+    if (currentPage === 0 || totalPages === 0) {
+        paginationHtml += `<li class="arrow unavailable"><a>PREV.</a></li>`
+    } else {
+        paginationHtml += `<li class="arrow available"><a
+                onclick="getTasks(${currentPage - 1}, ${size})">PREV.
+                </a></li>`
+    }
+
+
+    if (currentPage === totalPages - 1 || totalPages === 0) {
+        paginationHtml += `
+            <li class="arrow unavailable"><a>NEXT</li>`
+    } else {
+        paginationHtml += `<li class="arrow available"><a
+                onclick="getTasks(${currentPage + 1}, ${size})">NEXT
+                </a></li>`
+    }
+
+    return paginationHtml;
+}
+
 /* Loader */
 
 
@@ -105,6 +130,6 @@ function getCurrentUserEmail(token) {
     return token.sub;
 }
 
-function getCurrentUserTole(token) {
+function getCurrentUserRole(token) {
     return token.role;
 }

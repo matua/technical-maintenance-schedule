@@ -1,9 +1,13 @@
 "use strict";
 
 let tasksHtml;
+let paginationHtml;
 let logout_button = document.getElementById('logout_button');
 
 async function getTasks(page = 0, size = 10) {
+    loadAnimation('tasks');
+    tasksHtml = '';
+    paginationHtml = '';
     tasksHtml = '';
     const url = baseUrl + `/tasks/${page}/${size}`;
 
@@ -16,11 +20,29 @@ async function getTasks(page = 0, size = 10) {
             },
         })
             .then((response) => {
-                return response.json();
+                return response
+                    .json();
             })
             .then(tasksPage => {
                 writeTasksToTable(tasksPage);
-            });
+                writePaginationForTasks(tasksPage, size);
+            })
+            .catch((err) => {
+                console.error(err);
+                tasksHtml =
+                    NO_TASKS;
+            })
+        unloadAnimation(
+            'tasks');
+        document.getElementById(
+            'tasks')
+            .innerHTML =
+            tasksHtml;
+        document
+            .getElementsByClassName(
+                'pagination')[0]
+            .innerHTML =
+            paginationHtml;
     } else {
         tasksHtml = `<div class="uk-alert-danger uk-position-center uk-alert">
                                 <a class="uk-alert-close"></a>

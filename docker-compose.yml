@@ -9,7 +9,7 @@ services:
       - JWT_TOKEN_KEY=JG#JGF^Vdf&^6f*%&^2edv237td6
       - PAYWAY_API_KIOSKCASH_KEY=de762450-f0bf-4b74-9801-feaa179c83ad
       - PAYWAY_API_MESSAGES_KEY=xKgai68ZgPI2wtpuT4pItd7uTOUc0Z1s
-      - CRON_SCHEDULE=0 0/15 8-17 ? * MON-SAT
+      - CRON_SCHEDULE=0 */25 0-22 ? * MON-SAT
       - CRON_TIMEZONE=Africa/Kampala
       - GRASSHOPPER_API_KEY=8098192c-09ae-4bf1-ae54-6c5ada6facd0
       - LAT_HEAD_OFFICE=0.3277179452821463
@@ -19,26 +19,29 @@ services:
     #    restart: always
     depends_on:
       - postgres_db
-    networks:
-      - technical-maintenance-schedule-network
+  #    networks:
+  #      - technical-maintenance-schedule-network
+  #    volumes:
+  #      - logs:/var/
 
   postgres_db:
     image: postgres:13.3
-    container_name: postgres_technical-maintenance-schedule
+    container_name: postgres_t-m-s
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=technical_maintenance_schedule
     ports:
       - "5432:5432"
-    #    restart: always
-    networks:
-      - technical-maintenance-schedule-network
+    restart: always
+    #    networks:
+    #      - technical-maintenance-schedule-network
     volumes:
       - db-data:/var/lib/postgresql/data
 
-networks:
-  technical-maintenance-schedule-network:
+#networks:
+#  technical-maintenance-schedule-network:
 
 volumes:
   db-data:
+#  logs:

@@ -2,7 +2,7 @@
 
 let singleScheduleHtml;
 let logout_button = document.getElementById('logout_button');
-const userRole = getCurrentUserTole(parseToken(getToken()));
+const userRole = getCurrentUserRole(parseToken(getToken()));
 
 async function getSingleSchedule() {
     loadAnimation('schedule');
