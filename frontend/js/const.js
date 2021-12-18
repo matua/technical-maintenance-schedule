@@ -21,3 +21,9 @@ const NO_TASKS =
                                 <a class="uk-alert-close"></a>
                                 <p>No tasks! You are all done for now!</p>
                                 </div>`;
+
+const NO_USERS =
+    `<div class="uk-alert-success uk-position-center uk-alert">
+                                <a class="uk-alert-close"></a>
+                                <p>No users! Really?!:)</p>
+                                </div>`;

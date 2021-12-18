@@ -56,7 +56,7 @@ async function getSchedules(page = 0,
             .innerHTML =
             paginationHtml;
     } else {
-        tasksHtml = `<div class="uk-alert-danger uk-position-center uk-alert">
+        usersHtml = `<div class="uk-alert-danger uk-position-center uk-alert">
                                 <a class="uk-alert-close"></a>
                                 <p>Not authorized!</p>`;
     }
