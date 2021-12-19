@@ -33,7 +33,7 @@ services:
       - POSTGRES_DB=technical_maintenance_schedule
     ports:
       - "5432:5432"
-    restart: always
+#    restart: always
     #    networks:
     #      - technical-maintenance-schedule-network
     volumes:

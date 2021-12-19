@@ -1,7 +1,6 @@
 "use strict";
 
 let singleScheduleHtml;
-let logout_button = document.getElementById('logout_button');
 const userRole = getCurrentUserRole(parseToken(getToken()));
 
 async function getSingleSchedule() {

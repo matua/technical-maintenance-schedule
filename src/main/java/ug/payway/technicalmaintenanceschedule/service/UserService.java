@@ -31,10 +31,12 @@ public interface UserService {
   User createNewUserIfDoesNotExist(
       String email, String firstName, String lastName, String password, Role role);
 
-  void toggleUserStatusByUserId(Long userId)
+  void toggleUserActiveByUserId(Long userId)
       throws ValidationException, NotFoundException, ResourceAlreadyExistsException;
 
   List<User> findAllByRole(Role role);
 
   List<User> findAllByRoleAndActiveAndOnDuty(Role role, Boolean active, Boolean onDuty);
+
+  void toggleUserOnDutyByUserId(Long userId) throws NotFoundException;
 }

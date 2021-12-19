@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void toggleUserStatusByUserId(Long userId) throws NotFoundException {
+  public void toggleUserActiveByUserId(Long userId) throws NotFoundException {
 
     UserDto user = findById(userId);
 
@@ -144,6 +144,14 @@ public class UserServiceImpl implements UserService {
   @Override
   public List<User> findAllByRoleAndActiveAndOnDuty(Role role, Boolean active, Boolean onDuty) {
     return userRepository.findAllByRoleAndActiveAndOnDuty(role, active, onDuty);
+  }
+
+  @Override
+  public void toggleUserOnDutyByUserId(Long userId) throws NotFoundException {
+    UserDto user = findById(userId);
+
+    user.setOnDuty(!user.getOnDuty());
+    update(user.getId(), user);
   }
 
   private void validateUserMainFields(User savedUser) throws ValidationException {

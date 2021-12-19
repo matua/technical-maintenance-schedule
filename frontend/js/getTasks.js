@@ -2,7 +2,6 @@
 
 let tasksHtml;
 let paginationHtml;
-let logout_button = document.getElementById('logout_button');
 
 async function getTasks(page = 0, size = 10) {
     loadAnimation('tasks');
@@ -32,22 +31,22 @@ async function getTasks(page = 0, size = 10) {
                 tasksHtml =
                     NO_TASKS;
             })
-        unloadAnimation(
-            'tasks');
-        document.getElementById(
-            'tasks')
-            .innerHTML =
-            tasksHtml;
-        document
-            .getElementsByClassName(
-                'pagination')[0]
-            .innerHTML =
-            paginationHtml;
     } else {
         tasksHtml = `<div class="uk-alert-danger uk-position-center uk-alert">
                                 <a class="uk-alert-close"></a>
                                 <p>Not authorized!</p>`;
     }
+    unloadAnimation(
+        'tasks');
+    document.getElementById(
+        'tasks')
+        .innerHTML =
+        tasksHtml;
+    document
+        .getElementsByClassName(
+            'pagination')[0]
+        .innerHTML =
+        paginationHtml;
     document.getElementById('tasks').innerHTML = tasksHtml;
 
 
@@ -91,8 +90,6 @@ async function getTasks(page = 0, size = 10) {
         return tasksHtml;
     }
 }
-
-logout_button.addEventListener('click', logout);
 
 getTasks();
 getLocation();

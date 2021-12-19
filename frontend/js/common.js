@@ -40,11 +40,6 @@ function checkAdminOrTechRights(token) {
     return token.role === 'TECHNICIAN' || token.role === 'ADMINISTRATOR';
 }
 
-function logout() {
-    window.localStorage.removeItem('token');
-    window.location.href = 'login.html';
-}
-
 function taskStatusIcon(priority) {
     switch (priority) {
         case 'COMMON':
@@ -158,3 +153,14 @@ function getCurrentUserEmail(token) {
 function getCurrentUserRole(token) {
     return token.role;
 }
+
+/* Main menu */
+
+function logout() {
+    console.log("REMOVING TOKEN!")
+    window.localStorage.removeItem('token');
+    window.location.href = 'login.html';
+}
+
+let logoutButton = document.getElementById('logoutButton');
+logoutButton.addEventListener('click', logout);

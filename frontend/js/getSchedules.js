@@ -2,8 +2,7 @@
 
 let schedulesHtml;
 let paginationHtml;
-let logoutButton = document
-    .getElementById('logout_button');
+
 document.getElementById('current_user')
     .innerHTML =
     `<div class="uk-alert-primary uk-alert">${getCurrentUserEmail(parseToken(getToken()))}</div>`;
@@ -133,9 +132,6 @@ async function getSchedules(page = 0,
         return schedulesHtml;
     }
 }
-
-logoutButton.addEventListener('click',
-    logout);
 
 getSchedules();
 getLocation();
