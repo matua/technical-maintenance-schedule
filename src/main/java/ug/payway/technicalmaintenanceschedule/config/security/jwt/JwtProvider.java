@@ -26,8 +26,6 @@ public class JwtProvider {
       String email,
       String firstName,
       String lastName,
-      String active,
-      String onDuty,
       String userRole,
       Long userId) {
     Date expirationDate =
@@ -36,8 +34,6 @@ public class JwtProvider {
         .setSubject(email)
         .claim(FIRST_NAME, firstName)
         .claim(LAST_NAME, lastName)
-        .claim(ACTIVE, active)
-        .claim(ON_DUTY, onDuty)
         .claim(ROLE, userRole)
         .claim("id", userId)
         .setExpiration(expirationDate)
@@ -72,10 +68,6 @@ public class JwtProvider {
         (String) claims.get(FIRST_NAME),
         LAST_NAME,
         (String) claims.get(LAST_NAME),
-        ACTIVE,
-        (String) claims.get(ACTIVE),
-        ON_DUTY,
-        (String) claims.get(ON_DUTY),
         ROLE,
         (String) claims.get(ROLE));
   }

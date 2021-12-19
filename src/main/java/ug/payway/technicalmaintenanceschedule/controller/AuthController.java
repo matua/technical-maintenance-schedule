@@ -30,7 +30,7 @@ public class AuthController {
       @RequestBody UserAuthRequestDto request)
       throws ValidationException, NotFoundException, NotAuthorizedException {
 
-    log.info(
+    log.debug(
         "Handling authorization request with email: {} and password: {}",
         request.getEmail(),
         request.getPassword());
@@ -42,8 +42,6 @@ public class AuthController {
             foundUser.getEmail(),
             foundUser.getFirstName(),
             foundUser.getLastName(),
-            foundUser.getActive().toString(),
-            foundUser.getOnDuty().toString(),
             foundUser.getRole().toString(),
             foundUser.getId());
 
